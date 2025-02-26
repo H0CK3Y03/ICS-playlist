@@ -1,0 +1,57 @@
+# Ignore build and runtime files
+bin/
+obj/
+
+# Ignore IDE-specific files
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.iml
+
+# Ignore NuGet packages and restore files
+.nuget/
+packages/
+NuGet.exe
+*.nupkg
+*.nuspec
+
+# Ignore local development files
+*.swp
+*.swo
+*.log
+*.tmp
+*.cache
+
+# Ignore MAUI-specific files
+*.appx
+*.appxbundle
+*.appxupload
+*.ipa
+*.apk
+*.keystore
+
+# Ignore test results
+TestResults/
+*.trx
+*.coverage
+
+# Ignore macOS files
+.DS_Store
+
+# Ignore Rider-specific files
+*.idea/
+*.idea_modules/
+*.iml
+*.ipr
+*.iws
+
+# Ignore Visual Studio Code files
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
