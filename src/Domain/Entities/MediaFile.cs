@@ -1,9 +1,17 @@
 namespace Domain.Entities
 {
+    public enum MediaStatus {
+        PlanToWatch,
+        Watching,
+        Completed,
+        Dropped
+    }
+
     public abstract class MediaFile
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
+        public MediaStatus Status { get; set; }
         public string Description { get; set; } = string.Empty;
         public int Duration { get; set; }
         public string Director { get; set; } = string.Empty;
