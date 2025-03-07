@@ -11,7 +11,8 @@ namespace Domain.Entities
         public string Category { get; set; } = string.Empty;
         public string Rating { get; set; } = string.Empty;
         public string URL { get; set; } = string.Empty;
+        public bool Favourite { get; set; } = false;
 
-        public ICollection<Playlist> Playlists { get; set; } = new List<Playlist>();
+        public ICollection<Watchlist> Watchlists { get; set; } = new List<Watchlist>();
     }
 }
