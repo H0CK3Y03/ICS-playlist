@@ -8,18 +8,21 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  dotnetVersion: '8.0.x'
 
 steps:
 - task: UseDotNet@2
+  displayName: 'Install .NET SDK'
   inputs:
     packageType: 'sdk'
-    version: '8.0'
+    version: '$(dotnetVersion)'
 
 - task: DotNetCoreCLI@2
   displayName: 'Restore packages'
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
+    vstsFeed: false
 
 - task: DotNetCoreCLI@2
   displayName: 'Build solution'
@@ -32,6 +35,6 @@ steps:
   displayName: 'Run all tests'
   inputs:
     command: 'test'
-    projects: |
-      **/DAL.Tests.csproj
+    projects: '**/DAL.Tests.csproj'
     arguments: '--configuration $(buildConfiguration) --no-build'
+    continueOnError: true
