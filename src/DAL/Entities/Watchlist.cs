@@ -10,7 +10,6 @@ namespace Domain.Entities
 
         public int MediaCount => MediaFiles?.Count ?? 0;
 
-        // Many-to-many relationship
         public ICollection<MediaFile> MediaFiles { get; set; } = new List<MediaFile>();
     }
 }

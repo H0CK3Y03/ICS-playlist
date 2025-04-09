@@ -22,9 +22,7 @@ namespace Domain.Entities
         public string URL { get; set; } = string.Empty;
         public bool Favourite { get; set; } = false;
 
-        // Many-to-many relationship
         public ICollection<Watchlist> Watchlists { get; set; } = new List<Watchlist>();
-        // Many-to-many relationship
         public ICollection<Genre> Genres { get; set; } = new List<Genre>();
     }
 }
