@@ -34,6 +34,16 @@ namespace BL.Services
                 query = query.Where(m => m.ReleaseDate == filter.ReleaseYear);
             }
 
+            if (filter.Status is not null)
+            {
+                query = query.Where(m => m.Status == filter.Status);
+            } 
+
+            if (filter.LengthMax is not null)
+            {
+                query = query.Where(m => m.Length <= filter.LengthMax);
+            }
+
             if (filter.Favourite is not null)
             {
                 query = query.Where(m => m.Favourite == filter.Favourite);
