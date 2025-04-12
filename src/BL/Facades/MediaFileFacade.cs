@@ -1,53 +1,117 @@
 using BL.Models;
-using Domain.Entities;
 using BL.Mappers;
+using Domain.Entities;
+using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace BL.Facades;
 
-public class MediaFileFacade(
-    //IUnitOfWorkFactory unitOfWorkFactory,
-    MediaFileModelMapper mediaFileModelMapper)
-    : IMediaFileFacade
+public class MediaFileFacade
 {
-    public async Task SaveAsync(MediaListModel model)
+    private readonly AppDbContext _dbContext;
+    private readonly MediaFileModelMapper _mapper;
+
+    public MediaFileFacade(AppDbContext dbContext, MediaFileModelMapper mapper)
     {
-        var detail = await GetAsync(model.Id) ?? new MediaDetailModel { Id = model.Id, Name = model.Name };
-        await SaveAsync(detail);
+        _dbContext = dbContext;
+        _mapper = mapper;
     }
 
-    public async Task SaveAsync(MediaFileDetailModel model)
+    public async Task<List<MediaListModel>> GetAllAsync()
     {
-        var entity = mediaFileModelMapper.MapToEntity(model);
+        var movieEntities = await _dbContext.Movies.Include(m => m.Genres).ToListAsync();
+        var seriesEntities = await _dbContext.Series.Include(s => s.Genres).ToListAsync();
 
-        //await using var uow = unitOfWorkFactory.Create();
-        var repository = uow.GetRepository<MediaFile, MediaFileEntityMapper>();
+        var entities = new List<MediaFile>();
+        entities.AddRange(movieEntities);
+        entities.AddRange(seriesEntities);
 
-        if (await repository.ExistsAsync(entity))
+        return entities.Select(_mapper.MapToListModel).ToList();
+    }
+
+    public async Task<MediaFileDetailModel?> GetByIdAsync(int id)
+    {
+        var movie = await _dbContext.Movies
+            .Include(m => m.Genres)
+            .FirstOrDefaultAsync(m => m.Id == id);
+
+        if (movie is not null)
+            return _mapper.MapToDetailModel(movie);
+
+        var series = await _dbContext.Series
+            .Include(s => s.Genres)
+            .FirstOrDefaultAsync(s => s.Id == id);
+
+        if (series is not null)
+            return _mapper.MapToDetailModel(series);
+
+        return null;
+    }
+
+    public async Task<MediaFileDetailModel> SaveAsync(MediaFileDetailModel model)
+    {
+        MediaFile? entity = await _dbContext.Movies
+            .Include(m => m.Genres)
+            .FirstOrDefaultAsync(m => m.Id == model.Id);
+
+        if (entity == null)
         {
-            await repository.UpdateAsync(entity);
+            entity = await _dbContext.Series
+                .Include(s => s.Genres)
+                .FirstOrDefaultAsync(s => s.Id == model.Id);
+        }
+
+        if (entity == null)
+        {
+            var newEntity = _mapper.MapToEntity(model);
+
+            if (newEntity is Movie movie)
+            {
+                _dbContext.Movies.Add(movie);
+            }
+            else if (newEntity is Series series)
+            {
+                _dbContext.Series.Add(series);
+            }
         }
         else
         {
-            repository.Insert(entity);
+            entity.Name = model.Name;
+            entity.Description = model.Description;
+            entity.Director = model.Director;
+            entity.Duration = model.Duration;
+            entity.Status = model.Status;
+            entity.ReleaseDate = model.ReleaseDate;
+            entity.Rating = model.Rating;
+            entity.URL = model.URL;
+            entity.Favourite = model.Favourite;
         }
 
-        await uow.CommitAsync();
+        await _dbContext.SaveChangesAsync();
+
+        return model;
     }
 
-    public async Task<MediaFileDetailModel?> GetAsync(Guid id)
+    public async Task DeleteAsync(int id)
     {
-        await using var uow = unitOfWorkFactory.Create();
-        var entity = await uow.GetRepository<MediaFile, MediaFileEntityMapper>()
-            .Get()
-            .SingleOrDefaultAsync(e => e.Id == id);
+        var movie = await _dbContext.Movies.FirstOrDefaultAsync(m => m.Id == id);
+        if (movie != null)
+        {
+            _dbContext.Movies.Remove(movie);
+        }
+        else
+        {
+            var series = await _dbContext.Series.FirstOrDefaultAsync(s => s.Id == id);
+            if (series != null)
+            {
+                _dbContext.Series.Remove(series);
+            }
+            else
+            {
+                return;
+            }
+        }
 
-        return entity is null ? null : mediaFileModelMapper.MapToDetailModel(entity);
-    }
-
-    public async Task DeleteAsync(Guid id)
-    {
-        await using var uow = unitOfWorkFactory.Create();
-        await uow.GetRepository<MediaFile, MediaFileEntityMapper>().DeleteAsync(id);
-        await uow.CommitAsync();
+        await _dbContext.SaveChangesAsync();
     }
 }

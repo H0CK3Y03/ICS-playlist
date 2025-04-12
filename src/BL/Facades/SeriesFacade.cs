@@ -1,53 +1,76 @@
 using BL.Models;
 using Domain.Entities;
 using BL.Mappers;
+using Microsoft.EntityFrameworkCore;
+using Infrastructure;
 
 namespace BL.Facades;
 
-public class SeriesFacade(
-    //IUnitOfWorkFactory unitOfWorkFactory,
-    SeriesModelMapper seriesModelMapper)
-    : ISeriesFacade
+public class SeriesFacade
 {
-    public async Task SaveAsync(SeriesListModel model)
+    private readonly AppDbContext _dbContext;
+    private readonly SeriesMapper _mapper;
+
+    public SeriesFacade(AppDbContext dbContext, SeriesMapper mapper)
     {
-        var detail = await GetAsync(model.Id) ?? new SeriesDetailModel { Id = model.Id, Name = model.Name };
-        await SaveAsync(detail);
+        _dbContext = dbContext;
+        _mapper = mapper;
     }
 
-    public async Task SaveAsync(SeriesDetailModel model)
+    public async Task<List<SeriesListModel>> GetAllAsync()
     {
-        var entity = seriesModelMapper.MapToEntity(model);
+        var entities = await _dbContext.Series.ToListAsync();
+        return entities
+            .Select(entity => _mapper.MapToListModel(entity))
+            .ToList();
+    }
 
-        await using var uow = unitOfWorkFactory.Create();
-        var repository = uow.GetRepository<Series, SeriesEntityMapper>();
+    public async Task<SeriesDetailModel?> GetByIdAsync(int id)
+    {
+        var entity = await _dbContext.Series
+            .Include(s => s.Genres)
+            .FirstOrDefaultAsync(s => s.Id == id);
 
-        if (await repository.ExistsAsync(entity))
+        return entity is null ? null : _mapper.MapToDetailModel(entity);
+    }
+
+    public async Task<SeriesDetailModel> SaveAsync(SeriesDetailModel model)
+    {
+        var entity = await _dbContext.Series
+            .Include(s => s.Genres)
+            .FirstOrDefaultAsync(e => e.Id == model.Id);
+
+        if (entity is null)
         {
-            await repository.UpdateAsync(entity);
+            var newEntity = _mapper.MapToEntity(model);
+            _dbContext.Series.Add(newEntity);
         }
         else
         {
-            repository.Insert(entity);
+            entity.Name = model.Name;
+            entity.Description = model.Description;
+            entity.Director = model.Director;
+            entity.Duration = model.Duration;
+            entity.Status = model.Status;
+            entity.ReleaseDate = model.ReleaseDate;
+            entity.Rating = model.Rating;
+            entity.URL = model.URL;
+            entity.Favourite = model.Favourite;
+            entity.NumberOfEpisodes = model.NumberOfEpisodes;
         }
 
-        await uow.CommitAsync();
+        await _dbContext.SaveChangesAsync();
+        return model;
     }
 
-    public async Task<SeriesDetailModel?> GetAsync(Guid id)
+    public async Task DeleteAsync(int id)
     {
-        await using var uow = unitOfWorkFactory.Create();
-        var entity = await uow.GetRepository<Series, SeriesEntityMapper>()
-            .Get()
-            .SingleOrDefaultAsync(e => e.Id == id);
+        var entity = await _dbContext.Series.FirstOrDefaultAsync(e => e.Id == id);
 
-        return entity is null ? null : seriesModelMapper.MapToDetailModel(entity);
-    }
-
-    public async Task DeleteAsync(Guid id)
-    {
-        await using var uow = unitOfWorkFactory.Create();
-        await uow.GetRepository<Series, SeriesEntityMapper>().DeleteAsync(id);
-        await uow.CommitAsync();
+        if (entity != null)
+        {
+            _dbContext.Series.Remove(entity);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

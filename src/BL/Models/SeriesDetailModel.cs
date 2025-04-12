@@ -6,6 +6,7 @@ namespace BL.Models;
 
 public record SeriesDetailModel : ModelBase
 {
+    public required int Id { get; set; }
     public required string Name { get; set; }
     public required MediaStatus Status { get; set; }
     public required string Description { get; set; }
@@ -22,7 +23,7 @@ public record SeriesDetailModel : ModelBase
 
     public static SeriesDetailModel Empty => new()
     {
-        Id = Guid.NewGuid(),
+        Id = 0,
         Name = string.Empty,
         Status = default,
         Description = string.Empty,

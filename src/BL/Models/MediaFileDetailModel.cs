@@ -6,6 +6,7 @@ namespace BL.Models;
 
 public record MediaFileDetailModel : ModelBase
 {
+    public required int Id { get; set; }
     public required string Name { get; set; }
     public required MediaStatus Status { get; set; }
     public required string Description { get; set; }
@@ -20,13 +21,13 @@ public record MediaFileDetailModel : ModelBase
 
     public static MediaFileDetailModel Empty => new()
     {
-        Id = Guid.NewGuid(),
+        Id = 0,
         Name = string.Empty,
         Status = MediaStatus.PlanToWatch,
         Description = string.Empty,
-        Duration = entity.Duration,
+        Duration = 0,
         Director = string.Empty,
-        ReleaseDate = entity.ReleaseDate,
+        ReleaseDate = 0,
         Rating = string.Empty,
         URL = null,
         Favourite = false,

@@ -3,8 +3,9 @@ using Domain.Entities;
 
 namespace BL.Models;
 
-public record SeriesListModel : ModelBase
+public record SeriesListModel //: ModelBase
 {
+    public required int Id { get; set; }
     public required string Name { get; set; }
     public required string Director { get; set; }
     public required int ReleaseDate { get; set; }
@@ -15,7 +16,7 @@ public record SeriesListModel : ModelBase
 
     public static SeriesListModel Empty => new()
     {
-        Id = Guid.NewGuid(),
+        Id = 0,
         Name = string.Empty,
         Director = string.Empty,
         ReleaseDate = default,

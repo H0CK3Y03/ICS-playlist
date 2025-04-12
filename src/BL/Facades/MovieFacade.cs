@@ -1,53 +1,75 @@
+using System.Linq;
 using BL.Models;
 using Domain.Entities;
 using BL.Mappers;
+using Microsoft.EntityFrameworkCore;
+using Infrastructure;
 
 namespace BL.Facades;
 
-public class MovieFacade(
-    //IUnitOfWorkFactory unitOfWorkFactory,
-    MovieModelMapper movieModelMapper)
-    : IMovieFacade
+public class MovieFacade
 {
-    public async Task SaveAsync(MovieListModel model)
+    private readonly AppDbContext _dbContext;
+    private readonly MovieMapper _mapper;
+
+    public MovieFacade(AppDbContext dbContext)
     {
-        var detail = await GetAsync(model.Id) ?? new MovieDetailModel { Id = model.Id, Name = model.Name };
-        await SaveAsync(detail);
+        _dbContext = dbContext;
+        _mapper = new MovieMapper();
     }
 
-    public async Task SaveAsync(MovieDetailModel model)
+    public async Task<List<MovieListModel>> GetAllAsync()
     {
-        var entity = movieModelMapper.MapToEntity(model);
+        var movies = await _dbContext.Movies.ToListAsync();
+        return movies.Select(MovieMapper.MapToListModel).ToList();
+    }
 
-        await using var uow = unitOfWorkFactory.Create();
-        var repository = uow.GetRepository<Movie, MovieEntityMapper>();
+    public async Task<MovieDetailModel?> GetByIdAsync(int id)
+    {
+        var entity = await _dbContext.Movies
+            .Include(m => m.Genres)
+            .FirstOrDefaultAsync(m => m.Id == id);
 
-        if (await repository.ExistsAsync(entity))
+        return entity is null ? null : MovieMapper.MapToDetailModel(entity);
+    }
+
+    public async Task<MovieDetailModel> SaveAsync(MovieDetailModel model)
+    {
+        var entity = await _dbContext.Movies
+            .Include(m => m.Genres)
+            .FirstOrDefaultAsync(e => e.Id == model.Id);
+
+        if (entity is null)
         {
-            await repository.UpdateAsync(entity);
+            var newEntity = MovieMapper.MapToEntity(model);
+            _dbContext.Movies.Add(newEntity);
         }
         else
         {
-            repository.Insert(entity);
+            entity.Name = model.Name;
+            entity.Description = model.Description;
+            entity.Director = model.Director;
+            entity.Duration = model.Duration;
+            entity.Status = model.Status;
+            entity.ReleaseDate = model.ReleaseDate;
+            entity.Rating = model.Rating;
+            entity.URL = model.URL;
+            entity.Favourite = model.Favourite;
+            entity.Length = model.Length;
         }
 
-        await uow.CommitAsync();
+        await _dbContext.SaveChangesAsync();
+        return model;
     }
 
-    public async Task<MovieDetailModel?> GetAsync(Guid id)
+    public async Task DeleteAsync(int id)
     {
-        await using var uow = unitOfWorkFactory.Create();
-        var entity = await uow.GetRepository<Movie, MovieEntityMapper>()
-            .Get()
-            .SingleOrDefaultAsync(e => e.Id == id);
+        var entity = await _dbContext.Movies.FirstOrDefaultAsync(e => e.Id == id);
 
-        return entity is null ? null : movieModelMapper.MapToDetailModel(entity);
-    }
-
-    public async Task DeleteAsync(Guid id)
-    {
-        await using var uow = unitOfWorkFactory.Create();
-        await uow.GetRepository<Movie, MovieEntityMapper>().DeleteAsync(id);
-        await uow.CommitAsync();
+        if (entity != null)
+        {
+            _dbContext.Movies.Remove(entity);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }
