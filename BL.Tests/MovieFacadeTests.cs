@@ -40,10 +40,10 @@ public class MovieFacadeTests : FacadeTestsBase
         var facade = new MovieFacade(dbx);
         var newMovie = new MovieDetailModel
         {
-            Id = 0, // New movie
+            Id = 0,
             Name = "Test Movie",
             Length = 120,
-            Duration = 120, // Added required property
+            Duration = 120,
             Status = MediaStatus.PlanToWatch,
             ReleaseDate = 2023,
             Rating = "PG",
@@ -79,5 +79,20 @@ public class MovieFacadeTests : FacadeTestsBase
         Assert.Equal(2, movies.Count); // Inception, The Matrix from MovieSeed
         Assert.Contains(movies, m => m.Name == "Inception");
         Assert.Contains(movies, m => m.Name == "The Matrix");
+    }
+
+    [Fact]
+    public async Task DeleteAsync_ExistingMovie_RemovesMovie()
+    {
+        // Arrange
+        await using var dbx = await DbContextFactory.CreateDbContextAsync();
+        var facade = new MovieFacade(dbx);
+
+        // Act
+        await facade.DeleteAsync(1); // Delete Inception
+
+        // Assert
+        var movie = await dbx.Movies.FirstOrDefaultAsync(m => m.Id == 1);
+        Assert.Null(movie); // Movie should be gone
     }
 }
