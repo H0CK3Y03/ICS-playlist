@@ -1,7 +1,7 @@
 using BL.Models;
 using BL.Mappers;
-using Domain.Entities;
-using Infrastructure;
+using DAL.Entities;
+using DAL;
 using Microsoft.EntityFrameworkCore;
 
 namespace BL.Facades;

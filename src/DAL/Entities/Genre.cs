@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Domain.Entities
+namespace DAL.Entities
 {
     public class Genre{
         public int Id { get; set; }

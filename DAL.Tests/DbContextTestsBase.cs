@@ -1,10 +1,10 @@
-﻿using Infrastructure;
-using Infrastructure.Factories;
+﻿using DAL;
+using DAL.Factories;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Infrastructure.Tests;
+namespace DAL.Tests;
 
 /// <summary>
 /// Base test class for EF Core database tests with SQLite in-memory database.

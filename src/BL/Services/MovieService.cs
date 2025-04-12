@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BL.Models;
-using Domain.Entities;
+using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -37,7 +37,7 @@ namespace BL.Services
             if (filter.Status is not null)
             {
                 query = query.Where(m => m.Status == filter.Status);
-            } 
+            }
 
             if (filter.LengthMax is not null)
             {

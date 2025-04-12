@@ -1,5 +1,5 @@
 using System;
-using Domain.Entities;
+using DAL.Entities;
 
 namespace BL.Models;
 

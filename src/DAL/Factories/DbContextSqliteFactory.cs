@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Factories;
+namespace DAL.Factories;
 
 public class DbContextSqLiteFactory : IDbContextFactory<AppDbContext>
 {

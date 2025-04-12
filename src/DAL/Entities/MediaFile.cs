@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Domain.Entities
+namespace DAL.Entities
 {
     public enum MediaStatus {
         PlanToWatch,

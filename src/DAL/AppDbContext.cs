@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Domain.Entities;
-using Infrastructure.Seeds;
+using DAL.Entities;
+using DAL.Seeds;
 
-namespace Infrastructure
+namespace DAL
 {
     public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
     {

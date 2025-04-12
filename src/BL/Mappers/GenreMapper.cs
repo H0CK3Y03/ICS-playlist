@@ -1,5 +1,5 @@
 using BL.Models;
-using Domain.Entities;
+using DAL.Entities;
 namespace BL.Mappers;
 public class GenreModelMapper
 {

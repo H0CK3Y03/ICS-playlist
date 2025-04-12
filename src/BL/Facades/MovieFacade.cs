@@ -1,9 +1,9 @@
 using System.Linq;
 using BL.Models;
-using Domain.Entities;
+using DAL.Entities;
 using BL.Mappers;
 using Microsoft.EntityFrameworkCore;
-using Infrastructure;
+using DAL;
 
 namespace BL.Facades;
 
