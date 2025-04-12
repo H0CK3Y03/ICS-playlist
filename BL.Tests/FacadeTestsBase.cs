@@ -37,7 +37,6 @@ public class FacadeTestsBase : IAsyncLifetime
         await using var dbx = await DbContextFactory.CreateDbContextAsync();
         await dbx.Database.EnsureDeletedAsync();
         await dbx.Database.EnsureCreatedAsync();
-        // Seeding is handled in AppDbContext.OnModelCreating
     }
 
     public async Task DisposeAsync()
@@ -47,7 +46,6 @@ public class FacadeTestsBase : IAsyncLifetime
     }
 }
 
-// Helper class for logging
 public class XUnitTestOutputConverter : TextWriter
 {
     private readonly ITestOutputHelper _output;
