@@ -3,8 +3,9 @@ using Domain.Entities;
 
 namespace BL.Models;
 
-public record MovieListModel : ModelBase
+public record MovieListModel //: ModelBase
 {
+    public required int Id { get; set; }
     public required string Name { get; set; }
     public required string Director { get; set; }
     public required int ReleaseDate { get; set; }
@@ -15,7 +16,7 @@ public record MovieListModel : ModelBase
 
     public static MovieListModel Empty => new()
     {
-        Id = Guid.NewGuid(),
+        Id = 0,
         Name = string.Empty,
         Director = string.Empty,
         ReleaseDate = default,

@@ -4,11 +4,12 @@ namespace BL.Models;
 
 public record GenreListModel : ModelBase
 {
+    public required int Id { get; set; }
     public required string Name { get; set; }
 
     public static GenreListModel Empty => new()
     {
-        Id = Guid.NewGuid(),
+        Id = 0,
         Name = string.Empty
     };
 }

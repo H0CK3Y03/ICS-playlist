@@ -5,14 +5,15 @@ namespace BL.Models;
 
 public record GenreDetailModel : ModelBase
 {
+    public required int Id { get; set; }
     public required string Name { get; set; }
 
     //public List<string> MediaFileTitles { get; set; } = new(); ???
 
     public static GenreDetailModel Empty => new()
     {
-        Id = Guid.NewGuid(),
+        Id = 0,
         Name = string.Empty,
-        MediaFileTitles = new()
+        //MediaFileTitles = new()
     };
 }

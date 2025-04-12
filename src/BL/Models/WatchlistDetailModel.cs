@@ -5,6 +5,7 @@ namespace BL.Models;
 
 public record WatchlistDetailModel : ModelBase
 {
+    public required int Id { get; set; }
     public required string Name { get; set; }
     public required string Description { get; set; }
 
@@ -12,7 +13,7 @@ public record WatchlistDetailModel : ModelBase
 
     public static WatchlistDetailModel Empty => new()
     {
-        Id = Guid.NewGuid(),
+        Id = 0,
         Name = string.Empty,
         Description = string.Empty,
         MediaFileTitles = new()

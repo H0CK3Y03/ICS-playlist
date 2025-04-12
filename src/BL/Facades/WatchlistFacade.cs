@@ -2,53 +2,70 @@ using BL.Models;
 using Domain.Entities;
 using BL.Mappers;
 using Microsoft.EntityFrameworkCore;
+using Infrastructure;
 
 namespace BL.Facades;
 
-public class WatchlistFacade(
-    //IUnitOfWorkFactory unitOfWorkFactory,
-    WatchlistModelMapper watchlistModelMapper)
-    : IWatchlistFacade
+public class WatchlistFacade
 {
-    public async Task SaveAsync(WatchlistListModel model)
+    private readonly AppDbContext _dbContext;
+    private readonly WatchlistMapper _mapper;
+
+    public WatchlistFacade(AppDbContext dbContext, WatchlistMapper mapper)
     {
-        var detail = await GetAsync(model.Id) ?? new WatchlistDetailModel { Id = model.Id, Name = model.Name, Description = model.Description };
-        await SaveAsync(detail);
+        _dbContext = dbContext;
+        _mapper = mapper;
     }
 
-    public async Task SaveAsync(WatchlistDetailModel model)
+    public async Task<List<WatchlistListModel>> GetAllAsync()
     {
-        var entity = watchlistModelMapper.MapToEntity(model);
+        var entities = await _dbContext.Watchlists
+            .Include(w => w.MediaFiles)
+            .ToListAsync();
 
-        await using var uow = unitOfWorkFactory.Create();
-        var repository = uow.GetRepository<Watchlist, WatchlistEntityMapper>();
+        return entities
+            .Select(e => _mapper.MapToListModel(e))
+            .ToList();
+    }
 
-        if (await repository.ExistsAsync(entity))
+    public async Task<WatchlistDetailModel?> GetByIdAsync(int id)
+    {
+        var entity = await _dbContext.Watchlists
+            .Include(w => w.MediaFiles)
+            .FirstOrDefaultAsync(w => w.Id == id);
+
+        return entity is null ? null : _mapper.MapToDetailModel(entity);
+    }
+
+    public async Task<WatchlistDetailModel> SaveAsync(WatchlistDetailModel model)
+    {
+        var entity = await _dbContext.Watchlists
+            .Include(w => w.MediaFiles)
+            .FirstOrDefaultAsync(e => e.Id == model.Id);
+
+        if (entity is null)
         {
-            await repository.UpdateAsync(entity);
+            var newEntity = _mapper.MapToEntity(model);
+            _dbContext.Watchlists.Add(newEntity);
         }
         else
         {
-            repository.Insert(entity);
+            entity.Name = model.Name;
+            entity.Description = model.Description;
         }
 
-        await uow.CommitAsync();
+        await _dbContext.SaveChangesAsync();
+        return model;
     }
 
-    public async Task<WatchlistDetailModel?> GetAsync(Guid id)
+    public async Task DeleteAsync(int id)
     {
-        await using var uow = unitOfWorkFactory.Create();
-        var entity = await uow.GetRepository<Watchlist, WatchlistEntityMapper>()
-            .Get()
-            .SingleOrDefaultAsync(e => e.Id == id);
+        var entity = await _dbContext.Watchlists.FirstOrDefaultAsync(w => w.Id == id);
 
-        return entity is null ? null : watchlistModelMapper.MapToDetailModel(entity);
-    }
-
-    public async Task DeleteAsync(Guid id)
-    {
-        await using var uow = unitOfWorkFactory.Create();
-        await uow.GetRepository<Watchlist, WatchlistEntityMapper>().DeleteAsync(id);
-        await uow.CommitAsync();
+        if (entity != null)
+        {
+            _dbContext.Watchlists.Remove(entity);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

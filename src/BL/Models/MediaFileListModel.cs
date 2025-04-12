@@ -5,6 +5,7 @@ namespace BL.Models;
 
 public record MediaListModel : ModelBase
 {
+    public required int Id { get; set; }
     public required string Name { get; set; }
     public required string Director { get; set; }
     public required int ReleaseDate { get; set; }
@@ -13,10 +14,10 @@ public record MediaListModel : ModelBase
 
     public static MediaListModel Empty => new()
     {
-        Id = Guid.NewGuid(),
+        Id = 0,
         Name = string.Empty,
         Director = string.Empty,
-        ReleaseDate = entity.ReleaseDate,
+        ReleaseDate = 0,
         Status = MediaStatus.PlanToWatch,
         Favourite = false
 

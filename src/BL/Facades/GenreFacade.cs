@@ -1,37 +1,56 @@
 using BL.Models;
-using Domain.Entities;
 using BL.Mappers;
+using DAL;
+using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Infrastructure;
 
 namespace BL.Facades;
 
-public class GenreFacade(
-    //IUnitOfWorkFactory unitOfWorkFactory,
-    IModelMapper<Genre, GenreListModel, GenreDetailModel> modelMapper)
-    : FacadeBase<Genre, GenreListModel, GenreDetailModel, GenreModelMapper>(unitOfWorkFactory, modelMapper),
-      IGenreFacade
+public class GenreFacade
 {
-    public async Task SaveAsync(GenreListModel model)
+    private readonly AppDbContext _dbContext;
+    private readonly GenreModelMapper _mapper;
+
+    public GenreFacade(AppDbContext dbContext, GenreModelMapper mapper)
     {
-        var detail = await GetAsync(model.Id) ?? new GenreDetailModel { Id = model.Id, Name = model.Name };
-        await SaveAsync(detail);
+        _dbContext = dbContext;
+        _mapper = mapper;
     }
 
-    public async Task SaveAsync(GenreDetailModel model)
+    public async Task<IEnumerable<GenreListModel>> GetAllAsync()
     {
-        var entity = modelMapper.MapToEntity(model);
+        var entities = await _dbContext.Genres.ToListAsync();
+        return entities.Select(_mapper.MapToListModel);
+    }
 
-        await using var uow = UnitOfWorkFactory.Create();
-        var repository = uow.GetRepository<Genre, GenreEntityMapper>();
+    public async Task<GenreDetailModel?> GetAsync(int id)
+    {
+        var entity = await _dbContext.Genres.FirstOrDefaultAsync(g => g.Id == id);
+        return entity is null ? null : _mapper.MapToDetailModel(entity);
+    }
 
-        if (await repository.ExistsAsync(entity))
-        {
-            await repository.UpdateAsync(entity);
-        }
+    public async Task<GenreDetailModel> SaveAsync(GenreDetailModel model)
+    {
+        var entity = _mapper.MapToEntity(model);
+
+        if (model.Id == 0)
+            _dbContext.Genres.Add(entity);
         else
-        {
-            repository.Insert(entity);
-        }
+            _dbContext.Genres.Update(entity);
 
-        await uow.CommitAsync();
+        await _dbContext.SaveChangesAsync();
+
+        return _mapper.MapToDetailModel(entity);
+    }
+
+    public async Task DeleteAsync(int id)
+    {
+        var entity = await _dbContext.Genres.FindAsync(id);
+        if (entity is not null)
+        {
+            _dbContext.Genres.Remove(entity);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }
