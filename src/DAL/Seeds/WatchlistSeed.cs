@@ -1,7 +1,8 @@
-using Domain.Entities;
+using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Seeds;
+namespace DAL.Seeds;
+
 public static class WatchlistSeed
 {
     public static void Seed(ModelBuilder modelBuilder)

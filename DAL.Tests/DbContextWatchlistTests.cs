@@ -1,11 +1,11 @@
-﻿using Domain.Entities;
-using Infrastructure;
-using Infrastructure.Seeds;
+﻿using DAL.Entities;
+using DAL;
+using DAL.Seeds;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Infrastructure.Tests;
+namespace DAL.Tests;
 
 /// <summary>
 /// Unit tests for the Watchlist entity.

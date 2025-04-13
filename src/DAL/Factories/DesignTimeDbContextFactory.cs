@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Infrastructure.Factories;
+namespace DAL.Factories;
 
 /// <summary>
 ///     EF Core CLI migration generation uses this DbContext to create model and migration
