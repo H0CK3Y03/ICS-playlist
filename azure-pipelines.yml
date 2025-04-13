@@ -32,9 +32,9 @@ steps:
     arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Run all tests'
+  displayName: 'Run BL and DAL tests'
   inputs:
     command: 'test'
-    projects: '**/DAL.Tests.csproj'
-    arguments: '--configuration $(buildConfiguration) --no-build'
+    projects: '**/*.Tests.csproj'
+    arguments: '--configuration $(buildConfiguration) --no-build --collect:"XPlat Code Coverage"'
     continueOnError: true
