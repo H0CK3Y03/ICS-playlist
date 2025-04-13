@@ -23,7 +23,7 @@ This section highlights updates to the project focusing on feedback, implemented
   - Full solution build (`project.sln`) not supported yet, awaiting UI integration.
   - Automated builds in Azure Pipelines not enabled, as we’re still waiting for parallelism access.
 
-### 0.1 - 2025-03-30
+### 0.1 - 2025-03-9
 - **Feedback Addressed**:
   - None, as this was the initial version.
 - **Implemented**:
