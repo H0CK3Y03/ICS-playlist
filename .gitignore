@@ -57,3 +57,4 @@ TestResults/
 
 # Ignore database files
 *.db
+*.sql

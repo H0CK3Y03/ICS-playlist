@@ -36,27 +36,27 @@ This section highlights updates to the project focusing on feedback, implemented
 # Project Structure
 The project is organized into directories for business logic, data access, tests, and documentation. Below is an overview of the key folders:
 ```
-├── BL.Tests/           # Business logic unit tests
-├── DAL.Tests/          # Data access layer unit tests
-├── src/                # Source code
-│   ├── BL/             # Business logic layer
-│   │   ├── Facades/    # Facade interfaces and implementations
-│   │   ├── Mappers/    # Model-to-entity mappers
-│   │   ├── Models/     # Business logic models
-│   │   ├── Services/   # Business services
-│   ├── DAL/            # Data access layer
-│   │   ├── Entities/   # Database entities
-│   │   ├── Factories/  # Database context factories
-│   │   ├── Migrations/ # EF Core migrations
-│   │   ├── Seeds/      # Seed data
-├── docs/               # Documentation and design assets
-│   ├── wireframe/      # UI wireframes
+├── src/Vued                # Source code
+│   ├── Vued.BL/            # Business logic layer
+│   │   ├── Facades/        # Facade interfaces and implementations
+│   │   ├── Mappers/        # Model-to-entity mappers
+│   │   ├── Models/         # Business logic models
+│   │   ├── Services/       # Business services
+│   ├── Vued.DAL/           # Data access layer
+│   │   ├── Entities/       # Database entities
+│   │   ├── Factories/      # Database context factories
+│   │   ├── Migrations/     # EF Core migrations
+│   │   ├── Seeds/          # Seed data
+│   ├── Vued.DAL.Tests/     # Data access layer unit tests
+│   ├── Vued.BL.Tests/      # Business logic unit tests
+├── docs/                   # Documentation and design assets
+│   ├── wireframe/          # UI wireframes
 ```
 ## Directory Overview
-- **`BL.Tests/`**: Contains unit tests for business logic, validating facades and services.
-- **`DAL.Tests/`**: Includes unit tests for data access, ensuring database operations work correctly.
-- **`src/BL/`**: Implements business logic, including facades, models, and mappers.
-- **`src/DAL/`**: Manages data access with Entity Framework Core, including entities and migrations.
+- **`src/Vued/Vued.BL.Tests/`**: Contains unit tests for business logic, validating facades and services.
+- **`src/Vued/Vued.DAL.Tests/`**: Includes unit tests for data access, ensuring database operations work correctly.
+- **`src/Vued/Vued.BL/`**: Implements business logic, including facades, models, and mappers.
+- **`src/Vued/Vued.DAL/`**: Manages data access with Entity Framework Core, including entities and migrations.
 - **`docs/`**: Stores design assets, such as ER diagrams and UI wireframes.
 
 # Build and Test
@@ -64,16 +64,16 @@ To compile the project components individually:
 
 ```bash
 # Build the data access layer
-dotnet build src/DAL
+dotnet build src/Vued/Vued.DAL
 
 # Build the business logic layer
-dotnet build src/BL
+dotnet build src/Vued/Vued.BL
 ```
 To run unit tests for each component:
 ```shell
 # Test the business logic layer
-dotnet test BL.Tests
+dotnet test src/Vued/Vued.BL.Tests
 
 # Test the data access layer
-dotnet test DAL.Tests
+dotnet test src/Vued/Vued.DAL.Tests
 ```
