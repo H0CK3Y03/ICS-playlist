@@ -1,5 +1,5 @@
 # Introduction
-The ICS-Playlist is an application designed for tracking and managing movies and series. It allows users to create personalized playlists, rate their watched content, apply filters for easy navigation, and attach custom descriptions to entries.
+The Vued is an application designed for tracking and managing movies and series. It allows users to create personalized playlists, rate their watched content, apply filters for easy navigation, and attach custom descriptions to entries.
 
 # Features
 - **Tracking:** Add movies and series to a user-specific playlist.
@@ -76,4 +76,11 @@ dotnet test src/Vued/Vued.BL.Tests
 
 # Test the data access layer
 dotnet test src/Vued/Vued.DAL.Tests
+```
+
+To build and test all components:
+```shell
+dotnet restore Vued.sln
+dotnet build Vued.sln
+dotnet test Vued.sln
 ```
