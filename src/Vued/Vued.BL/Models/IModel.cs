@@ -2,5 +2,5 @@ namespace Vued.BL.Models;
 
 public interface IModel
 {
-	Guid Id { get; }
+	int Id { get; }
 }
