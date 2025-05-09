@@ -10,11 +10,11 @@ namespace Vued.BL.Tests;
 
 public class SeriesFacadeTests : FacadeTestsBase
 {
-    private readonly SeriesMapper _mapper;
+    private readonly SeriesModelMapper _mapper;
 
     public SeriesFacadeTests(ITestOutputHelper output) : base(output)
     {
-        _mapper = new SeriesMapper();
+        _mapper = new SeriesModelMapper();
     }
 
     [Fact]

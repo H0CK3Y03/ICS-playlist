@@ -9,9 +9,9 @@ namespace Vued.BL.Facades;
 public class SeriesFacade
 {
     private readonly AppDbContext _dbContext;
-    private readonly SeriesMapper _mapper;
+    private readonly SeriesModelMapper _mapper;
 
-    public SeriesFacade(AppDbContext dbContext, SeriesMapper mapper)
+    public SeriesFacade(AppDbContext dbContext, SeriesModelMapper mapper)
     {
         _dbContext = dbContext;
         _mapper = mapper;

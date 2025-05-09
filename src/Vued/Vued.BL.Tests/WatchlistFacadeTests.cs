@@ -10,11 +10,11 @@ namespace Vued.BL.Tests;
 
 public class WatchlistFacadeTests : FacadeTestsBase
 {
-    private readonly WatchlistMapper _mapper;
+    private readonly WatchlistModelMapper _mapper;
 
     public WatchlistFacadeTests(ITestOutputHelper output) : base(output)
     {
-        _mapper = new WatchlistMapper();
+        _mapper = new WatchlistModelMapper();
     }
 
     [Fact]
