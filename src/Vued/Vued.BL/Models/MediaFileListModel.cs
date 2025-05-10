@@ -5,7 +5,6 @@ namespace Vued.BL.Models;
 
 public record MediaListModel : ModelBase
 {
-    public required int Id { get; set; }
     public required string Name { get; set; }
     public required string Director { get; set; }
     public required int ReleaseDate { get; set; }
