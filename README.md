@@ -31,13 +31,14 @@ To successfully build and run the UI app, ensure you have installed:
 
 ## How to Build and Run the UI (PowerShell)
 
+Replace `windows10.0.19041.0` with your platform if the following does not work.
+
 ```powershell
 git clone https://github.com/H0CK3Y03/ICS-playlist
 cd .\ICS-playlist\src\Vued\Vued.App\
 dotnet clean
 dotnet build -c Release -f net8.0-windows10.0.19041.0
-cd .\bin\Release\net8.0-windows10.0.19041.0\win10-x64
-.\Vued.App.exe
+dotnet run -c Debug -f net8.0-windows10.0.19041.0
 ```
 
 > **Note**: If you're using **Rider** or **Visual Studio**, build/run may still fail.  
@@ -95,6 +96,9 @@ cd .\bin\Release\net8.0-windows10.0.19041.0\win10-x64
 
 ```plaintext
 ├── src/Vued                # Source code
+│   ├── Vued.App/           # UI and binding logic
+│   │   ├── Views/          # UI
+│   │   ├── ViewModels/     # UI logic
 │   ├── Vued.BL/            # Business logic layer
 │   │   ├── Facades/        # Facade interfaces and implementations
 │   │   ├── Mappers/        # Model-to-entity mappers
