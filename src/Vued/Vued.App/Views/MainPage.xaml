@@ -1,0 +1,44 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Vued.App.Views.MainPage"
+             BackgroundColor="#121212">
+
+    <VerticalStackLayout>
+        <!-- Top Nav Bar -->
+        <Grid Padding="10"
+              BackgroundColor="#1F1B24"
+              HeightRequest="65"
+              ColumnSpacing="10">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>           <!-- App name -->
+              <ColumnDefinition Width="Auto"/>        <!-- Search + Filter -->
+            </Grid.ColumnDefinitions>
+
+            <!-- App Name -->
+            <Label Text="Vued"
+              FontAttributes="Bold"
+              FontSize="30"
+              VerticalOptions="Center"
+              TextColor="#BB86FC" />
+
+            <!-- Search bar and filter button on the right -->
+            <HorizontalStackLayout Grid.Column="1"
+                                   Spacing="8"
+                                   VerticalOptions="Center">
+                <SearchBar Placeholder="Search"
+                     FontSize="14"
+                     WidthRequest="300"
+                     HeightRequest="3"
+                     TextColor="#000000"
+                     PlaceholderColor="#000000"
+                     BackgroundColor="#BB86FC" />
+
+                <Button Text="Filter"
+                     BackgroundColor="#BB86FC"
+                     TextColor="#000000"
+                     HeightRequest="30"
+                     CornerRadius="6" />
+            </HorizontalStackLayout>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>
