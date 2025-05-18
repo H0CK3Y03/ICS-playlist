@@ -5,6 +5,7 @@ namespace Vued.BL.Models;
 
 public record GenreDetailModel : ModelBase
 {
+    public required int Id { get; set; }
     public required string Name { get; set; }
 
     //public List<string> MediaFileTitles { get; set; } = new(); ???

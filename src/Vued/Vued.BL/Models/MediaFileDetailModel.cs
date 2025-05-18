@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using Vued.DAL.Entities;
 
 namespace Vued.BL.Models;
-
+public enum MediaType
+{
+    Movie,
+    Series
+}
 public record MediaFileDetailModel : ModelBase
 {
+    public required int Id { get; set; }
     public required string Name { get; set; }
     public required MediaStatus Status { get; set; }
     public required string Description { get; set; }
@@ -15,6 +20,7 @@ public record MediaFileDetailModel : ModelBase
     public required string Rating { get; set; }
     public string? URL { get; set; }
     public bool Favourite { get; set; }
+    public MediaType MediaType { get; set; }
 
     public List<string> GenreNames { get; set; } = new();
 

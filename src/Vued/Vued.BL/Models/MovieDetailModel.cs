@@ -6,6 +6,7 @@ namespace Vued.BL.Models;
 
 public record MovieDetailModel : ModelBase
 {
+    public required int Id { get; set; }
     public required string Name { get; set; }
     public required MediaStatus Status { get; set; }
     public required string Description { get; set; }
