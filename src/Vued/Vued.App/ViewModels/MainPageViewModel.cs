@@ -1,5 +1,7 @@
 using System.ComponentModel;
 using System.Windows.Input;
+using CommunityToolkit.Maui.Views;
+using Vued.App.Views;
 
 namespace Vued.App.ViewModels;
 
@@ -9,8 +11,8 @@ public class MainPageViewModel : BindableObject
 
     public MainPageViewModel()
     {
-        SettingsCommand = new Command(OnSettingsClicked);
         SearchCommand = new Command(OnSearch);
+        FilterCommand = new Command(OnFilterClicked);
     }
 
     public string SearchQuery
@@ -23,25 +25,32 @@ public class MainPageViewModel : BindableObject
         }
     }
 
-    public ICommand SettingsCommand { get; }
     public ICommand SearchCommand { get; }
+    public ICommand FilterCommand { get; }
 
-    private async void OnSettingsClicked()
-    {
-        if (Application.Current?.MainPage != null)
-        {
-            await Application.Current.MainPage.DisplayAlert("Settings", "Settings clicked!", "OK");
-        }
-    }
 
     private void OnSearch()
     {
-        // Placeholder: Implement search logic (e.g., call Vued.BL service)
         if (!string.IsNullOrEmpty(SearchQuery))
         {
-            // Example: Call a BL service
-            // var results = await _searchService.SearchAsync(SearchQuery);
             System.Diagnostics.Debug.WriteLine($"Search query: {SearchQuery}");
+        }
+    }
+
+    private async void OnFilterClicked()
+    {
+        if (Application.Current?.MainPage != null)
+        {
+            var popup = new FilterPopup();
+            var result = await Application.Current.MainPage.ShowPopupAsync(popup);
+            if (result != null)
+            {
+                // Handle filter results
+                var filters = (dynamic)result;
+                System.Diagnostics.Debug.WriteLine($"Filters applied: Category1={filters.Category1}, Category2={filters.Category2}");
+                // Example: Update search with filters
+                // await _searchService.SearchAsync(SearchQuery, filters);
+            }
         }
     }
 }

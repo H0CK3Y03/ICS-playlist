@@ -1,0 +1,89 @@
+<ct:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
+    x:Class="Vued.App.Views.FilterPopup"
+    Size="600,350"
+    Color="{StaticResource ColorBackgroundSecondary}">
+
+    <Grid Padding="20" RowDefinitions="*,Auto">
+        <!-- Filter Controls Grid -->
+        <Grid ColumnDefinitions="*,*,*" RowSpacing="20" ColumnSpacing="20">
+            
+            <!-- Category Picker -->
+            <VerticalStackLayout Grid.Column="0">
+                <Label Text="Category"
+                       FontSize="14"
+                       TextColor="{StaticResource ColorTextPrimary}" />
+                <Picker x:Name="CategoryPicker"
+                        Title="Select Category"
+                        FontFamily="RajdhaniRegular"
+                        TextColor="{StaticResource ColorTextPrimary}"
+                        BackgroundColor="{StaticResource ColorInputBackground}" />
+            </VerticalStackLayout>
+
+            <!-- Sort By Picker -->
+            <VerticalStackLayout Grid.Column="1">
+                <Label Text="Sort By"
+                       FontSize="14"
+                       TextColor="{StaticResource ColorTextPrimary}" />
+                <Picker x:Name="SortPicker"
+                        Title="Sort by..."
+                        FontFamily="RajdhaniRegular"
+                        TextColor="{StaticResource ColorTextPrimary}"
+                        BackgroundColor="{StaticResource ColorInputBackground}">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Alphabetical</x:String>
+                            <x:String>Favourites</x:String>
+                            <x:String>Ranking</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </VerticalStackLayout>
+
+            <!-- Release Date Slider -->
+            <VerticalStackLayout Grid.Column="2">
+                <Label Text="Min Year"
+                       FontSize="14"
+                       TextColor="{StaticResource ColorTextPrimary}" />
+                <Slider x:Name="ReleaseYearSlider"
+                        Minimum="1980"
+                        Maximum="2025"
+                        Value="2000" />
+                <Label Text="{Binding Source={x:Reference ReleaseYearSlider}, Path=Value, StringFormat='Year: {0:F0}'}"
+                       FontSize="12"
+                       TextColor="{StaticResource ColorTextMuted}" />
+            </VerticalStackLayout>
+
+            <!-- Favourites Checkbox -->
+            <VerticalStackLayout Grid.Column="0" Grid.Row="1" VerticalOptions="Center">
+                <Label Text="Only Favourites"
+                       FontSize="14"
+                       TextColor="{StaticResource ColorTextPrimary}" />
+                <CheckBox x:Name="FavouritesCheckBox"
+                          Color="{StaticResource ColorAccent}" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Column="1" Grid.Row="1" VerticalOptions="Center">
+                <Label Text="Descending"
+                       FontSize="14"
+                       TextColor="{StaticResource ColorTextPrimary}" />
+                <CheckBox x:Name="DescendingCheckbox"
+                          Color="{StaticResource ColorAccent}" />
+            </VerticalStackLayout>
+
+        </Grid>
+
+        <!-- Buttons aligned bottom right -->
+        <HorizontalStackLayout Grid.Row="2"
+                               Spacing="10"
+                               HorizontalOptions="End"
+                               Margin="0,20,0,0">
+            <Button Text="Cancel"
+                    Clicked="OnCancelClicked" />
+            <Button Text="Apply"
+                    Clicked="OnApplyClicked" />
+        </HorizontalStackLayout>
+    </Grid>
+</ct:Popup>

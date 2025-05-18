@@ -1,43 +1,48 @@
 ﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Vued.App.Views.MainPage"
-             BackgroundColor="#121212">
+             BackgroundColor="{StaticResource ColorBackgroundSecondary}">
 
     <VerticalStackLayout>
         <!-- Top Nav Bar -->
-        <Grid Padding="10"
-              BackgroundColor="#1F1B24"
+        <Grid Padding="30,8,0,10"
+              BackgroundColor="{StaticResource ColorBackgroundPrimary}"
               HeightRequest="65"
               ColumnSpacing="10">
             <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*"/>           <!-- App name -->
-              <ColumnDefinition Width="Auto"/>        <!-- Search + Filter -->
+                <ColumnDefinition Width="*" />           <!-- App name -->
+                <ColumnDefinition Width="Auto" />        <!-- Search + Filter -->
             </Grid.ColumnDefinitions>
 
             <!-- App Name -->
-            <Label Text="Vued"
-              FontAttributes="Bold"
-              FontSize="30"
-              VerticalOptions="Center"
-              TextColor="#BB86FC" />
+            <Label Text="VUED"
+                   FontFamily="RadjhaniBold"
+                   FontSize="40"
+                   VerticalOptions="Center"
+                   TextColor="{StaticResource ColorAccent}" />
 
             <!-- Search bar and filter button on the right -->
             <HorizontalStackLayout Grid.Column="1"
                                    Spacing="8"
                                    VerticalOptions="Center">
-                <SearchBar Placeholder="Search"
-                     FontSize="14"
-                     WidthRequest="300"
-                     HeightRequest="3"
-                     TextColor="#000000"
-                     PlaceholderColor="#000000"
-                     BackgroundColor="#BB86FC" />
+                <SearchBar Placeholder="Search movies or series"
+                        FontSize="14"
+                        HeightRequest="40"
+                        BackgroundColor="{StaticResource ColorInputBackground}"
+                        TextColor="{StaticResource ColorTextPrimary}"
+                        PlaceholderColor="{StaticResource ColorInputPlaceholder}"
+                        CancelButtonColor="{StaticResource ColorAccent}"
+                        Margin="0"
+                        HorizontalOptions="FillAndExpand"
+                        FontFamily="RajdhaniRegular" />
 
                 <Button Text="Filter"
-                     BackgroundColor="#BB86FC"
-                     TextColor="#000000"
-                     HeightRequest="30"
-                     CornerRadius="6" />
+                        Command="{Binding FilterCommand}"
+                        BackgroundColor="{StaticResource ColorButtonPrimary}"
+                        TextColor="{StaticResource ColorButtonPrimaryText}" 
+                        HeightRequest="36"
+                        Margin="0,0,10,0"
+                        CornerRadius="2" />
             </HorizontalStackLayout>
         </Grid>
     </VerticalStackLayout>
