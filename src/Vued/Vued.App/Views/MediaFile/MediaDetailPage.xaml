@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Vued.App.Views.MediaDetailPage"
+    BackgroundColor="{StaticResource ColorBackgroundSecondary}">
+
+    <VerticalStackLayout Padding="20">
+        <Label
+            Text="Media Detail (Placeholder)"
+            FontSize="24"
+            FontFamily="RajdhaniBold"
+            TextColor="{StaticResource ColorTextPrimary}"
+            HorizontalOptions="Center" />
+        <Label
+            Text="{Binding Title}"
+            FontSize="18"
+            FontFamily="RajdhaniRegular"
+            TextColor="{StaticResource ColorTextPrimary}"
+            HorizontalOptions="Center" />
+        <Button
+            Text="Back"
+            Command="{Binding GoBackCommand}"
+            BackgroundColor="{StaticResource ColorButtonPrimary}"
+            TextColor="{StaticResource ColorButtonPrimaryText}"
+            HorizontalOptions="Center"
+            Margin="0,20,0,0" />
+    </VerticalStackLayout>
+</ContentPage>

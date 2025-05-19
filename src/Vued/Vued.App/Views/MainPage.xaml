@@ -1,49 +1,83 @@
-﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Vued.App.Views.MainPage"
-             BackgroundColor="{StaticResource ColorBackgroundSecondary}">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:media="clr-namespace:Vued.App.Views.MediaFile"
+    x:Class="Vued.App.Views.MainPage"
+    BackgroundColor="{StaticResource ColorBackgroundSecondary}">
 
     <VerticalStackLayout>
         <!-- Top Nav Bar -->
-        <Grid Padding="30,8,0,10"
-              BackgroundColor="{StaticResource ColorBackgroundPrimary}"
-              HeightRequest="65"
-              ColumnSpacing="10">
+        <Grid
+            Padding="30,8,0,10"
+            BackgroundColor="{StaticResource ColorBackgroundPrimary}"
+            HeightRequest="65"
+            ColumnSpacing="10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />           <!-- App name -->
-                <ColumnDefinition Width="Auto" />        <!-- Search + Filter -->
+                <ColumnDefinition Width="*" /> <!-- App name -->
+                <ColumnDefinition Width="Auto" /> <!-- Search + Filter -->
             </Grid.ColumnDefinitions>
 
             <!-- App Name -->
-            <Label Text="VUED"
-                   FontFamily="RadjhaniBold"
-                   FontSize="40"
-                   VerticalOptions="Center"
-                   TextColor="{StaticResource ColorAccent}" />
+            <Label
+                Text="VUED"
+                FontFamily="RadjhaniBold"
+                FontSize="40"
+                VerticalOptions="Center"
+                TextColor="{StaticResource ColorAccent}" />
 
             <!-- Search bar and filter button on the right -->
-            <HorizontalStackLayout Grid.Column="1"
-                                   Spacing="8"
-                                   VerticalOptions="Center">
-                <SearchBar Placeholder="Search movies or series"
-                        FontSize="14"
-                        HeightRequest="40"
-                        BackgroundColor="{StaticResource ColorInputBackground}"
-                        TextColor="{StaticResource ColorTextPrimary}"
-                        PlaceholderColor="{StaticResource ColorInputPlaceholder}"
-                        CancelButtonColor="{StaticResource ColorAccent}"
-                        Margin="0"
-                        HorizontalOptions="FillAndExpand"
-                        FontFamily="RajdhaniRegular" />
-
-                <Button Text="Filter"
-                        Command="{Binding FilterCommand}"
-                        BackgroundColor="{StaticResource ColorButtonPrimary}"
-                        TextColor="{StaticResource ColorButtonPrimaryText}" 
-                        HeightRequest="36"
-                        Margin="0,0,10,0"
-                        CornerRadius="2" />
+            <HorizontalStackLayout
+                Grid.Column="1"
+                Spacing="8"
+                VerticalOptions="Center">
+                <SearchBar
+                    Placeholder="Search movies or series"
+                    FontSize="14"
+                    HeightRequest="40"
+                    BackgroundColor="{StaticResource ColorInputBackground}"
+                    TextColor="{StaticResource ColorTextPrimary}"
+                    PlaceholderColor="{StaticResource ColorInputPlaceholder}"
+                    CancelButtonColor="{StaticResource ColorAccent}"
+                    Margin="0"
+                    HorizontalOptions="FillAndExpand"
+                    FontFamily="RajdhaniRegular"
+                    Text="{Binding SearchQuery}" />
+                <Button
+                    Text="Filter"
+                    Command="{Binding FilterCommand}"
+                    BackgroundColor="{StaticResource ColorButtonPrimary}"
+                    TextColor="{StaticResource ColorButtonPrimaryText}"
+                    HeightRequest="36"
+                    Margin="0,0,10,0"
+                    CornerRadius="2" />
             </HorizontalStackLayout>
         </Grid>
+
+        <!-- Media Thumbnails Grid -->
+        <CollectionView
+            ItemsSource="{Binding MediaItems}"
+            Margin="0"
+            SelectionMode="Single"
+            SelectionChangedCommand="{Binding MediaSelectedCommand}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout
+                    Orientation="Vertical"
+                    Span="{Binding GridSpan}"
+                    HorizontalItemSpacing="0"
+                    VerticalItemSpacing="10" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <media:MediaThumbnail>
+                        <media:MediaThumbnail.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding BindingContext.MediaSelectedCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                CommandParameter="{Binding .}" />
+                        </media:MediaThumbnail.GestureRecognizers>
+                    </media:MediaThumbnail>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </VerticalStackLayout>
 </ContentPage>

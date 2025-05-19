@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Vued.App.Views.MediaFile.MediaThumbnail"
+    HeightRequest="190"
+    WidthRequest="140">
+
+    <Frame
+        BackgroundColor="Black"
+        CornerRadius="0"
+        Padding="0"
+        HasShadow="True"
+        Margin="4">
+        <Grid>
+            <!-- Placeholder for media thumbnail -->
+            <BoxView
+                Color="Black"
+                CornerRadius="8" />
+            <!-- Optional overlay for title or placeholder text -->
+            <Label
+                Text="{Binding Title}"
+                FontSize="15"
+                FontFamily="RajdhaniRegular"
+                TextColor="White"
+                VerticalOptions="End"
+                HorizontalOptions="Center"
+                Margin="4" />
+        </Grid>
+    </Frame>
+</ContentView>

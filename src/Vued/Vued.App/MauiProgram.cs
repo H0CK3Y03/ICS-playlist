@@ -35,6 +35,9 @@ public static class MauiProgram
         builder.Services.AddTransient<FilterPopup>();
         builder.Services.AddTransient<FilterPopupViewModel>();
 
+        builder.Services.AddTransient<MediaDetailPage>();
+        builder.Services.AddTransient<MediaDetailViewModel>();
+
         return builder.Build();
     }
 }
