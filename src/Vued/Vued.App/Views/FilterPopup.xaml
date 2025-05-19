@@ -1,15 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <ct:Popup
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
+    xmlns:vm="clr-namespace:Vued.App.ViewModels"
     x:Class="Vued.App.Views.FilterPopup"
     Size="600,350"
     Color="{StaticResource ColorBackgroundSecondary}">
 
+    <ct:Popup.BindingContext>
+        <vm:FilterPopupViewModel />
+    </ct:Popup.BindingContext>
+
     <Grid Padding="20" RowDefinitions="*,Auto">
         <!-- Filter Controls Grid -->
         <Grid ColumnDefinitions="*,*,*" RowSpacing="20" ColumnSpacing="20">
-            
             <!-- Category Picker -->
             <VerticalStackLayout Grid.Column="0">
                 <Label Text="Category"
@@ -19,7 +24,9 @@
                         Title="Select Category"
                         FontFamily="RajdhaniRegular"
                         TextColor="{StaticResource ColorTextPrimary}"
-                        BackgroundColor="{StaticResource ColorInputBackground}" />
+                        BackgroundColor="{StaticResource ColorInputBackground}"
+                        ItemsSource="{Binding Categories}"
+                        SelectedItem="{Binding SelectedCategory}" />
             </VerticalStackLayout>
 
             <!-- Sort By Picker -->
@@ -31,15 +38,9 @@
                         Title="Sort by..."
                         FontFamily="RajdhaniRegular"
                         TextColor="{StaticResource ColorTextPrimary}"
-                        BackgroundColor="{StaticResource ColorInputBackground}">
-                    <Picker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>Alphabetical</x:String>
-                            <x:String>Favourites</x:String>
-                            <x:String>Ranking</x:String>
-                        </x:Array>
-                    </Picker.ItemsSource>
-                </Picker>
+                        BackgroundColor="{StaticResource ColorInputBackground}"
+                        ItemsSource="{Binding SortOptions}"
+                        SelectedItem="{Binding SelectedSortOption}" />
             </VerticalStackLayout>
 
             <!-- Release Date Slider -->
@@ -50,8 +51,8 @@
                 <Slider x:Name="ReleaseYearSlider"
                         Minimum="1980"
                         Maximum="2025"
-                        Value="2000" />
-                <Label Text="{Binding Source={x:Reference ReleaseYearSlider}, Path=Value, StringFormat='Year: {0:F0}'}"
+                        Value="{Binding MinReleaseYear}" />
+                <Label Text="{Binding MinReleaseYear, StringFormat='Year: {0:F0}'}"
                        FontSize="12"
                        TextColor="{StaticResource ColorTextMuted}" />
             </VerticalStackLayout>
@@ -62,17 +63,19 @@
                        FontSize="14"
                        TextColor="{StaticResource ColorTextPrimary}" />
                 <CheckBox x:Name="FavouritesCheckBox"
-                          Color="{StaticResource ColorAccent}" />
+                          Color="{StaticResource ColorAccent}"
+                          IsChecked="{Binding OnlyFavourites}" />
             </VerticalStackLayout>
 
+            <!-- Descending Checkbox -->
             <VerticalStackLayout Grid.Column="1" Grid.Row="1" VerticalOptions="Center">
                 <Label Text="Descending"
                        FontSize="14"
                        TextColor="{StaticResource ColorTextPrimary}" />
                 <CheckBox x:Name="DescendingCheckbox"
-                          Color="{StaticResource ColorAccent}" />
+                          Color="{StaticResource ColorAccent}"
+                          IsChecked="{Binding IsDescending}" />
             </VerticalStackLayout>
-
         </Grid>
 
         <!-- Buttons aligned bottom right -->

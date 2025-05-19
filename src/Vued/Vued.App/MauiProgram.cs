@@ -28,8 +28,12 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<App>();
         builder.Services.AddSingleton<AppShell>();
+
         builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<MainPageViewModel>();
+
+        builder.Services.AddTransient<FilterPopup>();
+        builder.Services.AddTransient<FilterPopupViewModel>();
 
         return builder.Build();
     }
