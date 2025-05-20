@@ -7,7 +7,7 @@
     WidthRequest="140">
 
     <Frame
-        BackgroundColor="Black"
+        BackgroundColor="{StaticResource ColorBackgroundPrimary}"
         CornerRadius="0"
         Padding="0"
         HasShadow="True"
@@ -15,7 +15,7 @@
         <Grid>
             <!-- Placeholder for media thumbnail -->
             <BoxView
-                Color="Black"
+                Color="{StaticResource ColorBackgroundPrimary}"
                 CornerRadius="8" />
             <!-- Optional overlay for title or placeholder text -->
             <Label

@@ -4,33 +4,33 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- Base Backgrounds -->
-    <Color x:Key="ColorBackgroundPrimary">#121212</Color> <!-- Was: BackgroundDark -->
-    <Color x:Key="ColorBackgroundSecondary">#1F1B24</Color> <!-- Was: BackgroundLight -->
+   <!-- Base Backgrounds -->
+    <Color x:Key="ColorBackgroundPrimary">#121212</Color> 
+    <Color x:Key="ColorBackgroundSecondary">#1F1B24</Color>
 
     <!-- Text Colors -->
-    <Color x:Key="ColorTextPrimary">#FFFFFF</Color> <!-- High contrast -->
-    <Color x:Key="ColorTextSecondary">#BB86FC</Color> <!-- Was: TextLight/TextWhite -->
+    <Color x:Key="ColorTextPrimary">#FFFFFF</Color>
+    <Color x:Key="ColorTextSecondary">#BB86FC</Color>
     <Color x:Key="ColorTextMuted">#9E9E9E</Color>
 
     <!-- Accent / Branding -->
-    <Color x:Key="ColorAccent">#BB86FC</Color> <!-- Purple branding color -->
+    <Color x:Key="ColorAccent">#BB86FC</Color>
     <Color x:Key="ColorAccentLight">#E2C9FF</Color>
     <Color x:Key="ColorAccentDark">#8850C8</Color>
 
     <!-- Status Colors -->
-    <Color x:Key="ColorSuccess">#03DAC6</Color> <!-- Teal-ish green -->
-    <Color x:Key="ColorWarning">#FFD600</Color>
-    <Color x:Key="ColorError">#CF6679</Color>
+    <Color x:Key="ColorSuccess">#03DAC6</Color>
+    <Color x:Key="ColorWarning">#FFD600</Color> 
+    <Color x:Key="ColorError">#CF6679</Color> 
 
     <!-- UI Elements -->
     <Color x:Key="ColorCardBackground">#1E1E1E</Color>
     <Color x:Key="ColorDivider">#2C2C2C</Color>
-    <Color x:Key="ColorOverlay">#66000000</Color> <!-- 40% black for modals/shadows -->
+    <Color x:Key="ColorOverlay">#66000000</Color>
 
     <!-- Buttons -->
     <Color x:Key="ColorButtonPrimary">#BB86FC</Color>
-    <Color x:Key="ColorButtonPrimaryText">#000000</Color>
+    <Color x:Key="ColorButtonPrimaryText">Black</Color>
     <Color x:Key="ColorButtonSecondary">#2E2E2E</Color>
     <Color x:Key="ColorButtonSecondaryText">#FFFFFF</Color>
 

@@ -5,25 +5,145 @@
     x:Class="Vued.App.Views.MediaDetailPage"
     BackgroundColor="{StaticResource ColorBackgroundSecondary}">
 
-    <VerticalStackLayout Padding="20">
+    <Grid Padding="20">
+        <!-- Define Grid structure: 4 columns, 8 rows to accommodate new labels -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="420" />
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Media Image Placeholder -->
+        <BoxView
+            Margin="20, 0, 20, 20"
+            Grid.Row="1"
+            Grid.RowSpan="9"
+            Grid.Column="0"
+            Grid.ColumnSpan="1"
+            BackgroundColor="{StaticResource ColorBackgroundPrimary}" />
+
+        <!-- Media Title -->
         <Label
-            Text="Media Detail (Placeholder)"
-            FontSize="24"
+            Grid.Row="1"
+            Grid.Column="2"
+            Text="{Binding Title, StringFormat='{0} (Placeholder)'}"
+            FontSize="36"
             FontFamily="RajdhaniBold"
-            TextColor="{StaticResource ColorTextPrimary}"
-            HorizontalOptions="Center" />
+            TextColor="{StaticResource ColorAccent}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
+
         <Label
-            Text="{Binding Title}"
+            Grid.Row="2"
+            Grid.Column="2"
+            Text="Rating: 10/10"
             FontSize="18"
             FontFamily="RajdhaniRegular"
+            TextColor="{StaticResource ColorAccentDark}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
+
+        <!-- Director Name -->
+        <Label
+            Grid.Row="3"
+            Grid.Column="2"
+            Text="Director Name"
+            FontSize="18"
+            FontFamily="RajdhaniRegular"
+            TextColor="{StaticResource ColorTextMuted}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
+
+        <!-- Genres -->
+        <Label
+            Grid.Row="4"
+            Grid.Column="2"
+            Text="Fantasy, Horror, Sci-fi"
+            FontSize="18"
+            FontFamily="RajdhaniRegular"
+            TextColor="{StaticResource ColorTextMuted}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
+
+        <!-- Description (Title) -->
+        <Label
+            Grid.Row="5"
+            Grid.Column="2"
+            Text="Description"
+            FontSize="26"
+            FontFamily="RajdhaniBold"
+            TextColor="{StaticResource ColorAccentDark}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
+
+        <!-- Description (Content) -->
+        <Label
+            Grid.Row="6"
+            Grid.Column="2"
+            Text="Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum"
+            FontSize="16"
+            FontFamily="RajdhaniRegular"
             TextColor="{StaticResource ColorTextPrimary}"
-            HorizontalOptions="Center" />
+            VerticalOptions="Start"
+            HorizontalOptions="Start" />
+
+        <!-- Review (Title) -->
+        <Label
+            Grid.Row="7"
+            Grid.Column="2"
+            Text="Review"
+            FontSize="26"
+            FontFamily="RajdhaniBold"
+            TextColor="{StaticResource ColorAccentDark}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
+
+        <!-- Review (Text) -->
+        <Label
+            Grid.Row="8"
+            Grid.Column="2"
+            Text="Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum"
+            FontSize="16"
+            FontFamily="RajdhaniRegular"
+            TextColor="{StaticResource ColorTextPrimary}"
+            VerticalOptions="Start"
+            HorizontalOptions="Start" />
+
+        <!-- Button Edit -->
         <Button
-            Text="Back"
+            Grid.Row="8"
+            Grid.Column="3"
+            Text="Edit"
             Command="{Binding GoBackCommand}"
             BackgroundColor="{StaticResource ColorButtonPrimary}"
             TextColor="{StaticResource ColorButtonPrimaryText}"
-            HorizontalOptions="Center"
-            Margin="0,20,0,0" />
-    </VerticalStackLayout>
+            HorizontalOptions="Fill"
+            VerticalOptions="End"
+            Margin="0,0,0,15" />
+
+        <!-- Button Back -->
+        <Button
+            Grid.Row="9"
+            Grid.Column="3"
+            Text="Back"
+            Command="{Binding GoBackCommand}"
+            BackgroundColor="{StaticResource ColorButtonSecondary}"
+            TextColor="{StaticResource ColorButtonSecondaryText}"
+            HorizontalOptions="Fill"
+            VerticalOptions="End"
+            Margin="0,0,0,15" />
+    </Grid>
 </ContentPage>
