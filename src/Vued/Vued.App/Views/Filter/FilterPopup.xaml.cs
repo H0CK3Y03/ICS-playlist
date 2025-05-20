@@ -2,7 +2,7 @@ using CommunityToolkit.Maui.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Vued.App.ViewModels;
 
-namespace Vued.App.Views;
+namespace Vued.App.Views.Filter;
 
 public partial class FilterPopup : Popup
 {

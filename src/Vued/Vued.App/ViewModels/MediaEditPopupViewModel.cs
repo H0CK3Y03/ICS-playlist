@@ -1,14 +1,14 @@
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Input;
-using CommunityToolkit.Maui.Views;
-using Vued.App.Views.MediaFile;
 
 namespace Vued.App.ViewModels;
 
-public class MediaDetailViewModel : BindableObject
+public class MediaEditViewModel : BindableObject
 {
-    private readonly MediaItem _mediaItem;
     private string _title;
-    private string _rating;
+    private ObservableCollection<string> _ratings;
+    private string _selectedRating;
     private string _releaseYear;
     private string _lengthOrEpisodes;
     private string _director;
@@ -16,19 +16,17 @@ public class MediaDetailViewModel : BindableObject
     private string _description;
     private string _review;
 
-    public MediaDetailViewModel(MediaItem mediaItem)
+    public MediaEditViewModel(MediaItem mediaItem)
     {
-        _mediaItem = mediaItem;
         Title = mediaItem.Title;
-        Rating = "10/10"; // Hardcoded for now
+        Ratings = new ObservableCollection<string> { "1/10", "2/10", "3/10", "4/10", "5/10", "6/10", "7/10", "8/10", "9/10", "10/10" };
+        SelectedRating = "10/10"; // Default, to be replaced with DAL data
         ReleaseYear = "1999";
         LengthOrEpisodes = "1h 20min / 22 episodes";
         Director = "Director Name";
         Genres = "Fantasy, Horror, Sci-fi";
         Description = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum";
         Review = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum";
-        GoBackCommand = new Command(OnGoBack);
-        EditCommand = new Command(OnEdit);
     }
 
     public string Title
@@ -41,12 +39,22 @@ public class MediaDetailViewModel : BindableObject
         }
     }
 
-    public string Rating
+    public ObservableCollection<string> Ratings
     {
-        get => _rating;
+        get => _ratings;
         set
         {
-            _rating = value;
+            _ratings = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string SelectedRating
+    {
+        get => _selectedRating;
+        set
+        {
+            _selectedRating = value;
             OnPropertyChanged();
         }
     }
@@ -108,39 +116,6 @@ public class MediaDetailViewModel : BindableObject
         {
             _review = value;
             OnPropertyChanged();
-        }
-    }
-
-    public ICommand GoBackCommand { get; }
-    public ICommand EditCommand { get; }
-
-    private async void OnGoBack()
-    {
-        await Shell.Current.Navigation.PopAsync();
-    }
-
-    private async void OnEdit()
-    {
-        if (Application.Current?.MainPage != null)
-        {
-            var viewModel = new MediaEditViewModel(_mediaItem);
-            var popup = new MediaEditPopup(viewModel);
-            var result = await Application.Current.MainPage.ShowPopupAsync(popup);
-            if (result != null)
-            {
-                var updatedMedia = (dynamic)result;
-                // Update ViewModel properties with edited values
-                Title = updatedMedia.Title;
-                Rating = updatedMedia.Rating;
-                ReleaseYear = updatedMedia.ReleaseYear;
-                LengthOrEpisodes = updatedMedia.LengthOrEpisodes;
-                Director = updatedMedia.Director;
-                Genres = updatedMedia.Genres;
-                Description = updatedMedia.Description;
-                Review = updatedMedia.Review;
-                // TODO: Save to database when DAL is ready
-                System.Diagnostics.Debug.WriteLine($"Updated media: {Title}, {Rating}, {ReleaseYear}");
-            }
         }
     }
 }

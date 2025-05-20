@@ -2,6 +2,8 @@
 using Vued.App.Views;
 using Vued.App.ViewModels;
 using CommunityToolkit.Maui;
+using Vued.App.Views.Filter;
+using Vued.App.Views.MediaFile;
 
 // using Vued.BL.Services; // Placeholder for your BL
 // using Vued.DAL; // Placeholder for your DAL
@@ -37,6 +39,9 @@ public static class MauiProgram
 
         builder.Services.AddTransient<MediaDetailPage>();
         builder.Services.AddTransient<MediaDetailViewModel>();
+
+        builder.Services.AddTransient<MediaEditPopup>();
+        builder.Services.AddTransient<MediaEditViewModel>();
 
         return builder.Build();
     }

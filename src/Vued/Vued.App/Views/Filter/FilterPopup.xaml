@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
     xmlns:vm="clr-namespace:Vued.App.ViewModels"
-    x:Class="Vued.App.Views.FilterPopup"
+    x:Class="Vued.App.Views.Filter.FilterPopup"
     Size="600,350"
     Color="{StaticResource ColorBackgroundSecondary}">
 
@@ -84,8 +84,12 @@
                                HorizontalOptions="End"
                                Margin="0,20,0,0">
             <Button Text="Cancel"
+                    BackgroundColor="{StaticResource ColorButtonSecondary}"
+                    TextColor="{StaticResource ColorButtonSecondaryText}"
                     Clicked="OnCancelClicked" />
             <Button Text="Apply"
+                    BackgroundColor="{StaticResource ColorButtonPrimary}"
+                    TextColor="{StaticResource ColorButtonPrimaryText}"
                     Clicked="OnApplyClicked" />
         </HorizontalStackLayout>
     </Grid>

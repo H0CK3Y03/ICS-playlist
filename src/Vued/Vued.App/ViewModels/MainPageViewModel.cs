@@ -4,6 +4,8 @@ using System.Windows.Input;
 using CommunityToolkit.Maui.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Vued.App.Views;
+using Vued.App.Views.Filter;
+using Vued.App.Views.MediaFile;
 
 namespace Vued.App.ViewModels;
 
