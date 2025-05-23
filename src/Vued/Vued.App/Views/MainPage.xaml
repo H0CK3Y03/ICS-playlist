@@ -6,9 +6,16 @@
     x:Class="Vued.App.Views.MainPage"
     BackgroundColor="{StaticResource ColorBackgroundSecondary}">
 
-    <VerticalStackLayout>
-        <!-- Top Nav Bar -->
+    <Grid>
+        <!-- Define rows: fixed top bar, expandable content area -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" /> <!-- Fixed height for nav bar -->
+            <RowDefinition Height="*" /> <!-- Expandable for CollectionView -->
+        </Grid.RowDefinitions>
+
+        <!-- Top Nav Bar (Fixed) -->
         <Grid
+            Grid.Row="0"
             Padding="30,8,0,10"
             BackgroundColor="{StaticResource ColorBackgroundPrimary}"
             HeightRequest="65"
@@ -49,17 +56,18 @@
                     BackgroundColor="{StaticResource ColorButtonPrimary}"
                     TextColor="{StaticResource ColorButtonPrimaryText}"
                     HeightRequest="36"
-                    Margin="0,0,10,0"
-                    CornerRadius="2" />
+                    Margin="0,0,10,0" />
             </HorizontalStackLayout>
         </Grid>
 
-        <!-- Media Thumbnails Grid -->
+        <!-- Scrollable Media Thumbnails Grid -->
         <CollectionView
+            Grid.Row="1"
             ItemsSource="{Binding MediaItems}"
             Margin="0"
             SelectionMode="Single"
-            SelectionChangedCommand="{Binding MediaSelectedCommand}">
+            SelectionChangedCommand="{Binding MediaSelectedCommand}"
+            VerticalOptions="FillAndExpand">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout
                     Orientation="Vertical"
@@ -79,5 +87,21 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </VerticalStackLayout>
+
+        <!-- Floating Action Button -->
+        <Button
+            Grid.Row="1"
+            Text="+"
+            BackgroundColor="{StaticResource ColorAccent}"
+            TextColor="{StaticResource ColorButtonPrimaryText}"
+            FontSize="24"
+            WidthRequest="50"
+            HeightRequest="50"
+            HorizontalOptions="End"
+            VerticalOptions="End"
+            Margin="0,0,20,20"
+            ZIndex="100"
+            InputTransparent="False"
+            Clicked="OnAddButtonClicked" />
+    </Grid>
 </ContentPage>

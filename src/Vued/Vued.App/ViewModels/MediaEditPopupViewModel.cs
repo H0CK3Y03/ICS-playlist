@@ -20,7 +20,8 @@ public class MediaEditViewModel : BindableObject
     {
         Title = mediaItem.Title;
         Ratings = new ObservableCollection<string> { "1/10", "2/10", "3/10", "4/10", "5/10", "6/10", "7/10", "8/10", "9/10", "10/10" };
-        SelectedRating = "10/10"; // Default, to be replaced with DAL data
+        // Default, to be replaced with DAL data
+        SelectedRating = "10/10"; 
         ReleaseYear = "1999";
         LengthOrEpisodes = "1h 20min / 22 episodes";
         Director = "Director Name";

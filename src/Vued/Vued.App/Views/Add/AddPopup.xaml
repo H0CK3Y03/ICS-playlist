@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ct:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
+    x:Class="Vued.App.Views.Add.AddPopup"
+    Color="{StaticResource ColorBackgroundSecondary}">
+
+    <!-- Full-size Grid to center content -->
+    <Grid
+        Padding="30"
+        HorizontalOptions="Fill"
+        VerticalOptions="Fill"
+        RowDefinitions="*"
+        ColumnDefinitions="*">
+
+        <VerticalStackLayout
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Spacing="15">
+            <Label
+                Text="Add New Item"
+                FontSize="18"
+                FontFamily="RajdhaniBold"
+                TextColor="{StaticResource ColorAccent}"
+                HorizontalOptions="Center" />
+            <Button
+                Text="Add New Media Entry"
+                Clicked="OnAddMediaEntryClicked"
+                BackgroundColor="{StaticResource ColorButtonPrimary}"
+                TextColor="{StaticResource ColorButtonPrimaryText}"
+                HeightRequest="40"
+                WidthRequest="200"
+                CornerRadius="4"
+                FontSize="14"
+                FontFamily="RajdhaniRegular" />
+            <Button
+                Text="Add New Watchlist"
+                Clicked="OnAddWatchlistClicked"
+                BackgroundColor="{StaticResource ColorButtonPrimary}"
+                TextColor="{StaticResource ColorButtonPrimaryText}"
+                HeightRequest="40"
+                WidthRequest="200"
+                CornerRadius="4"
+                FontSize="14"
+                FontFamily="RajdhaniRegular" />
+            <Button
+                Text="Cancel"
+                Clicked="OnCancelClicked"
+                BackgroundColor="{StaticResource ColorButtonSecondary}"
+                TextColor="{StaticResource ColorButtonSecondaryText}"
+                HeightRequest="40"
+                WidthRequest="200"
+                CornerRadius="4"
+                FontSize="14"
+                FontFamily="RajdhaniRegular" />
+        </VerticalStackLayout>
+
+    </Grid>
+</ct:Popup>
