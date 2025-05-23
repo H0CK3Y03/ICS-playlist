@@ -58,3 +58,6 @@ TestResults/
 # Ignore database files
 *.db
 *.sql
+
+# Ignore .bat scripts
+*.bat

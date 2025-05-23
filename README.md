@@ -1,42 +1,104 @@
-# Introduction
-The Vued is an application designed for tracking and managing movies and series. It allows users to create personalized playlists, rate their watched content, apply filters for easy navigation, and attach custom descriptions to entries.
+# Vued — Movie & Series Tracker
 
-# Features
-- **Tracking:** Add movies and series to a user-specific playlist.
-- **Rating:** Assign scores to entries for personal evaluation.
-- **Filtering:** Sort and search content using customizable filters.
-- **Descriptions:** Attach notes or summaries to each entry.
+**Vued** is a cross-platform application for tracking and managing movies and series. It allows users to:
 
-# Change Log
-This section highlights updates to the project focusing on feedback, implemented features, and known issues.
+- Create personalized playlists
+- Rate watched content
+- Apply filters for easier navigation
+- Attach custom descriptions to entries
 
-### 0.2 - 2025-04-13
-- **Feedback Addressed**:
-  - Adopted recommended architecture over clean architecture, per PR review.
-  - Fixed inconsistencies in the ERD (`docs/ER diagram.png`), ensuring accurate database design.
-  - Removed non-compliant code comments across `src/DAL/Entities` to adhere to clean code principles, as suggested in PR.
-- **Implemented**:
-  - Developed `src/BL/` with facades and models to handle business logic.
-  - Added unit tests in `BL.Tests/` to validate facades.
-  - Updated `azure-pipelines.yml` to automate builds and tests for `src/BL/` and `src/DAL/`.
-- **Known Issues**:
-  - Full solution build (`project.sln`) not supported yet, awaiting UI integration.
-  - Automated builds in Azure Pipelines not enabled, as we’re still waiting for parallelism access.
+---
 
-### 0.1 - 2025-03-9
-- **Feedback Addressed**:
-  - None, as this was the initial version.
-- **Implemented**:
-  - Initialized `src/DAL/` with SQLite database, Entity Framework Core, entities, and migrations.
-  - Created `DAL.Tests/` with unit tests to verify database operations.
-  - Set up `docs/` with ER diagram and UI wireframes (`docs/wireframe/`).
-- **Known Issues**:
-  - ERD in `docs/ER diagram.png` had inconsistencies, addressed in version 0.2.
+## ⚠️ IMPORTANT: Running the UI on Windows Only
 
-# Project Structure
-The project is organized into directories for business logic, data access, tests, and documentation. Below is an overview of the key folders:
+> **Note**: The UI **does not run on WSL or Linux**.  
+> You **must build and run it on Windows**.  
+> While you can build it on Linux/WSL (with proper `.bashrc` aliases or via VM/emulator), you **cannot run the resulting `.exe` or `.dll` files**, even if moved to Windows afterward.
+
+### Required on Windows
+
+To successfully build and run the UI app, ensure you have installed:
+
+- [Windows App SDK Runtime](https://github.com/microsoft/WindowsAppSDK) version 1.5+ (tested with 1.7)
+- [WinUI 3](https://learn.microsoft.com/en-us/windows/apps/winui/winui3/)
+- [.NET MAUI](https://dotnet.microsoft.com/en-us/apps/maui)
+
+> The `.csproj` and `launchSettings.json` were modified based on:  
+> - [This StackOverflow thread](https://stackoverflow.com/questions/78440201/when-i-run-a-default-maui-blazor-app-it-not-showing-output-whats-the-reason-for)  
+> - [This official .NET MAUI GitHub issue](https://github.com/dotnet/maui/issues/12080)
+
+---
+
+## How to Build and Run the UI (PowerShell)
+
+Replace `windows10.0.19041.0` with your platform if the following does not work.
+
+```powershell
+git clone https://github.com/H0CK3Y03/ICS-playlist
+cd .\ICS-playlist\src\Vued\Vued.App\
+dotnet clean
+dotnet build -c Release -f net8.0-windows10.0.19041.0
+dotnet run -c Debug -f net8.0-windows10.0.19041.0
 ```
+
+> **Note**: If you're using **Rider** or **Visual Studio**, build/run may still fail.  
+> The `Vued.App` was developed and tested **outside of IDEs**.
+
+---
+
+## Features
+
+- **Tracking** – Add movies and series to personalized playlists.
+- **Rating** – Assign scores for watched entries.
+- **Filtering** – Sort and search via custom filters.
+- **Descriptions** – Add notes or summaries to entries.
+
+---
+
+## Change Log
+
+### v0.2 – 2025-04-13
+
+#### Feedback Addressed
+
+- Adopted recommended architecture (moved away from Clean Architecture).
+- Fixed inconsistencies in ER diagram (`docs/ER diagram.png`).
+- Cleaned up non-compliant code comments in `src/DAL/Entities`.
+
+#### Implemented
+
+- Developed `src/BL/` with facades and business logic models.
+- Added unit tests under `BL.Tests/`.
+- Configured `azure-pipelines.yml` to build and test `src/BL/` and `src/DAL/`.
+
+#### Known Issues
+
+- Full solution build via `project.sln` not yet supported (awaiting UI integration).
+- Azure Pipelines not yet running due to missing parallelism access.
+
+---
+
+### v0.1 – 2025-03-09
+
+#### Implemented
+
+- Initialized `src/DAL/` with EF Core, SQLite DB, entities, and migrations.
+- Added unit tests in `DAL.Tests/`.
+- Set up `docs/` folder with ER diagram and UI wireframes.
+
+#### Known Issues
+
+- ERD in `docs/ER diagram.png` contained inconsistencies (resolved in v0.2).
+
+---
+
+## Project Structure
+
+```plaintext
 ├── src/Vued                # Source code
+│   ├── Vued.App/           # UI and binding logic
+│   │   ├── Views/          # UI
+│   │   ├── ViewModels/     # UI logic
 │   ├── Vued.BL/            # Business logic layer
 │   │   ├── Facades/        # Facade interfaces and implementations
 │   │   ├── Mappers/        # Model-to-entity mappers
@@ -44,42 +106,44 @@ The project is organized into directories for business logic, data access, tests
 │   │   ├── Services/       # Business services
 │   ├── Vued.DAL/           # Data access layer
 │   │   ├── Entities/       # Database entities
-│   │   ├── Factories/      # Database context factories
+│   │   ├── Factories/      # DB context factories
 │   │   ├── Migrations/     # EF Core migrations
 │   │   ├── Seeds/          # Seed data
-│   ├── Vued.DAL.Tests/     # Data access layer unit tests
-│   ├── Vued.BL.Tests/      # Business logic unit tests
-├── docs/                   # Documentation and design assets
-│   ├── wireframe/          # UI wireframes
+│   ├── Vued.DAL.Tests/     # DAL unit tests
+│   ├── Vued.BL.Tests/      # BL unit tests
+├── docs/                   # Documentation & design
+│   ├── wireframe/          # UI mockups and wireframes
 ```
-## Directory Overview
-- **`src/Vued/Vued.BL.Tests/`**: Contains unit tests for business logic, validating facades and services.
-- **`src/Vued/Vued.DAL.Tests/`**: Includes unit tests for data access, ensuring database operations work correctly.
-- **`src/Vued/Vued.BL/`**: Implements business logic, including facades, models, and mappers.
-- **`src/Vued/Vued.DAL/`**: Manages data access with Entity Framework Core, including entities and migrations.
-- **`docs/`**: Stores design assets, such as ER diagrams and UI wireframes.
 
-# Build and Test
-To compile the project components individually:
+### Directory Overview
+
+- `src/Vued/Vued.BL/`: Business logic (facades, models, mappers).
+- `src/Vued/Vued.DAL/`: Data access with EF Core.
+- `src/Vued/Vued.BL.Tests/`: Unit tests for business logic.
+- `src/Vued/Vued.DAL.Tests/`: Unit tests for data access.
+- `docs/`: Design assets (ERD, wireframes, notes).
+
+---
+
+## Build & Test
+
+### Build Individually
 
 ```bash
-# Build the data access layer
 dotnet build src/Vued/Vued.DAL
-
-# Build the business logic layer
 dotnet build src/Vued/Vued.BL
 ```
-To run unit tests for each component:
-```shell
-# Test the business logic layer
-dotnet test src/Vued/Vued.BL.Tests
 
-# Test the data access layer
+### Run Tests
+
+```bash
+dotnet test src/Vued/Vued.BL.Tests
 dotnet test src/Vued/Vued.DAL.Tests
 ```
 
-To build and test all components:
-```shell
+### Build & Test Entire Solution
+
+```bash
 dotnet restore Vued.sln
 dotnet build Vued.sln
 dotnet test Vued.sln
