@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace Vued.DAL.Entities;
 
-public class Genre
+public class Genre : IEntity
 {
-    public int Id { get; set; }
+    public required int Id { get; set; }
     public string Name { get; set; }
 
     public ICollection<MediaFile> MediaFiles { get; set; } = new List<MediaFile>();

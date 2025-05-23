@@ -9,9 +9,9 @@ public enum MediaStatus {
     Dropped
 }
 
-public abstract class MediaFile
+public abstract class MediaFile : IEntity
 {
-    public int Id { get; set; }
+    public required int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public MediaStatus Status { get; set; }
     public string Description { get; set; } = string.Empty;

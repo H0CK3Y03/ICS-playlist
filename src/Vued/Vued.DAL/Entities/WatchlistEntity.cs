@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace Vued.DAL.Entities;
 
-public class Watchlist
+public class Watchlist : IEntity
 {
-    public int Id { get; set; }
+    public required int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
 
