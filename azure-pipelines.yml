@@ -18,7 +18,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  solution: 'src/Vued/**/*.sln'
+  solution: 'Vued.sln'
   dalTestProject: 'src/Vued/Vued.DAL.Tests/Vued.DAL.Tests.csproj'
   blTestProject: 'src/Vued/Vued.BL.Tests/Vued.BL.Tests.csproj'
   # Define environment variables for tests (modify as needed)

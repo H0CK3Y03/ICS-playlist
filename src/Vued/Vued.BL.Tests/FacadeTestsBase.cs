@@ -18,18 +18,18 @@ public class FacadeTestsBase : IAsyncLifetime
         DbContextFactory = new DbContextSqLiteFactory(GetType().FullName!);
 
         GenreModelMapper = new GenreModelMapper();
-        MovieMapper = new MovieMapper();
-        SeriesMapper = new SeriesMapper();
-        WatchlistMapper = new WatchlistMapper();
+        MovieMapper = new MovieModelMapper();
+        SeriesMapper = new SeriesModelMapper();
+        WatchlistMapper = new WatchlistModelMapper();
         MediaFileModelMapper = new MediaFileModelMapper();
     }
 
     protected IDbContextFactory<AppDbContext> DbContextFactory { get; }
 
     protected GenreModelMapper GenreModelMapper { get; }
-    protected MovieMapper MovieMapper { get; }
-    protected SeriesMapper SeriesMapper { get; }
-    protected WatchlistMapper WatchlistMapper { get; }
+    protected MovieModelMapper MovieMapper { get; }
+    protected SeriesModelMapper SeriesMapper { get; }
+    protected WatchlistModelMapper WatchlistMapper { get; }
     protected MediaFileModelMapper MediaFileModelMapper { get; }
 
     public async Task InitializeAsync()

@@ -10,18 +10,18 @@ namespace Vued.BL.Facades;
 public class MovieFacade
 {
     private readonly AppDbContext _dbContext;
-    private readonly MovieMapper _mapper;
+    private readonly MovieModelMapper _mapper;
 
     public MovieFacade(AppDbContext dbContext)
     {
         _dbContext = dbContext;
-        _mapper = new MovieMapper();
+        _mapper = new MovieModelMapper();
     }
 
     public async Task<List<MovieListModel>> GetAllAsync()
     {
         var movies = await _dbContext.Movies.ToListAsync();
-        return movies.Select(MovieMapper.MapToListModel).ToList();
+        return movies.Select(m => _mapper.MapToListModel(m)).ToList();
     }
 
     public async Task<MovieDetailModel?> GetByIdAsync(int id)
@@ -30,7 +30,7 @@ public class MovieFacade
             .Include(m => m.Genres)
             .FirstOrDefaultAsync(m => m.Id == id);
 
-        return entity is null ? null : MovieMapper.MapToDetailModel(entity);
+        return entity is null ? null : _mapper.MapToDetailModel(entity);
     }
 
     public async Task<MovieDetailModel> SaveAsync(MovieDetailModel model)
@@ -41,7 +41,7 @@ public class MovieFacade
 
         if (entity is null)
         {
-            var newEntity = MovieMapper.MapToEntity(model);
+            var newEntity = _mapper.MapToEntity(model);
             _dbContext.Movies.Add(newEntity);
         }
         else

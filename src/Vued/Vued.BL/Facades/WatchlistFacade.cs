@@ -9,9 +9,9 @@ namespace Vued.BL.Facades;
 public class WatchlistFacade
 {
     private readonly AppDbContext _dbContext;
-    private readonly WatchlistMapper _mapper;
+    private readonly WatchlistModelMapper _mapper;
 
-    public WatchlistFacade(AppDbContext dbContext, WatchlistMapper mapper)
+    public WatchlistFacade(AppDbContext dbContext, WatchlistModelMapper mapper)
     {
         _dbContext = dbContext;
         _mapper = mapper;

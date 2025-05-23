@@ -3,7 +3,7 @@ using Vued.DAL.Entities;
 
 namespace Vued.BL.Models;
 
-public record MovieListModel //: ModelBase
+public record MovieListModel : ModelBase
 {
     public required int Id { get; set; }
     public required string Name { get; set; }
