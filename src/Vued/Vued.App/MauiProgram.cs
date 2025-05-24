@@ -1,12 +1,14 @@
-﻿using Vued.App.Shells;
+using Vued.App.Shells;
 using Vued.App.Views;
 using Vued.App.ViewModels;
 using CommunityToolkit.Maui;
 using Vued.App.Views.Filter;
 using Vued.App.Views.MediaFile;
+using Vued.DAL.Repositories;
+using Vued.DAL.Entities;
+using Vued.DAL.Mappers;
+using Vued.BL.Services;
 
-// using Vued.BL.Services; // Placeholder for your BL
-// using Vued.DAL; // Placeholder for your DAL
 namespace Vued.App;
 public static class MauiProgram
 {
@@ -42,6 +44,10 @@ public static class MauiProgram
 
         builder.Services.AddTransient<MediaEditPopup>();
         builder.Services.AddTransient<MediaEditViewModel>();
+
+        builder.Services.AddScoped<IRepository<Movie>, Repository<Movie>>();
+        builder.Services.AddScoped<IEntityMapper<Movie>, MovieEntityMapper>();
+        builder.Services.AddScoped<MovieService>();
 
         return builder.Build();
     }

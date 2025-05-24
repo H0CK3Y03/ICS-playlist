@@ -6,6 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Vued.App.Views;
 using Vued.App.Views.Filter;
 using Vued.App.Views.MediaFile;
+using Vued.BL.Services;
+using Vued.BL.Queries;
+using Vued.DAL.Repositories;
+using Vued.DAL.Entities;
 
 namespace Vued.App.ViewModels;
 
@@ -15,10 +19,15 @@ public class MainPageViewModel : BindableObject
     private string _searchQuery;
     private ObservableCollection<MediaItem> _mediaItems;
     private int _gridSpan;
+    private readonly MovieService _movieService;
+    private readonly IRepository<Movie> _movieRepository;
+
 
     public MainPageViewModel(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
+        _movieService = _movieService;
+        _movieRepository = _movieRepository;
         SettingsCommand = new Command(OnSettingsClicked);
         SearchCommand = new Command(OnSearch);
         FilterCommand = new Command(OnFilterClicked);
@@ -119,15 +128,34 @@ public class MainPageViewModel : BindableObject
 
     private async void OnFilterClicked()
     {
-        if (Application.Current?.MainPage != null)
+        var popup = _serviceProvider.GetService<FilterPopup>();
+        if (Application.Current?.MainPage is not null && popup is not null)
         {
-            var popup = _serviceProvider.GetService<FilterPopup>();
             var result = await Application.Current.MainPage.ShowPopupAsync(popup);
             if (result != null)
             {
                 var filters = (dynamic)result;
-                System.Diagnostics.Debug.WriteLine($"Filters applied: Category={filters.Category}, SortOption={filters.SortOption}, MinReleaseYear={filters.MinReleaseYear}, OnlyFavourites={filters.OnlyFavourites}, IsDescending={filters.IsDescending}");
+
+                var movieFilter = new MovieFilterQuery
+                {
+                    Genre = filters.Category == "All" ? null : filters.Category,
+                    Favourite = filters.OnlyFavourites ? true : null,
+                    ReleaseYear = (int)filters.MinReleaseYear,
+                    SortBy = filters.SortOption switch
+                    {
+                        "Alphabetical" => "title",
+                        "Favourites" => "favourite",
+                        "Ranking" => "rating",
+                        _ => "title"
+                    },
+                    SortOrder = filters.IsDescending ? "desc" : "asc"
+                };
+                await ApplyFilterAsync(movieFilter);
             }
+        }
+        else
+        {
+            System.Diagnostics.Debug.WriteLine("MainPage alebo popup sú null – nemôžem zobraziť FilterPopup.");
         }
     }
 
@@ -136,13 +164,71 @@ public class MainPageViewModel : BindableObject
         if (mediaItem == null) return;
         var viewModel = new MediaDetailViewModel(mediaItem);
         var detailPage = new MediaDetailPage(viewModel);
-        await Application.Current.MainPage.Navigation.PushAsync(detailPage);
+        await Application.Current!.MainPage!.Navigation.PushAsync(detailPage);
     }
+
+    public async Task ApplyFilterAsync(MovieFilterQuery filter)
+    {
+        try
+        {
+            var allMovies = await _movieRepository.GetAllAsync(); 
+            var query = allMovies.AsQueryable();
+
+            var filtered = _movieService.ApplyFilter(query, filter).ToList();
+
+            MediaItems.Clear();
+            foreach (var movie in filtered)
+            {
+                MediaItems.Add(new MediaItem
+                {
+                    Title = movie.Name,
+                    Length = movie.Duration,
+                    Rating = movie.Rating,
+                    ReleaseYear = movie.ReleaseDate,
+                    Director = movie.Director,
+                    ImageUrl = movie.URL,
+                    IsFavourite = movie.Favourite,
+                    Status = movie.Status.ToString(),
+                    Genres = movie.Genres.Select(g => g.Name).ToList(),
+                    IsPlaceholder = false
+                });
+            }
+
+            if (MediaItems.Count == 0)
+            {
+                MediaItems.Add(new MediaItem
+                {
+                    Title = "No matching results found.",
+                    IsPlaceholder = true
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error applying filter: {ex.Message}");
+            MediaItems.Clear();
+            MediaItems.Add(new MediaItem
+            {
+                Title = "No matching results found.",
+                IsPlaceholder = true
+            });
+
+        }
+    }
+
 }
 
 public class MediaItem
 {
     public string Title { get; set; }
+    public int Length { get; set; }
+    public string Rating { get; set; }
+    public int ReleaseYear { get; set; }
+    public string Director { get; set; }
+    public string ImageUrl { get; set; }
+    public bool IsFavourite { get; set; }
+    public string Status { get; set; }
+    public List<string> Genres { get; set; }
     public bool IsPlaceholder { get; set; }
-    // Add more properties as needed (e.g., ImageUrl, Id) when integrating with DAL
 }
+

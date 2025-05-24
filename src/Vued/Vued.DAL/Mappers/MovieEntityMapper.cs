@@ -7,7 +7,7 @@ using Vued.DAL.Entities;
 
 namespace Vued.DAL.Mappers
 {
-    internal class MovieEntityMapper : IEntityMapper<Movie>
+    public class MovieEntityMapper : IEntityMapper<Movie>
     {
         public void MapToExistingEntity(Movie existingEntity, Movie newEntity)
         {

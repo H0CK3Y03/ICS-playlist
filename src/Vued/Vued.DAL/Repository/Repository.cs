@@ -4,9 +4,9 @@ using System;
 using Vued.DAL.Entities;
 using Vued.DAL.Mappers;
 using Microsoft.EntityFrameworkCore;
-using Vued.DAL.Repositories;
+using System.Collections.Generic;
 
-namespace CookBook.DAL.Repositories;
+namespace Vued.DAL.Repositories;
 
 public class Repository<TEntity>(
     DbContext dbContext,
@@ -33,4 +33,8 @@ public class Repository<TEntity>(
 
     public async Task DeleteAsync(int entityId)
         => _dbSet.Remove(await _dbSet.SingleAsync(i => i.Id == entityId).ConfigureAwait(false));
+
+    public async Task<List<TEntity>> GetAllAsync()
+        => await _dbSet.ToListAsync();
+
 }

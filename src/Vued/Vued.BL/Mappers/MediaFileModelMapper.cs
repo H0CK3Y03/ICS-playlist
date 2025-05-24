@@ -54,7 +54,8 @@ public class MediaFileModelMapper : ModelMapperBase<MediaFile, MediaListModel, M
                 Rating = model.Rating,
                 URL = model.URL,
                 Favourite = model.Favourite,
-                Genres = model.GenreNames.Select(name => new Genre { Name = name }).ToList()
+                // Need to change Id = 0 to a proper ID logic (map from database)
+                Genres = model.GenreNames.Select(name => new Genre { Id = 0, Name = name }).ToList()
             },
             MediaType.Series => new Series
             {
@@ -68,7 +69,8 @@ public class MediaFileModelMapper : ModelMapperBase<MediaFile, MediaListModel, M
                 Rating = model.Rating,
                 URL = model.URL,
                 Favourite = model.Favourite,
-                Genres = model.GenreNames.Select(name => new Genre { Name = name }).ToList()
+                // Need to change Id = 0 to a proper ID logic (map from database 
+                Genres = model.GenreNames.Select(name => new Genre { Id = 0, Name = name }).ToList()
             },
 
             _ => throw new ArgumentException("Unknown MediaFileDetailModel type.")

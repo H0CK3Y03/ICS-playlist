@@ -3,6 +3,7 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using System;
 using Vued.DAL.Entities;
+using System.Collections.Generic;
 
 namespace Vued.DAL.Repositories;
 
@@ -14,4 +15,6 @@ public interface IRepository<TEntity>
     ValueTask<bool> ExistsAsync(TEntity entity);
     TEntity Insert(TEntity entity);
     Task<TEntity> UpdateAsync(TEntity entity);
+    Task<List<TEntity>> GetAllAsync();
+
 }

@@ -1,8 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
-
+    
     <OutputType>Exe</OutputType>
     <RootNamespace>Vued.App</RootNamespace>
     <UseMaui>true</UseMaui>
@@ -34,6 +34,7 @@
 
     <!-- Enable WinUI 3 (Ensure it's set for MAUI on Windows) -->
     <UseWinUI3>true</UseWinUI3>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -59,6 +60,8 @@
     <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
     <PackageReference Include="CommunityToolkit.Maui" Version="9.1.0" />
+    <ProjectReference Include="..\Vued.BL\Vued.BL.csproj" />
+    <ProjectReference Include="..\Vued.DAL\Vued.DAL.csproj" />
   </ItemGroup>
 
 </Project>

@@ -51,6 +51,7 @@ public class MovieModelMapper : ModelMapperBase<Movie, MovieListModel, MovieDeta
         URL = model.URL,
         Favourite = model.Favourite,
         Length = model.Length,
-        Genres = model.GenreNames.Select(name => new Genre { Name = name }).ToList()
+        // Need to change Id = 0 to a proper ID logic (map from database)
+        Genres = model.GenreNames.Select(name => new Genre { Id = 0, Name = name }).ToList()
     };
 }

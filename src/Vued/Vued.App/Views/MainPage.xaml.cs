@@ -1,6 +1,12 @@
-﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Maui.Views;
 using Vued.App.ViewModels;
 using Vued.App.Views.Add;
+using Vued.App.Views.Filter;
+using Vued.App.Views.MediaFile;
+using Vued.DAL.Repositories;
+using Vued.BL;
+using Vued.BL.Queries;
+
 
 namespace Vued.App.Views;
 
@@ -26,4 +32,33 @@ public partial class MainPage : ContentPage
         var popup = new AddPopup();
         await this.ShowPopupAsync(popup);
     }
+
+
+    private async void OnFilterButtonClicked(object sender, EventArgs e)
+    {
+        var filterPopup = new FilterPopup(new FilterPopupViewModel());
+        var result = await this.ShowPopupAsync(filterPopup);
+
+        if (result is not null)
+        {
+            var filters = (dynamic)result;
+            var movieFilter = new MovieFilterQuery
+            {
+                Genre = filters.Category == "All" ? null : filters.Category,
+                Favourite = filters.OnlyFavourites ? true : null,
+                ReleaseYear = (int)filters.MinReleaseYear,
+                SortBy = filters.SortOption switch
+                {
+                    "Alphabetical" => "title",
+                    "Favourites" => "favourite",
+                    "Ranking" => "rating",
+                    _ => "title"
+                },
+                SortOrder = filters.IsDescending ? "desc" : "asc"
+            };
+
+            await _viewModel.ApplyFilterAsync(movieFilter);
+        }
+    }
+
 }
