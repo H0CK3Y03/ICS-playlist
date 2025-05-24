@@ -11,7 +11,7 @@ public static class SeriesSeed
         modelBuilder.Entity<Series>().HasData(
             new Series
             {
-                Id = 1,
+                Id = 8,
                 Name = "Breaking Bad",
                 NumberOfEpisodes = 62,
                 Status = MediaStatus.Completed,
@@ -22,17 +22,10 @@ public static class SeriesSeed
                 URL = "https://www.imdb.com/title/tt0903747/",
                 Favourite = true,
                 Duration = 0,
-                Watchlists = new List<Watchlist>(),
-                Genres = new List<Genre>
-                {
-                    new Genre { Id = 3 },  // Drama
-                    new Genre { Id = 11 }, // Crime
-                    new Genre { Id = 9 }   // Thriller
-                }
             },
             new Series
             {
-                Id = 2,
+                Id = 9,
                 Name = "Stranger Things",
                 NumberOfEpisodes = 34,
                 Status = MediaStatus.Watching,
@@ -43,17 +36,10 @@ public static class SeriesSeed
                 URL = "https://www.imdb.com/title/tt4574334/",
                 Favourite = true,
                 Duration = 0,
-                Watchlists = new List<Watchlist>(),
-                Genres = new List<Genre>
-                {
-                    new Genre { Id = 5 },  // Science Fiction
-                    new Genre { Id = 4 },  // Horror
-                    new Genre { Id = 28 }  // Coming-of-Age
-                }
             },
             new Series
             {
-                Id = 3,
+                Id = 10,
                 Name = "The Office (US)",
                 NumberOfEpisodes = 201,
                 Status = MediaStatus.Completed,
@@ -64,17 +50,10 @@ public static class SeriesSeed
                 URL = "https://www.imdb.com/title/tt0386676/",
                 Favourite = true,
                 Duration = 0,
-                Watchlists = new List<Watchlist>(),
-                Genres = new List<Genre>
-                {
-                    new Genre { Id = 2 },  // Comedy
-                    new Genre { Id = 46 }, // Romantic Comedy
-                    new Genre { Id = 49 }  // Mockumentary
-                }
             },
             new Series
             {
-                Id = 4,
+                Id = 11,
                 Name = "Game of Thrones",
                 NumberOfEpisodes = 73,
                 Status = MediaStatus.Completed,
@@ -85,17 +64,10 @@ public static class SeriesSeed
                 URL = "https://www.imdb.com/title/tt0944947/",
                 Favourite = true,
                 Duration = 0,
-                Watchlists = new List<Watchlist>(),
-                Genres = new List<Genre>
-                {
-                    new Genre { Id = 6 },  // Fantasy
-                    new Genre { Id = 3 },  // Drama
-                    new Genre { Id = 29 }  // Epic
-                }
             },
             new Series
             {
-                Id = 5,
+                Id = 12,
                 Name = "The Mandalorian",
                 NumberOfEpisodes = 24,
                 Status = MediaStatus.Watching,
@@ -106,17 +78,10 @@ public static class SeriesSeed
                 URL = "https://www.imdb.com/title/tt8111088/",
                 Favourite = false,
                 Duration = 0,
-                Watchlists = new List<Watchlist>(),
-                Genres = new List<Genre>
-                {
-                    new Genre { Id = 1 },  // Action
-                    new Genre { Id = 5 },  // Science Fiction
-                    new Genre { Id = 7 }   // Adventure
-                }
             },
             new Series
             {
-                Id = 6,
+                Id = 13,
                 Name = "Black Mirror",
                 NumberOfEpisodes = 27,
                 Status = MediaStatus.Watching,
@@ -127,17 +92,10 @@ public static class SeriesSeed
                 URL = "https://www.imdb.com/title/tt2085059/",
                 Favourite = false,
                 Duration = 0,
-                Watchlists = new List<Watchlist>(),
-                Genres = new List<Genre>
-                {
-                    new Genre { Id = 5 },  // Science Fiction
-                    new Genre { Id = 27 }, // Dystopian
-                    new Genre { Id = 40 }  // Anthology
-                }
             },
             new Series
             {
-                Id = 7,
+                Id = 14,
                 Name = "The Crown",
                 NumberOfEpisodes = 60,
                 Status = MediaStatus.PlanToWatch,
@@ -148,13 +106,6 @@ public static class SeriesSeed
                 URL = "https://www.imdb.com/title/tt4786824/",
                 Favourite = false,
                 Duration = 0,
-                Watchlists = new List<Watchlist>(),
-                Genres = new List<Genre>
-                {
-                    new Genre { Id = 16 }, // Biography
-                    new Genre { Id = 13 }, // Historical
-                    new Genre { Id = 3 }   // Drama
-                }
             }
         );
     }

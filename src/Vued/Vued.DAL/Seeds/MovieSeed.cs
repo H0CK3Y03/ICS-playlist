@@ -21,13 +21,6 @@ public static class MovieSeed
                 Rating = "8/10",
                 URL = "https://www.imdb.com/title/tt0133093/",
                 Favourite = true,
-                Watchlists = new List<Watchlist>(),
-                Genres = new List<Genre>
-                {
-                    new Genre { Id = 1 }, // Action
-                    new Genre { Id = 5 }, // Science Fiction
-                    new Genre { Id = 44 }  // Cyberpunk
-                }
             },
             new Movie
             {
@@ -41,13 +34,6 @@ public static class MovieSeed
                 Rating = "6/10", // Jane is a bitch (pretend you did not see this)
                 URL = "https://www.imdb.com/title/tt0109830/",
                 Favourite = true,
-                Watchlists = new List<Watchlist>(),
-                Genres = new List<Genre>
-                {
-                    new Genre { Id = 3 }, // Drama
-                    new Genre { Id = 8 }, // Romance
-                    new Genre { Id = 28 }  // Coming-of-Age
-                }
             },
             new Movie
             {
@@ -61,13 +47,6 @@ public static class MovieSeed
                 Rating = "7/10",
                 URL = "https://www.imdb.com/title/tt0081505/",
                 Favourite = false,
-                Watchlists = new List<Watchlist>(),
-                Genres = new List<Genre>
-                {
-                    new Genre { Id = 4 }, // Horror
-                    new Genre { Id = 25 }, // Psychological
-                    new Genre { Id = 42 }  // Gothic
-                }
             },
             new Movie
             {
@@ -81,13 +60,6 @@ public static class MovieSeed
                 Rating = "9/10",
                 URL = "https://www.imdb.com/title/tt1375666/",
                 Favourite = true,
-                Watchlists = new List<Watchlist>(),
-                Genres = new List<Genre>
-                {
-                    new Genre { Id = 5 }, // Science Fiction
-                    new Genre { Id = 9 }, // Thriller
-                    new Genre { Id = 36 }  // Heist
-                }
             },
             new Movie
             {
@@ -101,13 +73,6 @@ public static class MovieSeed
                 Rating = "8/10",
                 URL = "https://www.imdb.com/title/tt0068646/",
                 Favourite = true,
-                Watchlists = new List<Watchlist>(),
-                Genres = new List<Genre>
-                {
-                    new Genre { Id = 11 }, // Crime
-                    new Genre { Id = 3 },  // Drama
-                    new Genre { Id = 29 }  // Epic
-                }
             },
             new Movie
             {
@@ -121,13 +86,6 @@ public static class MovieSeed
                 Rating = "8/10",
                 URL = "https://www.imdb.com/title/tt0245429/",
                 Favourite = false,
-                Watchlists = new List<Watchlist>(),
-                Genres = new List<Genre>
-                {
-                    new Genre { Id = 18 }, // Animation
-                    new Genre { Id = 6 },  // Fantasy
-                    new Genre { Id = 28 }  // Coming-of-Age
-                }
             },
             new Movie
             {
@@ -141,13 +99,6 @@ public static class MovieSeed
                 Rating = "7/10",
                 URL = "https://www.imdb.com/title/tt1392190/",
                 Favourite = true,
-                Watchlists = new List<Watchlist>(),
-                Genres = new List<Genre>
-                {
-                    new Genre { Id = 1 },  // Action
-                    new Genre { Id = 26 }, // Post-Apocalyptic
-                    new Genre { Id = 7 }   // Adventure
-                }
             }
         );
     }
