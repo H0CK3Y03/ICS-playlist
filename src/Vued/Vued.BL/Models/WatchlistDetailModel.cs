@@ -3,17 +3,16 @@ using System.Collections.Generic;
 
 namespace Vued.BL.Models;
 
-public record WatchlistModel : ModelBase
+public record WatchlistDetailModel
 {
-    public required int Id { get; set; }
-    public required string Name { get; set; }
-    public required string Description { get; set; }
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
 
     public List<string> MediaFileTitles { get; set; } = new();
 
-    public static WatchlistModel Empty => new()
+    public static WatchlistDetailModel Empty => new()
     {
-        Id = 0,
         Name = string.Empty,
         Description = string.Empty,
         MediaFileTitles = new()

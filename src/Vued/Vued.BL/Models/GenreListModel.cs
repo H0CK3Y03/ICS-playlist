@@ -2,14 +2,10 @@ using System;
 
 namespace Vued.BL.Models;
 
-public record GenreListModel : ModelBase
+public record GenreListModel
 {
-    public required int Id { get; set; }
-    public required string Name { get; set; }
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
 
-    public static GenreListModel Empty => new()
-    {
-        Id = 0,
-        Name = string.Empty
-    };
+    public static GenreListModel Empty => new();
 }

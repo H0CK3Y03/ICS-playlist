@@ -1,29 +1,30 @@
-using System.IO;
-using System.Xml.Linq;
-using System;
 using Vued.BL.Models;
 using Vued.DAL.Entities;
 
 namespace Vued.BL.Mappers;
 
-public class MediaFileModelMapper : ModelMapperBase<MediaFile, MediaFileModel>
-
+public class MediaFileModelMapper
+    : ModelMapperBase<MediaFileEntity, MediaFileListModel, MediaFileDetailModel>
 {
-    //public override MediaListModel MapToListModel(MediaFile? entity) => entity is null
-    //    ? MediaListModel.Empty
-    //    : new MediaListModel
-    //    {
-    //        Id = entity.Id,
-    //        Name = entity.Name,
-    //        Director = entity.Director,
-    //        ReleaseDate = entity.ReleaseDate,
-    //        Status = entity.Status,
-    //        Favourite = entity.Favourite
-    //    };
+    public override MediaFileListModel MapToListModel(MediaFileEntity? entity)
+        => entity is null
+            ? MediaFileListModel.Empty
+            : new MediaFileListModel
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Description = entity.Description,
+                Duration = entity.Duration,
+                Director = entity.Director,
+                ReleaseDate = entity.ReleaseDate,
+                Status = entity.Status,
+                Rating = entity.Rating,
+                URL = entity.URL,
+                Favourite = entity.Favourite
+            };
 
-    public override MediaFileModel MapToModel(MediaFile entity) => entity is null
-        ? MediaFileModel.Empty
-        : new MediaFileModel
+    public override MediaFileDetailModel MapToDetailModel(MediaFileEntity entity)
+        => new MediaFileDetailModel
         {
             Id = entity.Id,
             Name = entity.Name,
@@ -35,14 +36,21 @@ public class MediaFileModelMapper : ModelMapperBase<MediaFile, MediaFileModel>
             Rating = entity.Rating,
             URL = entity.URL,
             Favourite = entity.Favourite,
-            GenreNames = entity.Genres.Select(g => g.Name).ToList()
+            MediaType = entity switch
+            {
+                MovieEntity => MediaType.Movie,
+                SeriesEntity => MediaType.Series,
+                _ => throw new ArgumentException("Unknown MediaFileEntity type.")
+            },
+            GenreNames = entity.MediaFileGenres?
+                .Select(mfg => mfg.Genre.Name)
+                .ToList() ?? new()
         };
 
-    public override MediaFile MapToEntity(MediaFileModel model)
-    {
-        return model.MediaType switch
+    public override MediaFileEntity MapToEntity(MediaFileDetailModel model)
+        => model.MediaType switch
         {
-            MediaType.Movie => new Movie
+            MediaType.Movie => new MovieEntity
             {
                 Id = model.Id,
                 Name = model.Name,
@@ -52,11 +60,12 @@ public class MediaFileModelMapper : ModelMapperBase<MediaFile, MediaFileModel>
                 ReleaseDate = model.ReleaseDate,
                 Status = model.Status,
                 Rating = model.Rating,
-                URL = model.URL,
+                URL = model.URL ?? string.Empty,
                 Favourite = model.Favourite,
-                //Genres = model.GenreNames.Select(name => new Genre { Id = 2, Name = name }).ToList() // TODO: Replace with actual genre IDs
+                MediaFileGenres = []
             },
-            MediaType.Series => new Series
+
+            MediaType.Series => new SeriesEntity
             {
                 Id = model.Id,
                 Name = model.Name,
@@ -66,13 +75,11 @@ public class MediaFileModelMapper : ModelMapperBase<MediaFile, MediaFileModel>
                 ReleaseDate = model.ReleaseDate,
                 Status = model.Status,
                 Rating = model.Rating,
-                URL = model.URL,
+                URL = model.URL ?? string.Empty,
                 Favourite = model.Favourite,
-                //Genres = model.GenreNames.Select(name => new Genre { Id = 1, Name = name }).ToList() // TODO: Replace with actual genre IDs
+                MediaFileGenres = []
             },
 
-            _ => throw new ArgumentException("Unknown MediaFileModel type.")
-
+            _ => throw new ArgumentException("Unknown MediaType in model.")
         };
-    }
 }

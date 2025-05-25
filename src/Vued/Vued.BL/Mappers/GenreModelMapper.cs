@@ -3,27 +3,33 @@ using Vued.DAL.Entities;
 
 namespace Vued.BL.Mappers;
 
-public class GenreModelMapper : ModelMapperBase<Genre, GenreModel>
+public class GenreModelMapper
+    : ModelMapperBase<GenreEntity, GenreListModel, GenreDetailModel>
 {
-    //public override GenreListModel MapToListModel(Genre? entity) => entity is null
-    //    ? GenreListModel.Empty
-    //    : new GenreListModel
-    //    {
-    //        Id = entity.Id,
-    //        Name = entity.Name
-    //    };
+    public override GenreListModel MapToListModel(GenreEntity? entity)
+        => entity is null
+            ? GenreListModel.Empty
+            : new GenreListModel
+            {
+                Id = entity.Id,
+                Name = entity.Name
+            };
 
-    public override GenreModel MapToModel(Genre? entity) => entity is null
-        ? GenreModel.Empty
-        : new GenreModel
+    public override GenreDetailModel MapToDetailModel(GenreEntity entity)
+        => new GenreDetailModel
         {
             Id = entity.Id,
-            Name = entity.Name
+            Name = entity.Name,
+            MediaFileTitles = entity.MediaFileGenres?
+                .Select(mfg => mfg.MediaFile.Name)
+                .ToList() ?? new()
         };
 
-    public override Genre MapToEntity(GenreModel model) => new()
-    {
-        Id = model.Id,
-        Name = model.Name
-    };
+    public override GenreEntity MapToEntity(GenreDetailModel model)
+        => new GenreEntity
+        {
+            Id = model.Id,
+            Name = model.Name,
+            MediaFileGenres = []
+        };
 }

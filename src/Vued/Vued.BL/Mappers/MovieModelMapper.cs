@@ -3,25 +3,25 @@ using Vued.DAL.Entities;
 
 namespace Vued.BL.Mappers;
 
-public class MovieModelMapper : ModelMapperBase<Movie, MovieModel>
+public class MovieModelMapper
+    : ModelMapperBase<MovieEntity, MovieListModel, MovieDetailModel>
 {
-    //public override MovieListModel MapToListModel(Movie? entity) => entity is null
-    //    ? MovieListModel.Empty
-    //    : new MovieListModel
-    //    {
-    //        Id = entity.Id,
-    //        Name = entity.Name,
-    //        Director = entity.Director,
-    //        ReleaseDate = entity.ReleaseDate,
-    //        Status = entity.Status,
-    //        Favourite = entity.Favourite,
-    //        Length = entity.Length
-    //    };
+    public override MovieListModel MapToListModel(MovieEntity? entity)
+        => entity is null
+            ? MovieListModel.Empty
+            : new MovieListModel
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Director = entity.Director,
+                ReleaseDate = entity.ReleaseDate,
+                Status = entity.Status,
+                Favourite = entity.Favourite,
+                Length = entity.Length
+            };
 
-
-    public override MovieModel MapToModel(Movie? entity) => entity is null
-        ? MovieModel.Empty
-        : new MovieModel
+    public override MovieDetailModel MapToDetailModel(MovieEntity entity)
+        => new MovieDetailModel
         {
             Id = entity.Id,
             Name = entity.Name,
@@ -34,23 +34,25 @@ public class MovieModelMapper : ModelMapperBase<Movie, MovieModel>
             URL = entity.URL,
             Favourite = entity.Favourite,
             Length = entity.Length,
-            GenreNames = entity.Genres.Select(g => g.Name).ToList()
+            GenreNames = entity.MediaFileGenres?
+                .Select(mfg => mfg.Genre.Name)
+                .ToList() ?? new()
         };
 
-
-    public override Movie MapToEntity(MovieModel model) => new()
-    {
-        Id = model.Id,
-        Name = model.Name,
-        Description = model.Description,
-        Director = model.Director,
-        Duration = model.Duration,
-        Status = model.Status,
-        ReleaseDate = model.ReleaseDate,
-        Rating = model.Rating,
-        URL = model.URL,
-        Favourite = model.Favourite,
-        Length = model.Length,
-        Genres = model.GenreNames.Select(name => new Genre { Id = 3, Name = name }).ToList() // TODO: Replace with actual genre IDs
-    };
+    public override MovieEntity MapToEntity(MovieDetailModel model)
+        => new MovieEntity
+        {
+            Id = model.Id,
+            Name = model.Name,
+            Description = model.Description,
+            Director = model.Director,
+            Duration = model.Duration,
+            Status = model.Status,
+            ReleaseDate = model.ReleaseDate,
+            Rating = model.Rating,
+            URL = model.URL ?? string.Empty,
+            Favourite = model.Favourite,
+            Length = model.Length,
+            MediaFileGenres = []
+        };
 }

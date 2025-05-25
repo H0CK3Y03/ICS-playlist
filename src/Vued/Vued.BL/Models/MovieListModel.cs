@@ -3,25 +3,15 @@ using Vued.DAL.Entities;
 
 namespace Vued.BL.Models;
 
-public record MovieListModel : ModelBase
+public record MovieListModel
 {
-    public required int Id { get; set; }
-    public required string Name { get; set; }
-    public required string Director { get; set; }
-    public required int ReleaseDate { get; set; }
-    public required MediaStatus Status { get; set; }
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Director { get; set; } = string.Empty;
+    public int ReleaseDate { get; set; }
+    public MediaStatus Status { get; set; }
     public bool Favourite { get; set; }
-
     public int Length { get; set; }
 
-    public static MovieListModel Empty => new()
-    {
-        Id = 0,
-        Name = string.Empty,
-        Director = string.Empty,
-        ReleaseDate = default,
-        Status = default,
-        Favourite = default,
-        Length = default
-    };
+    public static MovieListModel Empty => new();
 }

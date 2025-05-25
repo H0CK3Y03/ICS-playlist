@@ -3,24 +3,25 @@ using Vued.DAL.Entities;
 
 namespace Vued.BL.Mappers;
 
-public class SeriesModelMapper : ModelMapperBase<Series, SeriesModel>
+public class SeriesModelMapper
+    : ModelMapperBase<SeriesEntity, SeriesListModel, SeriesDetailModel>
 {
-    //public override SeriesListModel MapToListModel(Series? entity) => entity is null
-    //    ? SeriesListModel.Empty
-    //    : new SeriesListModel
-    //    {
-    //        Id = entity.Id,
-    //        Name = entity.Name,
-    //        Director = entity.Director,
-    //        ReleaseDate = entity.ReleaseDate,
-    //        Status = entity.Status,
-    //        Favourite = entity.Favourite,
-    //        NumberOfEpisodes = entity.NumberOfEpisodes
-    //    };
+    public override SeriesListModel MapToListModel(SeriesEntity? entity)
+        => entity is null
+            ? SeriesListModel.Empty
+            : new SeriesListModel
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Director = entity.Director,
+                ReleaseDate = entity.ReleaseDate,
+                Status = entity.Status,
+                Favourite = entity.Favourite,
+                NumberOfEpisodes = entity.NumberOfEpisodes
+            };
 
-    public override SeriesModel MapToModel(Series? entity) => entity is null
-        ? SeriesModel.Empty
-        : new SeriesModel
+    public override SeriesDetailModel MapToDetailModel(SeriesEntity entity)
+        => new SeriesDetailModel
         {
             Id = entity.Id,
             Name = entity.Name,
@@ -33,22 +34,25 @@ public class SeriesModelMapper : ModelMapperBase<Series, SeriesModel>
             URL = entity.URL,
             Favourite = entity.Favourite,
             NumberOfEpisodes = entity.NumberOfEpisodes,
-            GenreNames = entity.Genres.Select(g => g.Name).ToList()
+            GenreNames = entity.MediaFileGenres?
+                .Select(mfg => mfg.Genre.Name)
+                .ToList() ?? new()
         };
 
-    public override Series MapToEntity(SeriesModel model) => new()
-    {
-        Id = model.Id,
-        Name = model.Name,
-        Status = model.Status,
-        Description = model.Description,
-        Duration = model.Duration,
-        Director = model.Director,
-        ReleaseDate = model.ReleaseDate,
-        Rating = model.Rating,
-        URL = model.URL ?? string.Empty,
-        Favourite = model.Favourite,
-        NumberOfEpisodes = model.NumberOfEpisodes,
-        Genres = new List<Genre>()
-    };
+    public override SeriesEntity MapToEntity(SeriesDetailModel model)
+        => new SeriesEntity
+        {
+            Id = model.Id,
+            Name = model.Name,
+            Status = model.Status,
+            Description = model.Description,
+            Duration = model.Duration,
+            Director = model.Director,
+            ReleaseDate = model.ReleaseDate,
+            Rating = model.Rating,
+            URL = model.URL ?? string.Empty,
+            Favourite = model.Favourite,
+            NumberOfEpisodes = model.NumberOfEpisodes,
+            MediaFileGenres = []
+        };
 }

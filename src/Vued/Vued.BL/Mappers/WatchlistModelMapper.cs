@@ -3,33 +3,37 @@ using Vued.DAL.Entities;
 
 namespace Vued.BL.Mappers;
 
-public class WatchlistModelMapper : ModelMapperBase<Watchlist, WatchlistModel>
+public class WatchlistModelMapper
+    : ModelMapperBase<WatchlistEntity, WatchlistListModel, WatchlistDetailModel>
 {
-    //public override WatchlistListModel MapToListModel(Watchlist? entity) => entity is null
-    //    ? WatchlistListModel.Empty
-    //    : new WatchlistListModel
-    //    {
-    //        Id = entity.Id,
-    //        Name = entity.Name,
-    //        Description = entity.Description,
-    //        MediaCount = entity.MediaFiles.Count
-    //    };
+    public override WatchlistListModel MapToListModel(WatchlistEntity? entity)
+        => entity is null
+            ? WatchlistListModel.Empty
+            : new WatchlistListModel
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Description = entity.Description,
+                MediaCount = entity.WatchlistMediaFiles?.Count ?? 0
+            };
 
-    public override WatchlistModel MapToModel(Watchlist? entity) => entity is null
-        ? WatchlistModel.Empty
-        : new WatchlistModel
+    public override WatchlistDetailModel MapToDetailModel(WatchlistEntity entity)
+        => new WatchlistDetailModel
         {
             Id = entity.Id,
             Name = entity.Name,
             Description = entity.Description,
-            MediaFileTitles = entity.MediaFiles.Select(m => m.Name).ToList()
+            MediaFileTitles = entity.WatchlistMediaFiles?
+                .Select(wmf => wmf.MediaFile.Name)
+                .ToList() ?? new List<string>()
         };
 
-    public override Watchlist MapToEntity(WatchlistModel model) => new()
-    {
-        Id = model.Id,
-        Name = model.Name,
-        Description = model.Description,
-        MediaFiles = new List<MediaFile>()
-    };
+    public override WatchlistEntity MapToEntity(WatchlistDetailModel model)
+        => new WatchlistEntity
+        {
+            Id = model.Id,
+            Name = model.Name,
+            Description = model.Description,
+            WatchlistMediaFiles = []
+        };
 }
