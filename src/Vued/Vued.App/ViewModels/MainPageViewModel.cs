@@ -116,7 +116,7 @@ public class MainPageViewModel : BindableObject
                     Name = "Breaking Bad",
                     Status = MediaStatus.Watching,
                     Description = "A high school chemistry teacher turned methamphetamine manufacturer.",
-                    Duration = 49, // per episode
+                    Duration = 49,
                     Director = "Vince Gilligan",
                     ReleaseDate = 2008,
                     Rating = "TV-MA",
