@@ -33,7 +33,11 @@ public class MainPageViewModel : BindableObject
         MediaSelectedCommand = new Command<MediaItem>(OnMediaSelected);
         MediaItems = new ObservableCollection<MediaItem>();
         GridSpan = 1; // Default span
-        LoadMediaFiles().GetAwaiter().GetResult();
+    }
+
+    public async Task InitializeAsync()
+    {
+        await LoadMediaFiles();
     }
     public async Task LoadMediaFiles()
     {
