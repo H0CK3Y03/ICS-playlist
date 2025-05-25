@@ -162,7 +162,7 @@ public class MainPageViewModel : BindableObject
     private async void OnMediaSelected(MediaItem mediaItem)
     {
         if (mediaItem == null) return;
-        var viewModel = new MediaDetailViewModel(mediaItem);
+        var viewModel = new MediaDetailViewModel(mediaItem, _serviceProvider);
         var detailPage = new MediaDetailPage(viewModel);
         await Application.Current.MainPage.Navigation.PushAsync(detailPage);
     }

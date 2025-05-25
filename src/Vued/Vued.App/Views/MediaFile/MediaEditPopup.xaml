@@ -250,7 +250,7 @@
                 FontSize="14" />
             <Button
                 Text="Delete"
-                Clicked="OnDeleteClicked"
+                Command="{Binding DeleteCommand}"
                 BackgroundColor="{StaticResource ColorError}"
                 TextColor="{StaticResource ColorButtonSecondaryText}"
                 HeightRequest="36"

@@ -11,6 +11,7 @@ namespace Vued.App.ViewModels;
 public class MediaDetailViewModel : BindableObject
 {
     private readonly MediaFileFacade _mediaFileFacade;
+    private readonly IServiceProvider _serviceProvider;
     private readonly MediaItem _mediaItem;
     private string _name;
     private string _rating;
@@ -25,7 +26,7 @@ public class MediaDetailViewModel : BindableObject
     private MediaStatus _status;
     private MediaType _mediaType;
 
-    public MediaDetailViewModel(MediaItem mediaItem /*MediaFileFacade mediaFileFacade*/)
+    public MediaDetailViewModel(MediaItem mediaItem , IServiceProvider serviceProvider)
     {
         _mediaItem = mediaItem;
         //_mediaFileFacade = mediaFileFacade;
@@ -39,6 +40,7 @@ public class MediaDetailViewModel : BindableObject
         LengthOrEpisodes = mediaItem.MediaType == MediaType.Movie
             ? $"{mediaItem.Duration} min"
             : $"{mediaItem.Duration} episodes";
+        _serviceProvider = serviceProvider;
 
         //Rating = "10/10"; // Hardcoded for now
         //ReleaseYear = "1999";
@@ -188,7 +190,7 @@ public class MediaDetailViewModel : BindableObject
     {
         if (Application.Current?.MainPage != null)
         {
-            var viewModel = new MediaEditViewModel(_mediaItem);
+            var viewModel = new MediaEditViewModel(_mediaItem, _serviceProvider);
             var popup = new MediaEditPopup(viewModel);
             var result = await Application.Current.MainPage.ShowPopupAsync(popup);
             if (result != null)

@@ -1,12 +1,15 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
+using Vued.BL.Facades;
 
 namespace Vued.App.ViewModels;
 
 public class MediaEditViewModel : BindableObject
 {
     private string _name;
+    private readonly MediaItem _mediaItem;
+    private readonly IServiceProvider _serviceProvider;
     private ObservableCollection<string> _ratings;
     private string _selectedRating;
     private string _releaseYear;
@@ -16,8 +19,10 @@ public class MediaEditViewModel : BindableObject
     private string _description;
     private string _review;
 
-    public MediaEditViewModel(MediaItem mediaItem)
+    public MediaEditViewModel(MediaItem mediaItem, IServiceProvider serviceProvider)
     {
+        _serviceProvider = serviceProvider;
+        _mediaItem = mediaItem;
         Name = mediaItem.Name;
         Ratings = new ObservableCollection<string> { "1/10", "2/10", "3/10", "4/10", "5/10", "6/10", "7/10", "8/10", "9/10", "10/10" };
         // Default, to be replaced with DAL data
@@ -28,6 +33,38 @@ public class MediaEditViewModel : BindableObject
         Genres = "Fantasy, Horror, Sci-fi";
         Description = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum";
         Review = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum";
+
+        DeleteCommand = new Command(async () => await OnDelete());
+    }
+
+    public ICommand DeleteCommand { get; }
+
+    private async Task OnDelete()
+    {
+        try
+        {
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var mediaFileFacade = scope.ServiceProvider.GetService<MediaFileFacade>();
+                if (mediaFileFacade == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("[]MediaFileFacade could not be resolved.");
+                    throw new InvalidOperationException("[]MediaFileFacade could not be resolved.");
+                }
+
+                // Use the MediaItem's ID for deletion
+                await mediaFileFacade.DeleteAsync(_mediaItem.Id);
+
+                // Show success message and navigate back
+                await Application.Current.MainPage.DisplayAlert("Success", "Media item deleted successfully.", "OK");
+                await Shell.Current.GoToAsync(".."); // Navigate back to the previous page
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[]Error deleting media: {ex.Message}\nStackTrace: {ex.StackTrace}");
+            await Application.Current.MainPage.DisplayAlert("[]Error", $"Failed to delete media: {ex.Message}", "OK");
+        }
     }
 
     public string Name
