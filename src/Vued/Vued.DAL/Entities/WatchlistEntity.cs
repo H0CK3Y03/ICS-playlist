@@ -1,14 +1,16 @@
+using System;
 using System.Collections.Generic;
 
 namespace Vued.DAL.Entities;
 
-public class Watchlist : IEntity
+public class WatchlistEntity : IEntity
 {
-    public required int Id { get; set; }
+    public Guid Id { get; set; }
+
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
 
-    public int MediaCount => MediaFiles?.Count ?? 0;
+    public ICollection<WatchlistMediaFileEntity> WatchlistMediaFiles { get; set; } = null!;
 
-    public ICollection<MediaFile> MediaFiles { get; set; } = new List<MediaFile>();
+    public int MediaCount => WatchlistMediaFiles?.Count ?? 0;
 }

@@ -2,38 +2,50 @@ using Microsoft.EntityFrameworkCore;
 using Vued.DAL.Entities;
 using Vued.DAL.Seeds;
 
-namespace Vued.DAL
+namespace Vued.DAL;
+
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+    public DbSet<GenreEntity> Genres { get; set; }
+    public DbSet<MovieEntity> Movies { get; set; }
+    public DbSet<SeriesEntity> Series { get; set; }
+    public DbSet<WatchlistEntity> Watchlists { get; set; }
+
+    public DbSet<WatchlistMediaFileEntity> WatchlistMediaFileEntities { get; set; }
+    public DbSet<MediaFileGenreEntity> MediaFileGenreEntities { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        public DbSet<Genre> Genres { get; set; }
-        public DbSet<Movie> Movies { get; set; }
-        public DbSet<Series> Series { get; set; }
-        public DbSet<Watchlist> Watchlists { get; set; }
+        base.OnModelCreating(modelBuilder);
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<MovieEntity>().HasBaseType<MediaFileEntity>();
+        modelBuilder.Entity<SeriesEntity>().HasBaseType<MediaFileEntity>();
 
-            // ----- Inheritance (TPH) -----
-            modelBuilder.Entity<Movie>().HasBaseType<MediaFile>();
-            modelBuilder.Entity<Series>().HasBaseType<MediaFile>();
+        modelBuilder.Entity<WatchlistMediaFileEntity>()
+            .HasOne(wmf => wmf.Watchlist)
+            .WithMany(w => w.WatchlistMediaFiles)
+            .HasForeignKey(wmf => wmf.WatchlistId);
 
-            // ----- Many-to-Many: MediaFile <-> Genre -----
-            modelBuilder.Entity<MediaFile>()
-                .HasMany(m => m.Genres)
-                .WithMany(g => g.MediaFiles);
+        modelBuilder.Entity<WatchlistMediaFileEntity>()
+            .HasOne(wmf => wmf.MediaFile)
+            .WithMany(m => m.WatchlistMediaFiles)
+            .HasForeignKey(wmf => wmf.MediaFileId);
 
-            // ----- Many-to-Many: MediaFile <-> Watchlist -----
-            modelBuilder.Entity<MediaFile>()
-                .HasMany(m => m.Watchlists)
-                .WithMany(w => w.MediaFiles);
+        modelBuilder.Entity<MediaFileGenreEntity>()
+            .HasOne(mfg => mfg.MediaFile)
+            .WithMany(m => m.MediaFileGenres)
+            .HasForeignKey(mfg => mfg.MediaFileId);
 
-            // ----- Seed Data -----
-            GenreSeed.Seed(modelBuilder);
-            MovieSeed.Seed(modelBuilder);
-            SeriesSeed.Seed(modelBuilder);
-            WatchlistSeed.Seed(modelBuilder);
-        }
+        modelBuilder.Entity<MediaFileGenreEntity>()
+            .HasOne(mfg => mfg.Genre)
+            .WithMany(g => g.MediaFileGenres)
+            .HasForeignKey(mfg => mfg.GenreId);
+
+        GenreSeed.Seed(modelBuilder);
+        MovieSeed.Seed(modelBuilder);
+        SeriesSeed.Seed(modelBuilder);
+        WatchlistSeed.Seed(modelBuilder);
+        MediaFileGenreSeed.Seed(modelBuilder);
+        WatchlistMediaFileSeed.Seed(modelBuilder);
     }
 }

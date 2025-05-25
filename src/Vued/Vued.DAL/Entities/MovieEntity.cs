@@ -1,6 +1,6 @@
 namespace Vued.DAL.Entities;
 
-public class Movie : MediaFile
+public class MovieEntity : MediaFileEntity
 {
     public int Length { get; set; }
 }

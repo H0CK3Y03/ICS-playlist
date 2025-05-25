@@ -1,64 +1,70 @@
-using Vued.DAL.Entities;
+using System;
 using Microsoft.EntityFrameworkCore;
+using Vued.DAL.Entities;
 
 namespace Vued.DAL.Seeds;
 
 public static class GenreSeed
 {
+    public static readonly Guid ActionId = Guid.Parse("00000000-0000-0000-0000-000000000001");
+    public static readonly Guid ComedyId = Guid.Parse("00000000-0000-0000-0000-000000000002");
+    public static readonly Guid DramaId = Guid.Parse("00000000-0000-0000-0000-000000000003");
+    public static readonly Guid HorrorId = Guid.Parse("00000000-0000-0000-0000-000000000004");
+    public static readonly Guid SciFiId = Guid.Parse("00000000-0000-0000-0000-000000000005");
+
     public static void Seed(ModelBuilder modelBuilder)
     {
-
-        modelBuilder.Entity<Genre>().HasData(
-            new Genre { Id = 1, Name = "Action" },
-            new Genre { Id = 2, Name = "Comedy" },
-            new Genre { Id = 3, Name = "Drama" },
-            new Genre { Id = 4, Name = "Horror" },
-            new Genre { Id = 5, Name = "Sci-Fi" },
-            new Genre { Id = 6, Name = "Fantasy" },
-            new Genre { Id = 7, Name = "Adventure" },
-            new Genre { Id = 8, Name = "Romance" },
-            new Genre { Id = 9, Name = "Thriller" },
-            new Genre { Id = 10, Name = "Mystery" },
-            new Genre { Id = 11, Name = "Crime" },
-            new Genre { Id = 12, Name = "Western" },
-            new Genre { Id = 13, Name = "Historical" },
-            new Genre { Id = 14, Name = "War" },
-            new Genre { Id = 15, Name = "Documentary" },
-            new Genre { Id = 16, Name = "Biography" },
-            new Genre { Id = 17, Name = "Musical" },
-            new Genre { Id = 18, Name = "Animation" },
-            new Genre { Id = 19, Name = "Family" },
-            new Genre { Id = 20, Name = "Sport" },
-            new Genre { Id = 21, Name = "Superhero" },
-            new Genre { Id = 22, Name = "Noir" },
-            new Genre { Id = 23, Name = "Satire" },
-            new Genre { Id = 24, Name = "Parody" },
-            new Genre { Id = 25, Name = "Psychological" },
-            new Genre { Id = 26, Name = "Post-Apocalyptic" },
-            new Genre { Id = 27, Name = "Dystopian" },
-            new Genre { Id = 28, Name = "Coming-of-Age" },
-            new Genre { Id = 29, Name = "Epic" },
-            new Genre { Id = 30, Name = "Period" },
-            new Genre { Id = 31, Name = "Political" },
-            new Genre { Id = 32, Name = "Slice of Life" },
-            new Genre { Id = 33, Name = "Supernatural" },
-            new Genre { Id = 34, Name = "Survival" },
-            new Genre { Id = 35, Name = "Espionage" },
-            new Genre { Id = 36, Name = "Heist" },
-            new Genre { Id = 37, Name = "Disaster" },
-            new Genre { Id = 38, Name = "Martial Arts" },
-            new Genre { Id = 39, Name = "Road Movie" },
-            new Genre { Id = 40, Name = "Anthology" },
-            new Genre { Id = 41, Name = "Experimental" },
-            new Genre { Id = 42, Name = "Gothic" },
-            new Genre { Id = 43, Name = "Steampunk" },
-            new Genre { Id = 44, Name = "Cyberpunk" },
-            new Genre { Id = 45, Name = "Dark Comedy" },
-            new Genre { Id = 46, Name = "Romantic Comedy" },
-            new Genre { Id = 47, Name = "Tragedy" },
-            new Genre { Id = 48, Name = "Melodrama" },
-            new Genre { Id = 49, Name = "Mockumentary" },
-            new Genre { Id = 50, Name = "Silent Film" }
+        modelBuilder.Entity<GenreEntity>().HasData(
+            new GenreEntity { Id = ActionId, Name = "Action" },
+            new GenreEntity { Id = ComedyId, Name = "Comedy" },
+            new GenreEntity { Id = DramaId, Name = "Drama" },
+            new GenreEntity { Id = HorrorId, Name = "Horror" },
+            new GenreEntity { Id = SciFiId, Name = "Sci-Fi" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000006"), Name = "Fantasy" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000007"), Name = "Adventure" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000008"), Name = "Romance" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000009"), Name = "Thriller" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000010"), Name = "Mystery" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000011"), Name = "Crime" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000012"), Name = "Western" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000013"), Name = "Historical" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000014"), Name = "War" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000015"), Name = "Documentary" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000016"), Name = "Biography" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000017"), Name = "Musical" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000018"), Name = "Animation" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000019"), Name = "Family" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000020"), Name = "Sport" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000021"), Name = "Superhero" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000022"), Name = "Noir" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000023"), Name = "Satire" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000024"), Name = "Parody" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000025"), Name = "Psychological" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000026"), Name = "Post-Apocalyptic" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000027"), Name = "Dystopian" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000028"), Name = "Coming-of-Age" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000029"), Name = "Epic" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000030"), Name = "Period" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000031"), Name = "Political" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000032"), Name = "Slice of Life" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000033"), Name = "Supernatural" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000034"), Name = "Survival" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000035"), Name = "Espionage" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000036"), Name = "Heist" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000037"), Name = "Disaster" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000038"), Name = "Martial Arts" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000039"), Name = "Road Movie" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000040"), Name = "Anthology" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000041"), Name = "Experimental" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000042"), Name = "Gothic" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000043"), Name = "Steampunk" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000044"), Name = "Cyberpunk" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000045"), Name = "Dark Comedy" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000046"), Name = "Romantic Comedy" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000047"), Name = "Tragedy" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000048"), Name = "Melodrama" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000049"), Name = "Mockumentary" },
+            new GenreEntity { Id = Guid.Parse("00000000-0000-0000-0000-000000000050"), Name = "Silent Film" }
         );
     }
 }

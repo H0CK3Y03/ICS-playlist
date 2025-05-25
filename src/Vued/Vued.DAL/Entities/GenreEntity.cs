@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
 
 namespace Vued.DAL.Entities;
 
-public class Genre : IEntity
+public class GenreEntity : IEntity
 {
-    public required int Id { get; set; }
-    public string Name { get; set; }
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
 
-    public ICollection<MediaFile> MediaFiles { get; set; } = new List<MediaFile>();
+    public ICollection<MediaFileGenreEntity> MediaFileGenres { get; set; } = null!;
 }

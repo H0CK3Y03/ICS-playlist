@@ -1,6 +1,6 @@
 namespace Vued.DAL.Entities;
 
-public class Series : MediaFile
+public class SeriesEntity : MediaFileEntity
 {
     public int NumberOfEpisodes { get; set; }
 }

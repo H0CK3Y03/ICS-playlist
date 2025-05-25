@@ -1,17 +1,25 @@
-using Vued.DAL.Entities;
+using System;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using Vued.DAL.Entities;
 
 namespace Vued.DAL.Seeds;
 
 public static class SeriesSeed
 {
+    public static readonly Guid BreakingBadId = Guid.Parse("20000000-0000-0000-0000-000000000008");
+    public static readonly Guid StrangerThingsId = Guid.Parse("20000000-0000-0000-0000-000000000009");
+    public static readonly Guid OfficeUSId = Guid.Parse("20000000-0000-0000-0000-000000000010");
+    public static readonly Guid GameOfThronesId = Guid.Parse("20000000-0000-0000-0000-000000000011");
+    public static readonly Guid MandalorianId = Guid.Parse("20000000-0000-0000-0000-000000000012");
+    public static readonly Guid BlackMirrorId = Guid.Parse("20000000-0000-0000-0000-000000000013");
+    public static readonly Guid TheCrownId = Guid.Parse("20000000-0000-0000-0000-000000000014");
+
     public static void Seed(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Series>().HasData(
-            new Series
+        modelBuilder.Entity<SeriesEntity>().HasData(
+            new SeriesEntity
             {
-                Id = 8,
+                Id = BreakingBadId,
                 Name = "Breaking Bad",
                 NumberOfEpisodes = 62,
                 Status = MediaStatus.Completed,
@@ -21,11 +29,11 @@ public static class SeriesSeed
                 Rating = "10/10",
                 URL = "https://www.imdb.com/title/tt0903747/",
                 Favourite = true,
-                Duration = 0,
+                Duration = 0
             },
-            new Series
+            new SeriesEntity
             {
-                Id = 9,
+                Id = StrangerThingsId,
                 Name = "Stranger Things",
                 NumberOfEpisodes = 34,
                 Status = MediaStatus.Watching,
@@ -35,11 +43,11 @@ public static class SeriesSeed
                 Rating = "8/10",
                 URL = "https://www.imdb.com/title/tt4574334/",
                 Favourite = true,
-                Duration = 0,
+                Duration = 0
             },
-            new Series
+            new SeriesEntity
             {
-                Id = 10,
+                Id = OfficeUSId,
                 Name = "The Office (US)",
                 NumberOfEpisodes = 201,
                 Status = MediaStatus.Completed,
@@ -49,11 +57,11 @@ public static class SeriesSeed
                 Rating = "9/10",
                 URL = "https://www.imdb.com/title/tt0386676/",
                 Favourite = true,
-                Duration = 0,
+                Duration = 0
             },
-            new Series
+            new SeriesEntity
             {
-                Id = 11,
+                Id = GameOfThronesId,
                 Name = "Game of Thrones",
                 NumberOfEpisodes = 73,
                 Status = MediaStatus.Completed,
@@ -63,11 +71,11 @@ public static class SeriesSeed
                 Rating = "9/10",
                 URL = "https://www.imdb.com/title/tt0944947/",
                 Favourite = true,
-                Duration = 0,
+                Duration = 0
             },
-            new Series
+            new SeriesEntity
             {
-                Id = 12,
+                Id = MandalorianId,
                 Name = "The Mandalorian",
                 NumberOfEpisodes = 24,
                 Status = MediaStatus.Watching,
@@ -77,11 +85,11 @@ public static class SeriesSeed
                 Rating = "6/10",
                 URL = "https://www.imdb.com/title/tt8111088/",
                 Favourite = false,
-                Duration = 0,
+                Duration = 0
             },
-            new Series
+            new SeriesEntity
             {
-                Id = 13,
+                Id = BlackMirrorId,
                 Name = "Black Mirror",
                 NumberOfEpisodes = 27,
                 Status = MediaStatus.Watching,
@@ -91,11 +99,11 @@ public static class SeriesSeed
                 Rating = "8/10",
                 URL = "https://www.imdb.com/title/tt2085059/",
                 Favourite = false,
-                Duration = 0,
+                Duration = 0
             },
-            new Series
+            new SeriesEntity
             {
-                Id = 14,
+                Id = TheCrownId,
                 Name = "The Crown",
                 NumberOfEpisodes = 60,
                 Status = MediaStatus.PlanToWatch,
@@ -105,7 +113,7 @@ public static class SeriesSeed
                 Rating = "-",
                 URL = "https://www.imdb.com/title/tt4786824/",
                 Favourite = false,
-                Duration = 0,
+                Duration = 0
             }
         );
     }
