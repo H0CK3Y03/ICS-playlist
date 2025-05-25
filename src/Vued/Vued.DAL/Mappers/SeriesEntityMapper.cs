@@ -1,10 +1,10 @@
-using Vued.DAL.Entities;
+﻿using Vued.DAL.Entities;
 
 namespace Vued.DAL.Mappers;
 
-public class MovieEntityMapper : IEntityMapper<MovieEntity>
+public class SeriesEntityMapper : IEntityMapper<SeriesEntity>
 {
-    public void MapToExistingEntity(MovieEntity existingEntity, MovieEntity newEntity)
+    public void MapToExistingEntity(SeriesEntity existingEntity, SeriesEntity newEntity)
     {
         existingEntity.Name = newEntity.Name;
         existingEntity.Description = newEntity.Description;
@@ -15,6 +15,6 @@ public class MovieEntityMapper : IEntityMapper<MovieEntity>
         existingEntity.URL = newEntity.URL;
         existingEntity.Favourite = newEntity.Favourite;
         existingEntity.Status = newEntity.Status;
-        existingEntity.Length = newEntity.Length;
+        existingEntity.NumberOfEpisodes = newEntity.NumberOfEpisodes;
     }
 }
