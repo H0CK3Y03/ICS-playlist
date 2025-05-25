@@ -10,7 +10,6 @@ namespace Vued.App.ViewModels;
 
 public class MediaDetailViewModel : BindableObject
 {
-    private readonly MediaFileFacade _mediaFileFacade;
     private readonly MediaItem _mediaItem;
     private string _name;
     private string _rating;
@@ -25,36 +24,14 @@ public class MediaDetailViewModel : BindableObject
     private MediaStatus _status;
     private MediaType _mediaType;
 
-    public MediaDetailViewModel(MediaItem mediaItem /*MediaFileFacade mediaFileFacade*/)
+    public MediaDetailViewModel(MediaItem mediaItem)
     {
         _mediaItem = mediaItem;
-        //_mediaFileFacade = mediaFileFacade;
         GoBackCommand = new Command(OnGoBack);
         EditCommand = new Command(OnEdit);
         System.Diagnostics.Debug.WriteLine("[AHHH]MediaDetailViewModel");
-        //LoadMediaDetailsAsync().GetAwaiter().GetResult();
-        Name = mediaItem.Name;
-        Rating = mediaItem.Rating;
-        ReleaseYear = mediaItem.ReleaseDate.ToString();
-        LengthOrEpisodes = mediaItem.MediaType == MediaType.Movie
-            ? $"{mediaItem.Duration} min"
-            : $"{mediaItem.Duration} episodes";
-
-        //Rating = "10/10"; // Hardcoded for now
-        //ReleaseYear = "1999";
-        //LengthOrEpisodes = "1h 20min / 22 episodes";
-        //Director = "Director Name";
-        //Genres = "Fantasy, Horror, Sci-fi";
-        //Description = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum";
-        //Review = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum";
-        //GoBackCommand = new Command(OnGoBack);
-        //EditCommand = new Command(OnEdit);
+        LoadMediaDetailsAsync().GetAwaiter().GetResult();
     }
-
-    //public MediaDetailViewModel(MediaItem mediaItem)
-    //{
-    //    _mediaItem = mediaItem;
-    //}
 
     public string Name
     {
@@ -213,30 +190,29 @@ public class MediaDetailViewModel : BindableObject
     {
         try
         {
-            var mediaDetail = await _mediaFileFacade.GetByIdAsync(_mediaItem.Id);
-            if (mediaDetail == null)
+            if (_mediaItem == null)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", "Media not found", "OK");
                 await Shell.Current.Navigation.PopAsync();
                 return;
             }
 
-            Name = mediaDetail.Name;
-            Rating = mediaDetail.Rating;
-            ReleaseYear = mediaDetail.ReleaseDate.ToString();
-            LengthOrEpisodes = mediaDetail.MediaType == MediaType.Movie
-                ? $"{mediaDetail.Duration} min"
-                : $"{mediaDetail.Duration} episodes";
-            Director = mediaDetail.Director;
-            Genres = mediaDetail.GenreNames != null
-                ? string.Join(", ", mediaDetail.GenreNames)
+            Name = _mediaItem.Name;
+            Rating = _mediaItem.Rating;
+            ReleaseYear = _mediaItem.ReleaseDate.ToString();
+            LengthOrEpisodes = _mediaItem.MediaType == MediaType.Movie
+                ? $"{_mediaItem.Duration} min"
+                : $"{_mediaItem.Duration} episodes";
+            Director = _mediaItem.Director;
+            Genres = _mediaItem.GenreNames != null
+                ? string.Join(", ", _mediaItem.GenreNames)
                 : string.Empty;
-            Description = mediaDetail.Description ?? "No description available";
-            Review = "";
-            URL = mediaDetail.URL ?? string.Empty;
-            Favourite = mediaDetail.Favourite;
-            Status = mediaDetail.Status;
-            MediaType = mediaDetail.MediaType;
+            Description = _mediaItem.Description ?? "No description available";
+            Review = "Good.";
+            URL = _mediaItem.URL ?? string.Empty;
+            Favourite = _mediaItem.Favourite;
+            Status = _mediaItem.Status;
+            MediaType = _mediaItem.MediaType;
         }
         catch (Exception ex)
         {

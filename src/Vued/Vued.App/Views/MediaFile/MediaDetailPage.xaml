@@ -85,7 +85,7 @@
         <Label
             Grid.Row="5"
             Grid.Column="2"
-            Text="Director Name"
+            Text="{Binding Director, StringFormat='{0}'}"
             FontSize="16"
             FontFamily="RajdhaniRegular"
             TextColor="{StaticResource ColorTextMuted}"
@@ -118,7 +118,7 @@
         <Label
             Grid.Row="8"
             Grid.Column="2"
-            Text="Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum"
+            Text="{Binding Description, StringFormat='{0}'}"
             FontSize="14"
             FontFamily="RajdhaniRegular"
             TextColor="{StaticResource ColorTextPrimary}"
@@ -140,7 +140,7 @@
         <Label
             Grid.Row="10"
             Grid.Column="2"
-            Text="Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum"
+            Text="{Binding Review, StringFormat='{0}'}"
             FontSize="16"
             FontFamily="RajdhaniRegular"
             TextColor="{StaticResource ColorTextPrimary}"
