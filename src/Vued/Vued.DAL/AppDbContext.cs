@@ -31,6 +31,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             .WithMany(m => m.WatchlistMediaFiles)
             .HasForeignKey(wmf => wmf.MediaFileId);
 
+        modelBuilder.Entity<WatchlistMediaFileEntity>()
+            .HasIndex(x => new { x.WatchlistId, x.MediaFileId })
+            .IsUnique();
+
         modelBuilder.Entity<MediaFileGenreEntity>()
             .HasOne(mfg => mfg.MediaFile)
             .WithMany(m => m.MediaFileGenres)
@@ -40,6 +44,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             .HasOne(mfg => mfg.Genre)
             .WithMany(g => g.MediaFileGenres)
             .HasForeignKey(mfg => mfg.GenreId);
+
+        modelBuilder.Entity<MediaFileGenreEntity>()
+            .HasIndex(x => new { x.MediaFileId, x.GenreId })
+            .IsUnique();
 
         GenreSeed.Seed(modelBuilder);
         MovieSeed.Seed(modelBuilder);

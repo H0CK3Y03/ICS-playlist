@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Vued.BL.Models;
 
-public record WatchlistDetailModel
+public record WatchlistDetailModel : ModelBase
 {
-    public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
 

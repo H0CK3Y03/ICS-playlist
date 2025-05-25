@@ -5,8 +5,9 @@ namespace Vued.DAL.Entities;
 
 public class GenreEntity : IEntity
 {
-    public Guid Id { get; set; }
+    public required Guid Id { get; set; }
+
     public string Name { get; set; } = string.Empty;
 
-    public ICollection<MediaFileGenreEntity> MediaFileGenres { get; set; } = null!;
+    public ICollection<MediaFileGenreEntity> MediaFileGenres { get; set; } = new List<MediaFileGenreEntity>();
 }

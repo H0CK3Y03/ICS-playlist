@@ -13,7 +13,7 @@ public enum MediaStatus
 
 public abstract class MediaFileEntity : IEntity
 {
-    public Guid Id { get; set; }
+    public required Guid Id { get; set; }
 
     public string Name { get; set; } = string.Empty;
     public MediaStatus Status { get; set; }
@@ -25,6 +25,6 @@ public abstract class MediaFileEntity : IEntity
     public string URL { get; set; } = string.Empty;
     public bool Favourite { get; set; }
 
-    public ICollection<WatchlistMediaFileEntity> WatchlistMediaFiles { get; set; } = null!;
-    public ICollection<MediaFileGenreEntity> MediaFileGenres { get; set; } = null!;
+    public ICollection<WatchlistMediaFileEntity> WatchlistMediaFiles { get; set; } = new List<WatchlistMediaFileEntity>();
+    public ICollection<MediaFileGenreEntity> MediaFileGenres { get; set; } = new List<MediaFileGenreEntity>();
 }

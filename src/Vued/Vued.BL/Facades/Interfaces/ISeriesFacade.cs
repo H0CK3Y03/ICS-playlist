@@ -1,10 +1,8 @@
 using Vued.BL.Models;
+using Vued.DAL.Entities;
 
 namespace Vued.BL.Facades;
 
-public interface ISeriesFacade
+public interface ISeriesFacade : IFacade<SeriesEntity, SeriesListModel, SeriesDetailModel>
 {
-    Task SaveAsync(SeriesModel model);
-    Task SaveAsync(SeriesListModel model);
-    Task DeleteAsync(Guid id);
 }

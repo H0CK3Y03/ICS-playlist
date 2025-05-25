@@ -3,9 +3,8 @@ using Vued.DAL.Entities;
 
 namespace Vued.BL.Models;
 
-public record MovieListModel
+public record MovieListModel : ModelBase
 {
-    public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Director { get; set; } = string.Empty;
     public int ReleaseDate { get; set; }

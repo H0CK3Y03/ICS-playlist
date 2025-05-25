@@ -4,9 +4,8 @@ using Vued.DAL.Entities;
 
 namespace Vued.BL.Models;
 
-public record MovieDetailModel
+public record MovieDetailModel : ModelBase
 {
-    public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public MediaStatus Status { get; set; }
     public string Description { get; set; } = string.Empty;

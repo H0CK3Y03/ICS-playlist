@@ -1,11 +1,8 @@
 using Vued.BL.Models;
+using Vued.DAL.Entities;
 
 namespace Vued.BL.Facades;
 
-public interface IWatchlistFacade
+public interface IWatchlistFacade : IFacade<WatchlistEntity, WatchlistListModel, WatchlistDetailModel>
 {
-    Task SaveAsync(WatchlistModel model);
-    Task SaveAsync(WatchlistListModel model);
-    Task<WatchlistModel?> GetAsync(Guid id);
-    Task DeleteAsync(Guid id);
 }

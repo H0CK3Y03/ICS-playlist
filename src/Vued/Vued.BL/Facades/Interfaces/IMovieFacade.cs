@@ -1,10 +1,8 @@
 using Vued.BL.Models;
+using Vued.DAL.Entities;
 
-namespace Vude.BL.Facades;
+namespace Vued.BL.Facades;
 
-public interface IMovieFacade
+public interface IMovieFacade : IFacade<MovieEntity, MovieListModel, MovieDetailModel>
 {
-    Task SaveAsync(MovieModel model);
-    Task SaveAsync(MovieListModel model);
-    Task DeleteAsync(Guid id);
 }

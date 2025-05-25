@@ -4,7 +4,7 @@ namespace Vued.DAL.Entities;
 
 public class MediaFileGenreEntity : IEntity
 {
-    public Guid Id { get; set; }
+    public required Guid Id { get; set; }
 
     public Guid MediaFileId { get; set; }
     public MediaFileEntity MediaFile { get; set; } = null!;

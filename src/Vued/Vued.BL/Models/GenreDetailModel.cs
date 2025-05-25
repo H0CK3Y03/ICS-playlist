@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Vued.BL.Models;
 
-public record GenreDetailModel
+public record GenreDetailModel : ModelBase
 {
-    public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
 
     public List<string> MediaFileTitles { get; set; } = new();

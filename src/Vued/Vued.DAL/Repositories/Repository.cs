@@ -1,9 +1,8 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
 using Vued.DAL.Entities;
 using Vued.DAL.Mappers;
-using Vued.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Vued.DAL.Repositories;
@@ -32,6 +31,6 @@ public class Repository<TEntity>(
         return existingEntity;
     }
 
-    public async Task DeleteAsync(int entityId)
-        => _dbSet.Remove(await _dbSet.SingleAsync(i => Equals(i.Id, entityId)).ConfigureAwait(false));
+    public async Task DeleteAsync(Guid entityId)
+        => _dbSet.Remove(await _dbSet.SingleAsync(i => i.Id == entityId).ConfigureAwait(false));
 }

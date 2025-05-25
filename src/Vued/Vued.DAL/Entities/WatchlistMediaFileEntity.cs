@@ -1,11 +1,10 @@
 using System;
-using Vued.DAL.Entities;
 
 namespace Vued.DAL.Entities;
 
 public class WatchlistMediaFileEntity : IEntity
 {
-    public Guid Id { get; set; }
+    public required Guid Id { get; set; }
 
     public Guid WatchlistId { get; set; }
     public WatchlistEntity Watchlist { get; set; } = null!;
