@@ -29,6 +29,7 @@ public class MediaDetailViewModel : BindableObject
     public MediaDetailViewModel(MediaItem mediaItem , IServiceProvider serviceProvider)
     {
         _mediaItem = mediaItem;
+        _serviceProvider = serviceProvider;
         GoBackCommand = new Command(OnGoBack);
         EditCommand = new Command(OnEdit);
         System.Diagnostics.Debug.WriteLine("[AHHH]MediaDetailViewModel");
