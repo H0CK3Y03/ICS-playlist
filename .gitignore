@@ -61,3 +61,5 @@ TestResults/
 
 # Ignore .bat scripts
 *.bat
+/src/Vued/app.db-shm
+/src/Vued/app.db-wal
