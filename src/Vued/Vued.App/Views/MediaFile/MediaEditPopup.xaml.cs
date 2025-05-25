@@ -16,20 +16,20 @@ public partial class MediaEditPopup : Popup
         Close();
     }
 
-    private void OnApplyClicked(object sender, EventArgs e)
-    {
-        var viewModel = (MediaEditViewModel)BindingContext;
-        var updatedMedia = new
-        {
-            Name = viewModel.Name,
-            Rating = viewModel.SelectedRating,
-            ReleaseYear = viewModel.ReleaseYear,
-            LengthOrEpisodes = viewModel.LengthOrEpisodes,
-            Director = viewModel.Director,
-            Genres = viewModel.Genres,
-            Description = viewModel.Description,
-            Review = viewModel.Review
-        };
-        Close(updatedMedia);
-    }
+    //private void OnApplyClicked(object sender, EventArgs e)
+    //{
+    //    var viewModel = (MediaEditViewModel)BindingContext;
+    //    var updatedMedia = new
+    //    {
+    //        Name = viewModel.Name,
+    //        Rating = viewModel.SelectedRating,
+    //        ReleaseYear = viewModel.ReleaseYear,
+    //        LengthOrEpisodes = viewModel.LengthOrEpisodes,
+    //        Director = viewModel.Director,
+    //        Genres = viewModel.Genres,
+    //        Description = viewModel.Description,
+    //        Review = viewModel.Review
+    //    };
+    //    Close(updatedMedia);
+    //}
 }

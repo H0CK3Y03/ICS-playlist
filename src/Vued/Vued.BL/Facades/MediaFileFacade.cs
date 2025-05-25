@@ -49,8 +49,10 @@ public class MediaFileFacade
         return null;
     }
 
-    public async Task<MediaFileModel> SaveAsync(MediaFileModel model)
+    public async Task<MediaFileModel> SaveAsync(MediaFileModel? model)
     {
+        if (model == null)
+            throw new ArgumentNullException(nameof(model), "Model cannot be null.");
         MediaFile? entity = await _dbContext.Movies
             .Include(m => m.Genres)
             .FirstOrDefaultAsync(m => m.Id == model.Id);

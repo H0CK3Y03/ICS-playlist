@@ -48,7 +48,71 @@ public class MediaEditViewModel : BindableObject
         Status = _mediaItem.Status;
         MediaType = _mediaItem.MediaType;
 
+        EditCommand = new Command(async () => await OnEdit());
         DeleteCommand = new Command(async () => await OnDelete());
+    }
+
+    public ICommand EditCommand { get; }
+
+    public async Task OnEdit()
+    {
+        try
+        {
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var mediaFileFacade = scope.ServiceProvider.GetService<MediaFileFacade>();
+                if (mediaFileFacade == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("[]MediaFileFacade could not be resolved.");
+                    throw new InvalidOperationException("[]MediaFileFacade could not be resolved.");
+                }
+                // Create a new MediaItem with updated values
+                var updatedMediaItem = new MediaItem
+                {
+                    Id = _mediaItem.Id,
+                    Name = Name,
+                    Rating = Rating,
+                    ReleaseDate = int.Parse(ReleaseYear),
+                    Duration = int.Parse(LengthOrEpisodes.Split(' ')[0]),
+                    Director = Director,
+                    GenreNames = Genres.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries).ToList(),
+                    Description = Description,
+                    URL = URL,
+                    Favourite = Favourite,
+                    Status = Status,
+                    MediaType = MediaType
+                };
+
+                var currentMediaModel = await mediaFileFacade.GetByIdAsync(_mediaItem.Id);
+                if (currentMediaModel == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("[]Media item not found for update.");
+                    throw new InvalidOperationException("[]Media item not found for update.");
+                }
+                // Update the current media model with the new values
+                currentMediaModel.Name = updatedMediaItem.Name;
+                currentMediaModel.Status = updatedMediaItem.Status;
+                currentMediaModel.Description = updatedMediaItem.Description;
+                currentMediaModel.Duration = updatedMediaItem.Duration;
+                currentMediaModel.Director = updatedMediaItem.Director;
+                currentMediaModel.ReleaseDate = updatedMediaItem.ReleaseDate;
+                currentMediaModel.Rating = updatedMediaItem.Rating;
+                currentMediaModel.URL = updatedMediaItem.URL;
+                currentMediaModel.Favourite = updatedMediaItem.Favourite;
+                currentMediaModel.MediaType = updatedMediaItem.MediaType;
+                currentMediaModel.GenreNames = updatedMediaItem.GenreNames;
+                // Save the updated media item
+                await mediaFileFacade.SaveAsync(currentMediaModel);
+                // Show success message and navigate back
+                await Application.Current.MainPage.DisplayAlert("Success", "Media item updated successfully.", "OK");
+                await Shell.Current.GoToAsync(".."); // Navigate back to the previous page
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[]Error updating media: {ex.Message}\nStackTrace: {ex.StackTrace}");
+            await Application.Current.MainPage.DisplayAlert("Error", $"Failed to update media: {ex.Message}", "OK");
+        }
     }
 
     public ICommand DeleteCommand { get; }

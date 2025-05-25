@@ -26,7 +26,6 @@ public class MainPageViewModel : BindableObject
     {
         System.Diagnostics.Debug.WriteLine("[AHHH]MainPageViewModel");
         _serviceProvider = serviceProvider;
-        //_mediaFileFacade = mediaFileFacade;
         SettingsCommand = new Command(OnSettingsClicked);
         SearchCommand = new Command(OnSearch);
         FilterCommand = new Command(OnFilterClicked);
