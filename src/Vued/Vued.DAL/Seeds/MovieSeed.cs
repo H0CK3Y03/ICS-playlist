@@ -13,7 +13,6 @@ public static class MovieSeed
             {
                 Id = 1,
                 Name = "The Matrix",
-                Length = 136,
                 Status = MediaStatus.Completed,
                 Description = "A computer hacker learns about the true nature of reality and joins a group of rebels to fight a war against powerful controllers.",
                 Director = "Lana Wachowski, Lilly Wachowski",
@@ -21,12 +20,12 @@ public static class MovieSeed
                 Rating = "8/10",
                 URL = "https://www.imdb.com/title/tt0133093/",
                 Favourite = true,
+                Duration = 136
             },
             new Movie
             {
                 Id = 2,
                 Name = "Forrest Gump",
-                Length = 142,
                 Status = MediaStatus.Completed,
                 Description = "The life story of a man with a low IQ who achieves extraordinary feats through his kindness and determination.",
                 Director = "Robert Zemeckis",
@@ -34,12 +33,12 @@ public static class MovieSeed
                 Rating = "6/10", // Jane is a bitch (pretend you did not see this)
                 URL = "https://www.imdb.com/title/tt0109830/",
                 Favourite = true,
+                Duration = 142
             },
             new Movie
             {
                 Id = 3,
                 Name = "The Shining",
-                Length = 144,
                 Status = MediaStatus.Completed,
                 Description = "A family heads to an isolated hotel for the winter where a sinister presence influences the father into violence.",
                 Director = "Stanley Kubrick",
@@ -47,12 +46,12 @@ public static class MovieSeed
                 Rating = "7/10",
                 URL = "https://www.imdb.com/title/tt0081505/",
                 Favourite = false,
+                Duration = 144
             },
             new Movie
             {
                 Id = 4,
                 Name = "Inception",
-                Length = 148,
                 Status = MediaStatus.Completed,
                 Description = "A skilled thief with the ability to enter dreams must pull off an impossible heist: planting an idea in someone's mind.",
                 Director = "Christopher Nolan",
@@ -60,12 +59,12 @@ public static class MovieSeed
                 Rating = "9/10",
                 URL = "https://www.imdb.com/title/tt1375666/",
                 Favourite = true,
+                Duration = 148
             },
             new Movie
             {
                 Id = 5,
                 Name = "The Godfather",
-                Length = 175,
                 Status = MediaStatus.Completed,
                 Description = "The aging patriarch of an organized crime dynasty transfers control to his reluctant son.",
                 Director = "Francis Ford Coppola",
@@ -73,12 +72,12 @@ public static class MovieSeed
                 Rating = "8/10",
                 URL = "https://www.imdb.com/title/tt0068646/",
                 Favourite = true,
+                Duration = 175
             },
             new Movie
             {
                 Id = 6,
                 Name = "Spirited Away",
-                Length = 125,
                 Status = MediaStatus.Completed,
                 Description = "A young girl becomes trapped in a strange spirit world and must find a way to free herself and her parents.",
                 Director = "Hayao Miyazaki",
@@ -86,12 +85,12 @@ public static class MovieSeed
                 Rating = "8/10",
                 URL = "https://www.imdb.com/title/tt0245429/",
                 Favourite = false,
+                Duration = 125
             },
             new Movie
             {
                 Id = 7,
                 Name = "Mad Max: Fury Road",
-                Length = 120,
                 Status = MediaStatus.Completed,
                 Description = "In a post-apocalyptic wasteland, a drifter and a rebel leader fight to survive against a tyrannical ruler.",
                 Director = "George Miller",
@@ -99,6 +98,7 @@ public static class MovieSeed
                 Rating = "7/10",
                 URL = "https://www.imdb.com/title/tt1392190/",
                 Favourite = true,
+                Duration = 120
             }
         );
     }
