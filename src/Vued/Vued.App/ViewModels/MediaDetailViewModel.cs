@@ -34,6 +34,12 @@ public class MediaDetailViewModel : BindableObject
         System.Diagnostics.Debug.WriteLine("[AHHH]MediaDetailViewModel");
         //LoadMediaDetailsAsync().GetAwaiter().GetResult();
         Name = mediaItem.Name;
+        Rating = mediaItem.Rating;
+        ReleaseYear = mediaItem.ReleaseDate.ToString();
+        LengthOrEpisodes = mediaItem.MediaType == MediaType.Movie
+            ? $"{mediaItem.Duration} min"
+            : $"{mediaItem.Duration} episodes";
+
         //Rating = "10/10"; // Hardcoded for now
         //ReleaseYear = "1999";
         //LengthOrEpisodes = "1h 20min / 22 episodes";

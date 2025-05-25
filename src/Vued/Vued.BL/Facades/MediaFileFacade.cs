@@ -9,12 +9,12 @@ namespace Vued.BL.Facades;
 public class MediaFileFacade
 {
     private readonly AppDbContext _dbContext;
-    private readonly MediaFileModelMapper _mapper;
+    private readonly IModelMapper<MediaFile, MediaFileModel> _mapper;
 
-    public MediaFileFacade(AppDbContext dbContext, MediaFileModelMapper mapper)
+    public MediaFileFacade(AppDbContext dbContext, IModelMapper<MediaFile, MediaFileModel> mapper)
     {
-        _dbContext = dbContext;
-        _mapper = mapper;
+        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
     public async Task<List<MediaFileModel>> GetAllAsync()

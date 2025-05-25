@@ -41,7 +41,7 @@
         <Label
             Grid.Row="1"
             Grid.Column="2"
-            Text="{Binding Name, StringFormat='{0} (Placeholder)'}"
+            Text="{Binding Name, StringFormat='{0}'}"
             FontSize="34"
             FontFamily="RajdhaniBold"
             TextColor="{StaticResource ColorAccent}"
@@ -52,7 +52,7 @@
         <Label
             Grid.Row="2"
             Grid.Column="2"
-            Text="Rating: 10/10"
+            Text="{Binding Rating, StringFormat='{0}'}"
             FontSize="18"
             FontFamily="RajdhaniRegular"
             TextColor="{StaticResource ColorAccent}"
@@ -63,7 +63,7 @@
         <Label
             Grid.Row="3"
             Grid.Column="2"
-            Text="1999"
+            Text="{Binding ReleaseYear, StringFormat='{0}'}"
             FontSize="16"
             FontFamily="RajdhaniRegular"
             TextColor="{StaticResource ColorAccentDark}"
@@ -74,7 +74,7 @@
         <Label
             Grid.Row="4"
             Grid.Column="2"
-            Text="1h 20min / 22 episodes"
+            Text="{Binding LengthOrEpisodes, StringFormat='{0}'}"
             FontSize="16"
             FontFamily="RajdhaniRegular"
             TextColor="{StaticResource ColorAccentDark}"

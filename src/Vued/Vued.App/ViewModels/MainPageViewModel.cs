@@ -1,3 +1,4 @@
+
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ public class MainPageViewModel : BindableObject
     private ObservableCollection<MediaItem> _mediaItems;
     private int _gridSpan;
 
-    public MainPageViewModel(IServiceProvider serviceProvider /*MediaFileFacade mediaFileFacade*/)
+    public MainPageViewModel(IServiceProvider serviceProvider)
     {
         System.Diagnostics.Debug.WriteLine("[AHHH]MainPageViewModel");
         _serviceProvider = serviceProvider;
@@ -32,7 +33,47 @@ public class MainPageViewModel : BindableObject
         MediaSelectedCommand = new Command<MediaItem>(OnMediaSelected);
         MediaItems = new ObservableCollection<MediaItem>();
         GridSpan = 1; // Default span
-        LoadMediaAsync().GetAwaiter().GetResult();
+        LoadMediaFiles().GetAwaiter().GetResult();
+    }
+    public async Task LoadMediaFiles()
+    {
+        try
+        {
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var mediaFileFacade = scope.ServiceProvider.GetService<MediaFileFacade>();
+                if (mediaFileFacade == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("[]MediaFileFacade could not be resolved.");
+                    throw new InvalidOperationException("[]MediaFileFacade could not be resolved.");
+                }
+
+                var mediaList = await mediaFileFacade.GetAllAsync();
+                MediaItems.Clear();
+                foreach (var media in mediaList)
+                {
+                    MediaItems.Add(new MediaItem
+                    {
+                        Id = media.Id,
+                        Name = media.Name,
+                        Status = media.Status,
+                        Description = media.Description,
+                        Duration = media.Duration,
+                        Director = media.Director,
+                        ReleaseDate = media.ReleaseDate,
+                        Rating = media.Rating,
+                        Favourite = media.Favourite,
+                        MediaType = media.MediaType,
+                        GenreNames = media.GenreNames
+                    });
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[]Error loading media: {ex.Message}\nStackTrace: {ex.StackTrace}");
+            await Application.Current.MainPage.DisplayAlert("[]Error", $"Failed to load media: {ex.Message}", "OK");
+        }
     }
 
     public string SearchQuery
@@ -69,75 +110,6 @@ public class MainPageViewModel : BindableObject
     public ICommand SearchCommand { get; }
     public ICommand FilterCommand { get; }
     public ICommand MediaSelectedCommand { get; }
-
-    private async Task LoadMediaAsync()
-    {
-        try
-        {
-            //var mediaList = await _mediaFileFacade.GetAllAsync();
-            //MediaItems.Clear();
-            //foreach (var media in mediaList)
-            //{
-            //    MediaItems.Add(new MediaItem
-            //    {
-            //        Id = media.Id,
-            //        Name = media.Name,
-            //        Status = media.Status,
-            //        Description = media.Description,
-            //        Duration = media.Duration,
-            //        Director = media.Director,
-            //        ReleaseDate = media.ReleaseDate,
-            //        Rating = media.Rating,
-            //        Favourite = media.Favourite,
-            //        MediaType = media.MediaType,
-            //        GenreNames = media.GenreNames
-            //    });
-            //}
-            var placeholders = new List<MediaItem>
-            {
-                new MediaItem
-                {
-                    Id = 1,
-                    Name = "Inception",
-                    Status = MediaStatus.Completed,
-                    Description = "A mind-bending thriller by Christopher Nolan.",
-                    Duration = 148,
-                    Director = "Christopher Nolan",
-                    ReleaseDate = 2010,
-                    Rating = "PG-13",
-                    URL = "https://example.com/inception.jpg",
-                    Favourite = true,
-                    MediaType = MediaType.Movie,
-                    GenreNames = new List<string> { "Sci-Fi", "Thriller" }
-                },
-                new MediaItem
-                {
-                    Id = 2,
-                    Name = "Breaking Bad",
-                    Status = MediaStatus.Watching,
-                    Description = "A high school chemistry teacher turned methamphetamine manufacturer.",
-                    Duration = 49,
-                    Director = "Vince Gilligan",
-                    ReleaseDate = 2008,
-                    Rating = "TV-MA",
-                    URL = "https://example.com/breakingbad.jpg",
-                    Favourite = false,
-                    MediaType = MediaType.Series,
-                    GenreNames = new List<string> { "Crime", "Drama" }
-                }
-            };
-            MediaItems.Clear();
-            foreach (var media in placeholders)
-            {
-                MediaItems.Add(media);
-            }
-        }
-        catch (Exception ex)
-        {
-            await Application.Current.MainPage.DisplayAlert("Error", $"Failed to load media: {ex.Message}", "OK");
-            System.Diagnostics.Debug.WriteLine($"Error loading media: {ex.Message}");
-        }
-    }
 
     public void UpdateGridSpan(double windowWidth)
     {
@@ -191,7 +163,7 @@ public class MainPageViewModel : BindableObject
         await Application.Current.MainPage.Navigation.PushAsync(detailPage);
     }
 }
-    
+
 public class MediaItem
 {
     public required int Id { get; set; }
