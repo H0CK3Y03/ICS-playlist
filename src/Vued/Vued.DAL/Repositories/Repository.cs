@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using System;
 using Vued.DAL.Entities;
 using Vued.DAL.Mappers;
-using Microsoft.EntityFrameworkCore;
 using Vued.DAL.Repositories;
+using Microsoft.EntityFrameworkCore;
 
-namespace CookBook.DAL.Repositories;
+namespace Vued.DAL.Repositories;
 
 public class Repository<TEntity>(
     DbContext dbContext,
@@ -19,7 +19,8 @@ public class Repository<TEntity>(
     public IQueryable<TEntity> Get() => _dbSet;
 
     public async ValueTask<bool> ExistsAsync(TEntity entity)
-        => await _dbSet.AnyAsync(e => e.Id == entity.Id).ConfigureAwait(false);
+        => entity.Id != Guid.Empty
+           && await _dbSet.AnyAsync(e => e.Id == entity.Id).ConfigureAwait(false);
 
     public TEntity Insert(TEntity entity)
         => _dbSet.Add(entity).Entity;
@@ -32,5 +33,5 @@ public class Repository<TEntity>(
     }
 
     public async Task DeleteAsync(int entityId)
-        => _dbSet.Remove(await _dbSet.SingleAsync(i => i.Id == entityId).ConfigureAwait(false));
+        => _dbSet.Remove(await _dbSet.SingleAsync(i => Equals(i.Id, entityId)).ConfigureAwait(false));
 }
