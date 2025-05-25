@@ -16,12 +16,6 @@ public partial class MediaEditPopup : Popup
         Close();
     }
 
-    private void OnDeleteClicked(object sender, EventArgs e)
-    {
-        // TODO
-        Close();
-    }
-
     private void OnApplyClicked(object sender, EventArgs e)
     {
         var viewModel = (MediaEditViewModel)BindingContext;

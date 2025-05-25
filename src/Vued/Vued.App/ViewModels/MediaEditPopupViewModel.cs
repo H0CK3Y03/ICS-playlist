@@ -1,13 +1,23 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
+using Vued.BL.Facades;
+using Vued.BL.Models;
+using Vued.DAL.Entities;
 
 namespace Vued.App.ViewModels;
 
 public class MediaEditViewModel : BindableObject
 {
     private string _name;
+    private readonly MediaItem _mediaItem;
+    private readonly IServiceProvider _serviceProvider;
     private ObservableCollection<string> _ratings;
+    private string _url;
+    private bool _favourite;
+    private MediaStatus _status;
+    private MediaType _mediaType;
+    private string _rating;
     private string _selectedRating;
     private string _releaseYear;
     private string _lengthOrEpisodes;
@@ -16,18 +26,59 @@ public class MediaEditViewModel : BindableObject
     private string _description;
     private string _review;
 
-    public MediaEditViewModel(MediaItem mediaItem)
+    public MediaEditViewModel(MediaItem mediaItem, IServiceProvider serviceProvider)
     {
-        Name = mediaItem.Name;
+        _serviceProvider = serviceProvider;
+        _mediaItem = mediaItem;
         Ratings = new ObservableCollection<string> { "1/10", "2/10", "3/10", "4/10", "5/10", "6/10", "7/10", "8/10", "9/10", "10/10" };
-        // Default, to be replaced with DAL data
-        SelectedRating = "10/10"; 
-        ReleaseYear = "1999";
-        LengthOrEpisodes = "1h 20min / 22 episodes";
-        Director = "Director Name";
-        Genres = "Fantasy, Horror, Sci-fi";
-        Description = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum";
-        Review = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum";
+        Name = _mediaItem.Name;
+        Rating = _mediaItem.Rating;
+        ReleaseYear = _mediaItem.ReleaseDate.ToString();
+        LengthOrEpisodes = _mediaItem.MediaType == MediaType.Movie
+            ? $"{_mediaItem.Duration} min"
+            : $"{_mediaItem.Duration} episodes";
+        Director = _mediaItem.Director;
+        Genres = _mediaItem.GenreNames != null
+            ? string.Join(", ", _mediaItem.GenreNames)
+            : string.Empty;
+        Description = _mediaItem.Description ?? "No description available";
+        Review = "Good.";
+        URL = _mediaItem.URL ?? string.Empty;
+        Favourite = _mediaItem.Favourite;
+        Status = _mediaItem.Status;
+        MediaType = _mediaItem.MediaType;
+
+        DeleteCommand = new Command(async () => await OnDelete());
+    }
+
+    public ICommand DeleteCommand { get; }
+
+    private async Task OnDelete()
+    {
+        try
+        {
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var mediaFileFacade = scope.ServiceProvider.GetService<MediaFileFacade>();
+                if (mediaFileFacade == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("[]MediaFileFacade could not be resolved.");
+                    throw new InvalidOperationException("[]MediaFileFacade could not be resolved.");
+                }
+
+                // Use the MediaItem's ID for deletion
+                await mediaFileFacade.DeleteAsync(_mediaItem.Id);
+
+                // Show success message and navigate back
+                await Application.Current.MainPage.DisplayAlert("Success", "Media item deleted successfully.", "OK");
+                await Shell.Current.GoToAsync(".."); // Navigate back to the previous page
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[]Error deleting media: {ex.Message}\nStackTrace: {ex.StackTrace}");
+            await Application.Current.MainPage.DisplayAlert("[]Error", $"Failed to delete media: {ex.Message}", "OK");
+        }
     }
 
     public string Name
@@ -116,6 +167,53 @@ public class MediaEditViewModel : BindableObject
         set
         {
             _review = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string URL
+    {
+        get => _url;
+        set
+        {
+            _url = value;
+            OnPropertyChanged();
+        }
+    }
+    public bool Favourite
+    {
+        get => _favourite;
+        set
+        {
+            _favourite = value;
+            OnPropertyChanged();
+        }
+    }
+    public MediaStatus Status
+    {
+        get => _status;
+        set
+        {
+            _status = value;
+            OnPropertyChanged();
+        }
+    }
+    public MediaType MediaType
+    {
+        get => _mediaType;
+        set
+        {
+            _mediaType = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string Rating
+    {
+        get => _rating;
+        set
+        {
+            _rating = value;
             OnPropertyChanged();
         }
     }

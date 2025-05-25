@@ -67,6 +67,17 @@ public class MainPageViewModel : BindableObject
                 MediaItems.Clear();
                 foreach (var media in mediaList)
                 {
+                    System.Diagnostics.Debug.WriteLine($"[AHHH]Id : {media.Id}");
+                    System.Diagnostics.Debug.WriteLine($"[AHHH]Name : {media.Name}");
+                    System.Diagnostics.Debug.WriteLine($"[AHHH]Stauts : {media.Status}");
+                    System.Diagnostics.Debug.WriteLine($"[AHHH]Description : {media.Description}");
+                    System.Diagnostics.Debug.WriteLine($"[AHHH]Duration : {media.Duration}");
+                    System.Diagnostics.Debug.WriteLine($"[AHHH]Director : {media.Director}");
+                    System.Diagnostics.Debug.WriteLine($"[AHHH]ReleaseDate : {media.ReleaseDate}");
+                    System.Diagnostics.Debug.WriteLine($"[AHHH]Rating : {media.Rating}");
+                    System.Diagnostics.Debug.WriteLine($"[AHHH]Favourite : {media.Favourite}");
+                    System.Diagnostics.Debug.WriteLine($"[AHHH]MediaType : {media.MediaType}");
+                    System.Diagnostics.Debug.WriteLine($"[AHHH]GenreNames : {media.GenreNames}");
                     MediaItems.Add(new MediaItem
                     {
                         Id = media.Id,
@@ -195,7 +206,7 @@ public class MainPageViewModel : BindableObject
     private async void OnMediaSelected(MediaItem mediaItem)
     {
         if (mediaItem == null) return;
-        var viewModel = new MediaDetailViewModel(mediaItem);
+        var viewModel = new MediaDetailViewModel(mediaItem, _serviceProvider);
         var detailPage = new MediaDetailPage(viewModel);
         await Application.Current!.MainPage!.Navigation.PushAsync(detailPage);
     }

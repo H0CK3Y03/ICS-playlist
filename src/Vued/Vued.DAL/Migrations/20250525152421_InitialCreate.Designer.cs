@@ -10,7 +10,7 @@ using Vued.DAL;
 namespace Vued.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250525031046_InitialCreate")]
+    [Migration("20250525152421_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -408,98 +408,98 @@ namespace Vued.DAL.Migrations
                             Id = 1,
                             Description = "A computer hacker learns about the true nature of reality and joins a group of rebels to fight a war against powerful controllers.",
                             Director = "Lana Wachowski, Lilly Wachowski",
-                            Duration = 0,
+                            Duration = 136,
                             Favourite = true,
                             Name = "The Matrix",
                             Rating = "8/10",
                             ReleaseDate = 1999,
                             Status = 2,
                             URL = "https://www.imdb.com/title/tt0133093/",
-                            Length = 136
+                            Length = 0
                         },
                         new
                         {
                             Id = 2,
                             Description = "The life story of a man with a low IQ who achieves extraordinary feats through his kindness and determination.",
                             Director = "Robert Zemeckis",
-                            Duration = 0,
+                            Duration = 142,
                             Favourite = true,
                             Name = "Forrest Gump",
                             Rating = "6/10",
                             ReleaseDate = 1994,
                             Status = 2,
                             URL = "https://www.imdb.com/title/tt0109830/",
-                            Length = 142
+                            Length = 0
                         },
                         new
                         {
                             Id = 3,
                             Description = "A family heads to an isolated hotel for the winter where a sinister presence influences the father into violence.",
                             Director = "Stanley Kubrick",
-                            Duration = 0,
+                            Duration = 144,
                             Favourite = false,
                             Name = "The Shining",
                             Rating = "7/10",
                             ReleaseDate = 1980,
                             Status = 2,
                             URL = "https://www.imdb.com/title/tt0081505/",
-                            Length = 144
+                            Length = 0
                         },
                         new
                         {
                             Id = 4,
                             Description = "A skilled thief with the ability to enter dreams must pull off an impossible heist: planting an idea in someone's mind.",
                             Director = "Christopher Nolan",
-                            Duration = 0,
+                            Duration = 148,
                             Favourite = true,
                             Name = "Inception",
                             Rating = "9/10",
                             ReleaseDate = 2010,
                             Status = 2,
                             URL = "https://www.imdb.com/title/tt1375666/",
-                            Length = 148
+                            Length = 0
                         },
                         new
                         {
                             Id = 5,
                             Description = "The aging patriarch of an organized crime dynasty transfers control to his reluctant son.",
                             Director = "Francis Ford Coppola",
-                            Duration = 0,
+                            Duration = 175,
                             Favourite = true,
                             Name = "The Godfather",
                             Rating = "8/10",
                             ReleaseDate = 1972,
                             Status = 2,
                             URL = "https://www.imdb.com/title/tt0068646/",
-                            Length = 175
+                            Length = 0
                         },
                         new
                         {
                             Id = 6,
                             Description = "A young girl becomes trapped in a strange spirit world and must find a way to free herself and her parents.",
                             Director = "Hayao Miyazaki",
-                            Duration = 0,
+                            Duration = 125,
                             Favourite = false,
                             Name = "Spirited Away",
                             Rating = "8/10",
                             ReleaseDate = 2001,
                             Status = 2,
                             URL = "https://www.imdb.com/title/tt0245429/",
-                            Length = 125
+                            Length = 0
                         },
                         new
                         {
                             Id = 7,
                             Description = "In a post-apocalyptic wasteland, a drifter and a rebel leader fight to survive against a tyrannical ruler.",
                             Director = "George Miller",
-                            Duration = 0,
+                            Duration = 120,
                             Favourite = true,
                             Name = "Mad Max: Fury Road",
                             Rating = "7/10",
                             ReleaseDate = 2015,
                             Status = 2,
                             URL = "https://www.imdb.com/title/tt1392190/",
-                            Length = 120
+                            Length = 0
                         });
                 });
 
@@ -518,98 +518,98 @@ namespace Vued.DAL.Migrations
                             Id = 8,
                             Description = "A chemistry teacher turned drug-lord teams up with a former student to build a methamphetamine empire.",
                             Director = "Vince Gilligan",
-                            Duration = 0,
+                            Duration = 62,
                             Favourite = true,
                             Name = "Breaking Bad",
                             Rating = "10/10",
                             ReleaseDate = 2008,
                             Status = 2,
                             URL = "https://www.imdb.com/title/tt0903747/",
-                            NumberOfEpisodes = 62
+                            NumberOfEpisodes = 0
                         },
                         new
                         {
                             Id = 9,
                             Description = "A group of friends in the 1980s uncover supernatural mysteries and government conspiracies in their small town.",
                             Director = "The Duffer Brothers",
-                            Duration = 0,
+                            Duration = 34,
                             Favourite = true,
                             Name = "Stranger Things",
                             Rating = "8/10",
                             ReleaseDate = 2016,
                             Status = 1,
                             URL = "https://www.imdb.com/title/tt4574334/",
-                            NumberOfEpisodes = 34
+                            NumberOfEpisodes = 0
                         },
                         new
                         {
                             Id = 10,
                             Description = "A mockumentary about the daily lives of employees at the Dunder Mifflin paper company.",
                             Director = "Greg Daniels",
-                            Duration = 0,
+                            Duration = 201,
                             Favourite = true,
                             Name = "The Office (US)",
                             Rating = "9/10",
                             ReleaseDate = 2005,
                             Status = 2,
                             URL = "https://www.imdb.com/title/tt0386676/",
-                            NumberOfEpisodes = 201
+                            NumberOfEpisodes = 0
                         },
                         new
                         {
                             Id = 11,
                             Description = "Noble families fight for control of the Iron Throne in a fantasy world filled with dragons and political intrigue.",
                             Director = "David Benioff, D.B. Weiss",
-                            Duration = 0,
+                            Duration = 73,
                             Favourite = true,
                             Name = "Game of Thrones",
                             Rating = "9/10",
                             ReleaseDate = 2011,
                             Status = 2,
                             URL = "https://www.imdb.com/title/tt0944947/",
-                            NumberOfEpisodes = 73
+                            NumberOfEpisodes = 0
                         },
                         new
                         {
                             Id = 12,
                             Description = "A lone bounty hunter navigates the outer reaches of the galaxy, protecting a mysterious baby Yoda.",
                             Director = "Jon Favreau",
-                            Duration = 0,
+                            Duration = 24,
                             Favourite = false,
                             Name = "The Mandalorian",
                             Rating = "6/10",
                             ReleaseDate = 2019,
                             Status = 1,
                             URL = "https://www.imdb.com/title/tt8111088/",
-                            NumberOfEpisodes = 24
+                            NumberOfEpisodes = 0
                         },
                         new
                         {
                             Id = 13,
                             Description = "An anthology series exploring the dark side of technology and human nature in dystopian futures.",
                             Director = "Charlie Brooker",
-                            Duration = 0,
+                            Duration = 27,
                             Favourite = false,
                             Name = "Black Mirror",
                             Rating = "8/10",
                             ReleaseDate = 2011,
                             Status = 1,
                             URL = "https://www.imdb.com/title/tt2085059/",
-                            NumberOfEpisodes = 27
+                            NumberOfEpisodes = 0
                         },
                         new
                         {
                             Id = 14,
                             Description = "A biographical drama chronicling the reign of Queen Elizabeth II and major historical events.",
                             Director = "Peter Morgan",
-                            Duration = 0,
+                            Duration = 60,
                             Favourite = false,
                             Name = "The Crown",
                             Rating = "-",
                             ReleaseDate = 2016,
                             Status = 0,
                             URL = "https://www.imdb.com/title/tt4786824/",
-                            NumberOfEpisodes = 60
+                            NumberOfEpisodes = 0
                         });
                 });
 
