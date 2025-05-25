@@ -19,7 +19,7 @@
                 CornerRadius="8" />
             <!-- Optional overlay for title or placeholder text -->
             <Label
-                Text="{Binding Title}"
+                Text="{Binding Name}"
                 FontSize="15"
                 FontFamily="RajdhaniRegular"
                 TextColor="White"

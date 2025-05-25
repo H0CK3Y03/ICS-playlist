@@ -40,7 +40,7 @@ public class SeriesFacadeTests : FacadeTestsBase
         // Arrange
         await using var dbx = await DbContextFactory.CreateDbContextAsync();
         var facade = new SeriesFacade(dbx, _mapper);
-        var newSeries = new SeriesDetailModel
+        var newSeries = new SeriesModel
         {
             Id = 0, // New series
             Name = "Test Series",

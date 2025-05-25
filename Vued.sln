@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C072AD4C-67F7-46BF-A1A4-69510A613E49}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Vued", "Vued", "{CA91FA43-4199-4BFB-B94B-890624E5EA6D}"
+	ProjectSection(SolutionItems) = preProject
+		src\Vued\Vued.App\app.db = src\Vued\Vued.App\app.db
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vued.BL", "src\Vued\Vued.BL\Vued.BL.csproj", "{FCC56956-4F89-4EA1-AF36-998B69D81E83}"
 EndProject
@@ -21,9 +24,6 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{FCC56956-4F89-4EA1-AF36-998B69D81E83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -46,6 +46,9 @@ Global
 		{61B43496-31DF-49E0-9AD0-63B58C3C3999}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61B43496-31DF-49E0-9AD0-63B58C3C3999}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61B43496-31DF-49E0-9AD0-63B58C3C3999}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CA91FA43-4199-4BFB-B94B-890624E5EA6D} = {C072AD4C-67F7-46BF-A1A4-69510A613E49}

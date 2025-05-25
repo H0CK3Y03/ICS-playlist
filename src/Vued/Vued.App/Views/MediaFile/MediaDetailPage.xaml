@@ -41,7 +41,7 @@
         <Label
             Grid.Row="1"
             Grid.Column="2"
-            Text="{Binding Title, StringFormat='{0} (Placeholder)'}"
+            Text="{Binding Name, StringFormat='{0} (Placeholder)'}"
             FontSize="34"
             FontFamily="RajdhaniBold"
             TextColor="{StaticResource ColorAccent}"

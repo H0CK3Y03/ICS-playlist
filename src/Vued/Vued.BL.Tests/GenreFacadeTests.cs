@@ -38,7 +38,7 @@ public class GenreFacadeTests : FacadeTestsBase
         // Arrange
         await using var dbx = await DbContextFactory.CreateDbContextAsync();
         var facade = new GenreFacade(dbx, _mapper);
-        var newGenre = new GenreDetailModel
+        var newGenre = new GenreModel
         {
             Id = 0, // New genre
             Name = "Sci-Fi"

@@ -1,4 +1,4 @@
-﻿using Vued.DAL.Entities;
+using Vued.DAL.Entities;
 using Vued.DAL;
 using Vued.DAL.Seeds;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +33,7 @@ public class DbContextMovieTests(ITestOutputHelper output) : DbContextTestsBase(
     {
         var entity = new Movie
         {
+            Id = 1,
             Name = "Interstellar",
             Status = MediaStatus.PlanToWatch,
             Director = "Christopher Nolan",

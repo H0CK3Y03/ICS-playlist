@@ -20,12 +20,12 @@ public class MovieFacade
         _mapper = new MovieModelMapper();
     }
 
-    public async Task<List<MovieListModel>> GetAllAsync()
+    public async Task<List<MovieModel>> GetAllAsync()
     {
         var movies = await _dbContext.Movies.ToListAsync();
-        return movies.Select(m => _mapper.MapToListModel(m)).ToList();
+        return movies.Select(m => _mapper.MapToModel(m)).ToList();
     }
-    public async Task<List<MovieListModel>> FilterAsync(MovieFilterQuery filter)
+    public async Task<List<MovieModel>> FilterAsync(MovieFilterQuery filter)
     {
         IQueryable<Movie> query = _dbContext.Movies;
         if (!string.IsNullOrWhiteSpace(filter.TitleContains))
@@ -65,7 +65,7 @@ public class MovieFacade
 
             query = filter.SortBy.ToLower() switch
             {
-                "title" => desc ? query.OrderByDescending(m => m.Name) : query.OrderBy(m => m.Name),
+                "name" => desc ? query.OrderByDescending(m => m.Name) : query.OrderBy(m => m.Name),
                 "rating" => desc ? query.OrderByDescending(m => m.Rating) : query.OrderBy(m => m.Rating),
                 "year" => desc ? query.OrderByDescending(m => m.ReleaseDate) : query.OrderBy(m => m.ReleaseDate),
                 "director" => desc ? query.OrderByDescending(m => m.Director) : query.OrderBy(m => m.Director),
@@ -74,19 +74,19 @@ public class MovieFacade
         }
 
         var movies = await query.ToListAsync();
-        return movies.Select(m => _mapper.MapToListModel(m)).ToList();
+        return movies.Select(m => _mapper.MapToModel(m)).ToList();
     }
 
-    public async Task<MovieDetailModel?> GetByIdAsync(int id)
+    public async Task<MovieModel?> GetByIdAsync(int id)
     {
         var entity = await _dbContext.Movies
             .Include(m => m.Genres)
             .FirstOrDefaultAsync(m => m.Id == id);
 
-        return entity is null ? null : _mapper.MapToDetailModel(entity);
+        return entity is null ? null : _mapper.MapToModel(entity);
     }
 
-    public async Task<MovieDetailModel> SaveAsync(MovieDetailModel model)
+    public async Task<MovieModel> SaveAsync(MovieModel model)
     {
         var entity = await _dbContext.Movies
             .Include(m => m.Genres)

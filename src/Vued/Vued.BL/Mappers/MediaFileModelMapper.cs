@@ -6,24 +6,24 @@ using Vued.DAL.Entities;
 
 namespace Vued.BL.Mappers;
 
-public class MediaFileModelMapper : ModelMapperBase<MediaFile, MediaListModel, MediaFileDetailModel>
+public class MediaFileModelMapper : ModelMapperBase<MediaFile, MediaFileModel>
 
 {
-    public override MediaListModel MapToListModel(MediaFile entity) => entity is null
-        ? MediaListModel.Empty
-        : new MediaListModel
-        {
-            Id = entity.Id,
-            Name = entity.Name,
-            Director = entity.Director,
-            ReleaseDate = entity.ReleaseDate,
-            Status = entity.Status,
-            Favourite = entity.Favourite
-        };
+    //public override MediaListModel MapToListModel(MediaFile? entity) => entity is null
+    //    ? MediaListModel.Empty
+    //    : new MediaListModel
+    //    {
+    //        Id = entity.Id,
+    //        Name = entity.Name,
+    //        Director = entity.Director,
+    //        ReleaseDate = entity.ReleaseDate,
+    //        Status = entity.Status,
+    //        Favourite = entity.Favourite
+    //    };
 
-    public override MediaFileDetailModel MapToDetailModel(MediaFile entity) => entity is null
-        ? MediaFileDetailModel.Empty
-        : new MediaFileDetailModel
+    public override MediaFileModel MapToModel(MediaFile entity) => entity is null
+        ? MediaFileModel.Empty
+        : new MediaFileModel
         {
             Id = entity.Id,
             Name = entity.Name,
@@ -38,7 +38,7 @@ public class MediaFileModelMapper : ModelMapperBase<MediaFile, MediaListModel, M
             GenreNames = entity.Genres.Select(g => g.Name).ToList()
         };
 
-    public override MediaFile MapToEntity(MediaFileDetailModel model)
+    public override MediaFile MapToEntity(MediaFileModel model)
     {
         return model.MediaType switch
         {
@@ -54,8 +54,7 @@ public class MediaFileModelMapper : ModelMapperBase<MediaFile, MediaListModel, M
                 Rating = model.Rating,
                 URL = model.URL,
                 Favourite = model.Favourite,
-                // Need to change Id = 0 to a proper ID logic (map from database)
-                Genres = model.GenreNames.Select(name => new Genre { Id = 0, Name = name }).ToList()
+                //Genres = model.GenreNames.Select(name => new Genre { Id = 2, Name = name }).ToList() // TODO: Replace with actual genre IDs
             },
             MediaType.Series => new Series
             {
@@ -69,11 +68,10 @@ public class MediaFileModelMapper : ModelMapperBase<MediaFile, MediaListModel, M
                 Rating = model.Rating,
                 URL = model.URL,
                 Favourite = model.Favourite,
-                // Need to change Id = 0 to a proper ID logic (map from database 
-                Genres = model.GenreNames.Select(name => new Genre { Id = 0, Name = name }).ToList()
+                //Genres = model.GenreNames.Select(name => new Genre { Id = 1, Name = name }).ToList() // TODO: Replace with actual genre IDs
             },
 
-            _ => throw new ArgumentException("Unknown MediaFileDetailModel type.")
+            _ => throw new ArgumentException("Unknown MediaFileModel type.")
 
         };
     }

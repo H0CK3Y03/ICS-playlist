@@ -18,15 +18,15 @@ public class SeriesFacade
         _mapper = mapper;
     }
 
-    public async Task<List<SeriesListModel>> GetAllAsync()
+    public async Task<List<SeriesModel>> GetAllAsync()
     {
         var entities = await _dbContext.Series.ToListAsync();
         return entities
-            .Select(entity => _mapper.MapToListModel(entity))
+            .Select(entity => _mapper.MapToModel(entity))
             .ToList();
     }
 
-    public async Task<List<SeriesListModel>> FilterAsync(MovieFilterQuery filter)
+    public async Task<List<SeriesModel>> FilterAsync(MovieFilterQuery filter)
     {
         IQueryable<Series> query = _dbContext.Series;
         if (!string.IsNullOrWhiteSpace(filter.TitleContains))
@@ -71,19 +71,19 @@ public class SeriesFacade
         }
 
         var series = await query.ToListAsync();
-        return series.Select(m => _mapper.MapToListModel(m)).ToList();
+        return series.Select(m => _mapper.MapToModel(m)).ToList();
     }
 
-    public async Task<SeriesDetailModel?> GetByIdAsync(int id)
+    public async Task<SeriesModel?> GetByIdAsync(int id)
     {
         var entity = await _dbContext.Series
             .Include(s => s.Genres)
             .FirstOrDefaultAsync(s => s.Id == id);
 
-        return entity is null ? null : _mapper.MapToDetailModel(entity);
+        return entity is null ? null : _mapper.MapToModel(entity);
     }
 
-    public async Task<SeriesDetailModel> SaveAsync(SeriesDetailModel model)
+    public async Task<SeriesModel> SaveAsync(SeriesModel model)
     {
         var entity = await _dbContext.Series
             .Include(s => s.Genres)

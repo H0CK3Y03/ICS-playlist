@@ -17,19 +17,19 @@ public class GenreFacade
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<GenreListModel>> GetAllAsync()
+    public async Task<IEnumerable<GenreModel>> GetAllAsync()
     {
         var entities = await _dbContext.Genres.ToListAsync();
-        return entities.Select(_mapper.MapToListModel);
+        return entities.Select(_mapper.MapToModel);
     }
 
-    public async Task<GenreDetailModel?> GetAsync(int id)
+    public async Task<GenreModel?> GetAsync(int id)
     {
         var entity = await _dbContext.Genres.FirstOrDefaultAsync(g => g.Id == id);
-        return entity is null ? null : _mapper.MapToDetailModel(entity);
+        return entity is null ? null : _mapper.MapToModel(entity);
     }
 
-    public async Task<GenreDetailModel> SaveAsync(GenreDetailModel model)
+    public async Task<GenreModel> SaveAsync(GenreModel model)
     {
         var entity = _mapper.MapToEntity(model);
 
@@ -40,7 +40,7 @@ public class GenreFacade
 
         await _dbContext.SaveChangesAsync();
 
-        return _mapper.MapToDetailModel(entity);
+        return _mapper.MapToModel(entity);
     }
 
     public async Task DeleteAsync(int id)

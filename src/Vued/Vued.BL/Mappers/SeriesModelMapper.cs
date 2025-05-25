@@ -3,24 +3,24 @@ using Vued.DAL.Entities;
 
 namespace Vued.BL.Mappers;
 
-public class SeriesModelMapper : ModelMapperBase<Series, SeriesListModel, SeriesDetailModel>
+public class SeriesModelMapper : ModelMapperBase<Series, SeriesModel>
 {
-    public override SeriesListModel MapToListModel(Series? entity) => entity is null
-        ? SeriesListModel.Empty
-        : new SeriesListModel
-        {
-            Id = entity.Id,
-            Name = entity.Name,
-            Director = entity.Director,
-            ReleaseDate = entity.ReleaseDate,
-            Status = entity.Status,
-            Favourite = entity.Favourite,
-            NumberOfEpisodes = entity.NumberOfEpisodes
-        };
+    //public override SeriesListModel MapToListModel(Series? entity) => entity is null
+    //    ? SeriesListModel.Empty
+    //    : new SeriesListModel
+    //    {
+    //        Id = entity.Id,
+    //        Name = entity.Name,
+    //        Director = entity.Director,
+    //        ReleaseDate = entity.ReleaseDate,
+    //        Status = entity.Status,
+    //        Favourite = entity.Favourite,
+    //        NumberOfEpisodes = entity.NumberOfEpisodes
+    //    };
 
-    public override SeriesDetailModel MapToDetailModel(Series? entity) => entity is null
-        ? SeriesDetailModel.Empty
-        : new SeriesDetailModel
+    public override SeriesModel MapToModel(Series? entity) => entity is null
+        ? SeriesModel.Empty
+        : new SeriesModel
         {
             Id = entity.Id,
             Name = entity.Name,
@@ -36,7 +36,7 @@ public class SeriesModelMapper : ModelMapperBase<Series, SeriesListModel, Series
             GenreNames = entity.Genres.Select(g => g.Name).ToList()
         };
 
-    public override Series MapToEntity(SeriesDetailModel model) => new()
+    public override Series MapToEntity(SeriesModel model) => new()
     {
         Id = model.Id,
         Name = model.Name,

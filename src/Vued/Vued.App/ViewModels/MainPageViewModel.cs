@@ -1,11 +1,15 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Maui.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Vued.App.Views;
 using Vued.App.Views.Filter;
 using Vued.App.Views.MediaFile;
+using Vued.BL.Facades;
+using Vued.BL.Models;
+using Vued.DAL.Entities;
 using Vued.BL.Services;
 using Vued.BL.Queries;
 using Vued.DAL.Repositories;
@@ -16,6 +20,7 @@ namespace Vued.App.ViewModels;
 public class MainPageViewModel : BindableObject
 {
     private readonly IServiceProvider _serviceProvider;
+    private MediaFileFacade _mediaFileFacade;
     private string _searchQuery;
     private ObservableCollection<MediaItem> _mediaItems;
     private int _gridSpan;
@@ -24,17 +29,20 @@ public class MainPageViewModel : BindableObject
 
 
     public MainPageViewModel(IServiceProvider serviceProvider)
+    public MainPageViewModel(IServiceProvider serviceProvider /*MediaFileFacade mediaFileFacade*/)
     {
+        System.Diagnostics.Debug.WriteLine("[AHHH]MainPageViewModel");
         _serviceProvider = serviceProvider;
         _movieService = _movieService;
         _movieRepository = _movieRepository;
+        //_mediaFileFacade = mediaFileFacade;
         SettingsCommand = new Command(OnSettingsClicked);
         SearchCommand = new Command(OnSearch);
         FilterCommand = new Command(OnFilterClicked);
         MediaSelectedCommand = new Command<MediaItem>(OnMediaSelected);
         MediaItems = new ObservableCollection<MediaItem>();
         GridSpan = 1; // Default span
-        LoadPlaceholderMedia();
+        LoadMediaAsync().GetAwaiter().GetResult();
     }
 
     public string SearchQuery
@@ -72,27 +80,72 @@ public class MainPageViewModel : BindableObject
     public ICommand FilterCommand { get; }
     public ICommand MediaSelectedCommand { get; }
 
-    private void LoadPlaceholderMedia()
+    private async Task LoadMediaAsync()
     {
-        // Hardcoded placeholder media items (to be replaced with DAL later)
-        var placeholders = new[]
+        try
         {
-            new MediaItem { Title = "Media 1", IsPlaceholder = true },
-            new MediaItem { Title = "Media 2", IsPlaceholder = true },
-            new MediaItem { Title = "Media 3", IsPlaceholder = true },
-            new MediaItem { Title = "Media 4", IsPlaceholder = true },
-            new MediaItem { Title = "Media 5", IsPlaceholder = true },
-            new MediaItem { Title = "Media 6", IsPlaceholder = true },
-            new MediaItem { Title = "Media 7", IsPlaceholder = true },
-            new MediaItem { Title = "Media 8", IsPlaceholder = true },
-            new MediaItem { Title = "Media 9", IsPlaceholder = true },
-            new MediaItem { Title = "Media 10", IsPlaceholder = true },
-            new MediaItem { Title = "Media 11", IsPlaceholder = true },
-            new MediaItem { Title = "Media 12", IsPlaceholder = true }
-        };
-        foreach (var item in placeholders)
+            //var mediaList = await _mediaFileFacade.GetAllAsync();
+            //MediaItems.Clear();
+            //foreach (var media in mediaList)
+            //{
+            //    MediaItems.Add(new MediaItem
+            //    {
+            //        Id = media.Id,
+            //        Name = media.Name,
+            //        Status = media.Status,
+            //        Description = media.Description,
+            //        Duration = media.Duration,
+            //        Director = media.Director,
+            //        ReleaseDate = media.ReleaseDate,
+            //        Rating = media.Rating,
+            //        Favourite = media.Favourite,
+            //        MediaType = media.MediaType,
+            //        GenreNames = media.GenreNames
+            //    });
+            //}
+            var placeholders = new List<MediaItem>
+            {
+                new MediaItem
+                {
+                    Id = 1,
+                    Name = "Inception",
+                    Status = MediaStatus.Completed,
+                    Description = "A mind-bending thriller by Christopher Nolan.",
+                    Duration = 148,
+                    Director = "Christopher Nolan",
+                    ReleaseDate = 2010,
+                    Rating = "PG-13",
+                    URL = "https://example.com/inception.jpg",
+                    Favourite = true,
+                    MediaType = MediaType.Movie,
+                    GenreNames = new List<string> { "Sci-Fi", "Thriller" }
+                },
+                new MediaItem
+                {
+                    Id = 2,
+                    Name = "Breaking Bad",
+                    Status = MediaStatus.Watching,
+                    Description = "A high school chemistry teacher turned methamphetamine manufacturer.",
+                    Duration = 49, // per episode
+                    Director = "Vince Gilligan",
+                    ReleaseDate = 2008,
+                    Rating = "TV-MA",
+                    URL = "https://example.com/breakingbad.jpg",
+                    Favourite = false,
+                    MediaType = MediaType.Series,
+                    GenreNames = new List<string> { "Crime", "Drama" }
+                }
+            };
+            MediaItems.Clear();
+            foreach (var media in placeholders)
+            {
+                MediaItems.Add(media);
+            }
+        }
+        catch (Exception ex)
         {
-            MediaItems.Add(item);
+            await Application.Current.MainPage.DisplayAlert("Error", $"Failed to load media: {ex.Message}", "OK");
+            System.Diagnostics.Debug.WriteLine($"Error loading media: {ex.Message}");
         }
     }
 
@@ -155,7 +208,7 @@ public class MainPageViewModel : BindableObject
         }
         else
         {
-            System.Diagnostics.Debug.WriteLine("MainPage alebo popup sú null – nemôžem zobraziť FilterPopup.");
+            System.Diagnostics.Debug.WriteLine("MainPage alebo popup s� null � nem�em zobrazi� FilterPopup.");
         }
     }
 
@@ -217,18 +270,19 @@ public class MainPageViewModel : BindableObject
     }
 
 }
-
+    
 public class MediaItem
 {
-    public string Title { get; set; }
-    public int Length { get; set; }
-    public string Rating { get; set; }
-    public int ReleaseYear { get; set; }
-    public string Director { get; set; }
-    public string ImageUrl { get; set; }
-    public bool IsFavourite { get; set; }
-    public string Status { get; set; }
-    public List<string> Genres { get; set; }
-    public bool IsPlaceholder { get; set; }
+    public required int Id { get; set; }
+    public required string Name { get; set; }
+    public required MediaStatus Status { get; set; }
+    public required string Description { get; set; }
+    public required int Duration { get; set; }
+    public required string Director { get; set; }
+    public required int ReleaseDate { get; set; }
+    public required string Rating { get; set; }
+    public string? URL { get; set; }
+    public bool Favourite { get; set; }
+    public MediaType MediaType { get; set; }
+    public List<string> GenreNames { get; set; } = new List<string>();
 }
-

@@ -38,7 +38,7 @@ public class MovieFacadeTests : FacadeTestsBase
         // Arrange
         await using var dbx = await DbContextFactory.CreateDbContextAsync();
         var facade = new MovieFacade(dbx);
-        var newMovie = new MovieDetailModel
+        var newMovie = new MovieModel
         {
             Id = 0,
             Name = "Test Movie",

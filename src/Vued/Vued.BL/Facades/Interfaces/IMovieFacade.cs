@@ -4,7 +4,7 @@ namespace Vude.BL.Facades;
 
 public interface IMovieFacade
 {
-    Task SaveAsync(MovieDetailModel model);
+    Task SaveAsync(MovieModel model);
     Task SaveAsync(MovieListModel model);
     Task DeleteAsync(Guid id);
 }

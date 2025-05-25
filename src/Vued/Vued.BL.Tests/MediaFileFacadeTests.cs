@@ -76,7 +76,7 @@ public class MediaFileFacadeTests : FacadeTestsBase
         // Arrange
         await using var dbx = await DbContextFactory.CreateDbContextAsync();
         var facade = new MediaFileFacade(dbx, _mapper);
-        var newMediaFile = new MediaFileDetailModel
+        var newMediaFile = new MediaFileModel
         {
             Id = 0, // New movie
             Name = "Test Movie",
@@ -109,7 +109,7 @@ public class MediaFileFacadeTests : FacadeTestsBase
         // Arrange
         await using var dbx = await DbContextFactory.CreateDbContextAsync();
         var facade = new MediaFileFacade(dbx, _mapper);
-        var newMediaFile = new MediaFileDetailModel
+        var newMediaFile = new MediaFileModel
         {
             Id = 0, // New series
             Name = "Test Series",
