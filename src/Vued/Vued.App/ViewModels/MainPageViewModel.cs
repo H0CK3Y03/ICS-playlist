@@ -1,3 +1,4 @@
+
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ public class MainPageViewModel : BindableObject
     private readonly MovieService _movieService;
     private readonly IRepository<Movie> _movieRepository;
 
-    public MainPageViewModel(IServiceProvider serviceProvider /*MediaFileFacade mediaFileFacade*/)
+    public MainPageViewModel(IServiceProvider serviceProvider)
     {
         System.Diagnostics.Debug.WriteLine("[AHHH]MainPageViewModel");
         _serviceProvider = serviceProvider;
@@ -40,7 +41,47 @@ public class MainPageViewModel : BindableObject
         MediaSelectedCommand = new Command<MediaItem>(OnMediaSelected);
         MediaItems = new ObservableCollection<MediaItem>();
         GridSpan = 1; // Default span
-        LoadMediaAsync().GetAwaiter().GetResult();
+        LoadMediaFiles().GetAwaiter().GetResult();
+    }
+    public async Task LoadMediaFiles()
+    {
+        try
+        {
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var mediaFileFacade = scope.ServiceProvider.GetService<MediaFileFacade>();
+                if (mediaFileFacade == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("[]MediaFileFacade could not be resolved.");
+                    throw new InvalidOperationException("[]MediaFileFacade could not be resolved.");
+                }
+
+                var mediaList = await mediaFileFacade.GetAllAsync();
+                MediaItems.Clear();
+                foreach (var media in mediaList)
+                {
+                    MediaItems.Add(new MediaItem
+                    {
+                        Id = media.Id,
+                        Name = media.Name,
+                        Status = media.Status,
+                        Description = media.Description,
+                        Duration = media.Duration,
+                        Director = media.Director,
+                        ReleaseDate = media.ReleaseDate,
+                        Rating = media.Rating,
+                        Favourite = media.Favourite,
+                        MediaType = media.MediaType,
+                        GenreNames = media.GenreNames
+                    });
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[]Error loading media: {ex.Message}\nStackTrace: {ex.StackTrace}");
+            await Application.Current.MainPage.DisplayAlert("[]Error", $"Failed to load media: {ex.Message}", "OK");
+        }
     }
 
     public string SearchQuery
@@ -294,7 +335,7 @@ public class MainPageViewModel : BindableObject
     }
 
 }
-    
+
 public class MediaItem
 {
     public required int Id { get; set; }
