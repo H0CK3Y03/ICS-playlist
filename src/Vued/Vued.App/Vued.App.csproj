@@ -65,9 +65,4 @@
     <ProjectReference Include="..\Vued.DAL\Vued.DAL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Vued.BL\Vued.BL.csproj" />
-    <ProjectReference Include="..\Vued.DAL\Vued.DAL.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -23,7 +23,6 @@ namespace Vued.App
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
-        var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
@@ -43,7 +42,6 @@ namespace Vued.App
                 string dbPath = Path.Combine(projectRoot, "app.db");
                 options.UseSqlite($"Data Source={dbPath}");
                 System.Diagnostics.Debug.WriteLine($"[AHHH]database: {dbPath}");
-            });
             });
 
             // Business layer registrations (Facades and Mappers)
@@ -69,6 +67,11 @@ namespace Vued.App
             builder.Services.AddTransient<MediaDetailViewModel>();
             builder.Services.AddTransient<MediaEditPopup>();
             builder.Services.AddTransient<MediaEditViewModel>();
+
+            // Filter
+            builder.Services.AddScoped<IRepository<Movie>, Repository<Movie>>();
+            builder.Services.AddScoped<IEntityMapper<Movie>, MovieEntityMapper>();
+            builder.Services.AddScoped<MovieService>();
             var app = builder.Build();
 
             // Apply migrations at startup
@@ -88,11 +91,5 @@ namespace Vued.App
 
             return app;
         }
-        builder.Services.AddScoped<IRepository<Movie>, Repository<Movie>>();
-        builder.Services.AddScoped<IEntityMapper<Movie>, MovieEntityMapper>();
-        builder.Services.AddScoped<MovieService>();
-
-        return builder.Build();
-        return builder.Build();
     }
 }

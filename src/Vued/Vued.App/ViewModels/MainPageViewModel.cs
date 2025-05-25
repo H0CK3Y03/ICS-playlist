@@ -27,8 +27,6 @@ public class MainPageViewModel : BindableObject
     private readonly MovieService _movieService;
     private readonly IRepository<Movie> _movieRepository;
 
-
-    public MainPageViewModel(IServiceProvider serviceProvider)
     public MainPageViewModel(IServiceProvider serviceProvider /*MediaFileFacade mediaFileFacade*/)
     {
         System.Diagnostics.Debug.WriteLine("[AHHH]MainPageViewModel");
@@ -118,7 +116,7 @@ public class MainPageViewModel : BindableObject
                     URL = "https://example.com/inception.jpg",
                     Favourite = true,
                     MediaType = MediaType.Movie,
-                    GenreNames = new List<string> { "Sci-Fi", "Thriller" }
+                    GenreNames = new List<string> { "Sci-Fi" }
                 },
                 new MediaItem
                 {
@@ -203,7 +201,10 @@ public class MainPageViewModel : BindableObject
                     },
                     SortOrder = filters.IsDescending ? "desc" : "asc"
                 };
+                System.Diagnostics.Debug.WriteLine($"[DEBUG] Genre: {movieFilter.Genre}, Fav: {movieFilter.Favourite}, Year: {movieFilter.ReleaseYear}");
                 await ApplyFilterAsync(movieFilter);
+                System.Diagnostics.Debug.WriteLine($"[DEBUG] Filtered count:{movieFilter.Genre}, Fav: {movieFilter.Favourite}, Year: {movieFilter.ReleaseYear}");
+
             }
         }
         else
@@ -234,26 +235,40 @@ public class MainPageViewModel : BindableObject
             {
                 MediaItems.Add(new MediaItem
                 {
-                    Title = movie.Name,
-                    Length = movie.Duration,
+                    Id = movie.Id,
+                    Name = movie.Name,
+                    Duration = movie.Duration,
                     Rating = movie.Rating,
-                    ReleaseYear = movie.ReleaseDate,
+                    ReleaseDate = movie.ReleaseDate,
                     Director = movie.Director,
-                    ImageUrl = movie.URL,
-                    IsFavourite = movie.Favourite,
-                    Status = movie.Status.ToString(),
-                    Genres = movie.Genres.Select(g => g.Name).ToList(),
-                    IsPlaceholder = false
+                    URL = movie.URL,
+                    Favourite = movie.Favourite,
+                    Status = movie.Status,
+                    Description = movie.Description ?? string.Empty, // ak null, daj prázdny
+                    MediaType = MediaType.Movie,
+                    GenreNames = movie.Genres?.Select(g => g.Name).ToList() ?? new List<string>()
                 });
+
             }
 
             if (MediaItems.Count == 0)
             {
                 MediaItems.Add(new MediaItem
                 {
-                    Title = "No matching results found.",
-                    IsPlaceholder = true
+                    Id = 0,
+                    Name = "No matching results found.",
+                    Status = MediaStatus.Completed,
+                    Description = "",
+                    Duration = 0,
+                    Director = "",
+                    ReleaseDate = 0,
+                    Rating = "",
+                    URL = null,
+                    Favourite = false,
+                    MediaType = MediaType.Movie,
+                    GenreNames = new List<string>()
                 });
+
             }
         }
         catch (Exception ex)
@@ -262,10 +277,19 @@ public class MainPageViewModel : BindableObject
             MediaItems.Clear();
             MediaItems.Add(new MediaItem
             {
-                Title = "No matching results found.",
-                IsPlaceholder = true
+                Id = 0,
+                Name = "No matching results found.",
+                Status = MediaStatus.Completed,
+                Description = "",
+                Duration = 0,
+                Director = "",
+                ReleaseDate = 0,
+                Rating = "",
+                URL = null,
+                Favourite = false,
+                MediaType = MediaType.Movie,
+                GenreNames = new List<string>()
             });
-
         }
     }
 
