@@ -62,12 +62,12 @@ public class MainPageViewModel : BindableObject
                         Name = media.Name,
                         Status = media.Status,
                         Description = media.Description,
-                        Duration = media.Duration,
+                        Duration = media.Duration, // Not existing in MediaFileModel, but assuming it's in the model
                         Director = media.Director,
                         ReleaseDate = media.ReleaseDate,
                         Rating = media.Rating,
                         Favourite = media.Favourite,
-                        MediaType = media.MediaType,
+                        MediaType = media.MediaType, // Movie or Series
                         GenreNames = media.GenreNames
                     });
                 }

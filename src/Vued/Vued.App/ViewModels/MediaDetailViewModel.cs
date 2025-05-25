@@ -36,25 +36,17 @@ public class MediaDetailViewModel : BindableObject
         Name = mediaItem.Name;
         Rating = mediaItem.Rating;
         ReleaseYear = mediaItem.ReleaseDate.ToString();
-        LengthOrEpisodes = mediaItem.MediaType == MediaType.Movie
+        LengthOrEpisodes = mediaItem.MediaType == MediaType.Movie // Not implemented in MediaFileModel, assuming it's in the model
             ? $"{mediaItem.Duration} min"
             : $"{mediaItem.Duration} episodes";
 
-        //Rating = "10/10"; // Hardcoded for now
-        //ReleaseYear = "1999";
-        //LengthOrEpisodes = "1h 20min / 22 episodes";
-        //Director = "Director Name";
-        //Genres = "Fantasy, Horror, Sci-fi";
-        //Description = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum";
-        //Review = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum";
-        //GoBackCommand = new Command(OnGoBack);
-        //EditCommand = new Command(OnEdit);
+        Director = mediaItem.Director;
+        Genres = mediaItem.GenreNames != null
+            ? string.Join(", ", mediaItem.GenreNames)
+            : string.Empty;
+        Description = mediaItem.Description ?? "No description available";
+        Review = ""; // mediaItem.Review; // Assuming Review is a property in MediaItem, not in MediaFileModel
     }
-
-    //public MediaDetailViewModel(MediaItem mediaItem)
-    //{
-    //    _mediaItem = mediaItem;
-    //}
 
     public string Name
     {
