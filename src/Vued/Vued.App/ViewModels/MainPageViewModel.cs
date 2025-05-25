@@ -1,4 +1,3 @@
-
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -28,6 +27,9 @@ public class MainPageViewModel : BindableObject
     private readonly MovieService _movieService;
     private readonly IRepository<Movie> _movieRepository;
 
+    public Func<Popup, Task<object?>>? ShowPopupAsyncDelegate { get; set; }
+    public Func<string, string, string, Task>? ShowAlertAsyncDelegate { get; set; }
+
     public MainPageViewModel(IServiceProvider serviceProvider)
     {
         System.Diagnostics.Debug.WriteLine("[AHHH]MainPageViewModel");
@@ -42,6 +44,7 @@ public class MainPageViewModel : BindableObject
         MediaItems = new ObservableCollection<MediaItem>();
         GridSpan = 1; // Default span
     }
+    public event EventHandler? FilterRequested;
 
     public async Task InitializeAsync()
     {
@@ -123,75 +126,6 @@ public class MainPageViewModel : BindableObject
     public ICommand FilterCommand { get; }
     public ICommand MediaSelectedCommand { get; }
 
-    private async Task LoadMediaAsync()
-    {
-        try
-        {
-            //var mediaList = await _mediaFileFacade.GetAllAsync();
-            //MediaItems.Clear();
-            //foreach (var media in mediaList)
-            //{
-            //    MediaItems.Add(new MediaItem
-            //    {
-            //        Id = media.Id,
-            //        Name = media.Name,
-            //        Status = media.Status,
-            //        Description = media.Description,
-            //        Duration = media.Duration,
-            //        Director = media.Director,
-            //        ReleaseDate = media.ReleaseDate,
-            //        Rating = media.Rating,
-            //        Favourite = media.Favourite,
-            //        MediaType = media.MediaType,
-            //        GenreNames = media.GenreNames
-            //    });
-            //}
-            var placeholders = new List<MediaItem>
-            {
-                new MediaItem
-                {
-                    Id = 1,
-                    Name = "Inception",
-                    Status = MediaStatus.Completed,
-                    Description = "A mind-bending thriller by Christopher Nolan.",
-                    Duration = 148,
-                    Director = "Christopher Nolan",
-                    ReleaseDate = 2010,
-                    Rating = "PG-13",
-                    URL = "https://example.com/inception.jpg",
-                    Favourite = true,
-                    MediaType = MediaType.Movie,
-                    GenreNames = new List<string> { "Sci-Fi" }
-                },
-                new MediaItem
-                {
-                    Id = 2,
-                    Name = "Breaking Bad",
-                    Status = MediaStatus.Watching,
-                    Description = "A high school chemistry teacher turned methamphetamine manufacturer.",
-                    Duration = 49, // per episode
-                    Director = "Vince Gilligan",
-                    ReleaseDate = 2008,
-                    Rating = "TV-MA",
-                    URL = "https://example.com/breakingbad.jpg",
-                    Favourite = false,
-                    MediaType = MediaType.Series,
-                    GenreNames = new List<string> { "Crime", "Drama" }
-                }
-            };
-            MediaItems.Clear();
-            foreach (var media in placeholders)
-            {
-                MediaItems.Add(media);
-            }
-        }
-        catch (Exception ex)
-        {
-            await Application.Current.MainPage.DisplayAlert("Error", $"Failed to load media: {ex.Message}", "OK");
-            System.Diagnostics.Debug.WriteLine($"Error loading media: {ex.Message}");
-        }
-    }
-
     public void UpdateGridSpan(double windowWidth)
     {
         const double itemWidth = 190;
@@ -224,19 +158,21 @@ public class MainPageViewModel : BindableObject
 
     private async void OnFilterClicked()
     {
-        var popup = _serviceProvider.GetService<FilterPopup>();
-        if (Application.Current?.MainPage is not null && popup is not null)
-        {
-            var result = await Application.Current.MainPage.ShowPopupAsync(popup);
-            if (result != null)
-            {
-                var filters = (dynamic)result;
+        if (ShowPopupAsyncDelegate is null || ShowAlertAsyncDelegate is null)
+            return;
 
+        try
+        {
+            var filterPopup = new FilterPopup(new FilterPopupViewModel());
+            var result = await ShowPopupAsyncDelegate(filterPopup);
+
+            if (result is MovieApplyFilterModel filters)
+            {
                 var movieFilter = new MovieFilterQuery
                 {
-                    Genre = filters.Category == "All" ? null : filters.Category,
+                    Genre = (filters.Category == "All" || string.IsNullOrWhiteSpace(filters.Category)) ? null : filters.Category,
+                    ReleaseYear = (int)Math.Round(filters.MinReleaseYear),
                     Favourite = filters.OnlyFavourites ? true : null,
-                    ReleaseYear = (int)filters.MinReleaseYear,
                     SortBy = filters.SortOption switch
                     {
                         "Alphabetical" => "title",
@@ -246,15 +182,13 @@ public class MainPageViewModel : BindableObject
                     },
                     SortOrder = filters.IsDescending ? "desc" : "asc"
                 };
-                System.Diagnostics.Debug.WriteLine($"[DEBUG] Genre: {movieFilter.Genre}, Fav: {movieFilter.Favourite}, Year: {movieFilter.ReleaseYear}");
-                await ApplyFilterAsync(movieFilter);
-                System.Diagnostics.Debug.WriteLine($"[DEBUG] Filtered count:{movieFilter.Genre}, Fav: {movieFilter.Favourite}, Year: {movieFilter.ReleaseYear}");
 
+                await ApplyFilterAsync(movieFilter);
             }
         }
-        else
+        catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine("MainPage alebo popup s� null � nem�em zobrazi� FilterPopup.");
+            System.Diagnostics.Debug.WriteLine("Filter Error: " + ex.Message);
         }
     }
 
@@ -270,7 +204,7 @@ public class MainPageViewModel : BindableObject
     {
         try
         {
-            var allMovies = await _movieRepository.GetAllAsync(); 
+            var allMovies = await _movieRepository.GetAllAsync();
             var query = allMovies.AsQueryable();
 
             var filtered = _movieService.ApplyFilter(query, filter).ToList();
@@ -289,11 +223,10 @@ public class MainPageViewModel : BindableObject
                     URL = movie.URL,
                     Favourite = movie.Favourite,
                     Status = movie.Status,
-                    Description = movie.Description ?? string.Empty, // ak null, daj prázdny
+                    Description = movie.Description ?? string.Empty,
                     MediaType = MediaType.Movie,
                     GenreNames = movie.Genres?.Select(g => g.Name).ToList() ?? new List<string>()
                 });
-
             }
 
             if (MediaItems.Count == 0)
@@ -301,7 +234,7 @@ public class MainPageViewModel : BindableObject
                 MediaItems.Add(new MediaItem
                 {
                     Id = 0,
-                    Name = "No matching results found.",
+                    Name = "ZERO",
                     Status = MediaStatus.Completed,
                     Description = "",
                     Duration = 0,
@@ -313,7 +246,6 @@ public class MainPageViewModel : BindableObject
                     MediaType = MediaType.Movie,
                     GenreNames = new List<string>()
                 });
-
             }
         }
         catch (Exception ex)
@@ -323,7 +255,7 @@ public class MainPageViewModel : BindableObject
             MediaItems.Add(new MediaItem
             {
                 Id = 0,
-                Name = "No matching results found.",
+                Name = "ERROR",
                 Status = MediaStatus.Completed,
                 Description = "",
                 Duration = 0,
@@ -337,7 +269,6 @@ public class MainPageViewModel : BindableObject
             });
         }
     }
-
 }
 
 public class MediaItem

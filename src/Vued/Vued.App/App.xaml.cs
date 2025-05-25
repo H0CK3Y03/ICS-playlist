@@ -1,4 +1,4 @@
-﻿using Vued.App.Shells;
+using Vued.App.Shells;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Vued.App;
@@ -10,4 +10,5 @@ public partial class App : Application
         InitializeComponent();
         MainPage = serviceProvider.GetService<AppShell>();
     }
+
 }

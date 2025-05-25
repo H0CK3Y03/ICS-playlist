@@ -11,7 +11,7 @@ namespace Vued.BL.Queries
     {
         public string? TitleContains { get; set; }
         public string? DirectorContains { get; set; }
-        public string? Genre {  get; set; }
+        public string? Genre { get; set; }
         public int? ReleaseYear { get; set; }
         public bool? Favourite { get; set; }
         public int? LengthMax { get; set; }
@@ -19,5 +19,20 @@ namespace Vued.BL.Queries
 
         public string? SortBy { get; set; } = "title";
         public string? SortOrder { get; set; } = "asc";
+
+       
+        public override string ToString()
+        {
+            return $"TitleContains: '{TitleContains}', DirectorContains: '{DirectorContains}', " +
+                   $"Genre: '{Genre}', ReleaseYear: {ReleaseYear}, Favourite: {Favourite}, " +
+                   $"LengthMax: {LengthMax}, Status: {Status}, SortBy: '{SortBy}', SortOrder: '{SortOrder}'";
+        }
+
+        public bool IsValid()
+        {
+            return !string.IsNullOrWhiteSpace(SortBy) &&
+                   (SortOrder == "asc" || SortOrder == "desc") &&
+                   (!ReleaseYear.HasValue || (ReleaseYear >= 1900 && ReleaseYear <= DateTime.Now.Year + 10));
+        }
     }
 }

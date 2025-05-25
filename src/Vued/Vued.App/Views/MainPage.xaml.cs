@@ -5,6 +5,7 @@ using Vued.App.Views.Filter;
 using Vued.App.Views.MediaFile;
 using Vued.DAL.Repositories;
 using Vued.BL;
+using Vued.BL.Models;
 using Vued.BL.Queries;
 
 
@@ -22,6 +23,9 @@ public partial class MainPage : ContentPage
             BindingContext = viewModel;
             _viewModel = viewModel;
             SizeChanged += OnSizeChanged;
+            _viewModel.ShowPopupAsyncDelegate = async popup => await this.ShowPopupAsync(popup);
+            _viewModel.ShowAlertAsyncDelegate = async (title, message, cancel) =>
+                await DisplayAlert(title, message, cancel);
         }
         catch (Exception ex)
         {
@@ -46,34 +50,6 @@ public partial class MainPage : ContentPage
     {
         var popup = new AddPopup();
         await this.ShowPopupAsync(popup);
-    }
-
-
-    private async void OnFilterButtonClicked(object sender, EventArgs e)
-    {
-        var filterPopup = new FilterPopup(new FilterPopupViewModel());
-        var result = await this.ShowPopupAsync(filterPopup);
-
-        if (result is not null)
-        {
-            var filters = (dynamic)result;
-            var movieFilter = new MovieFilterQuery
-            {
-                Genre = filters.Category == "All" ? null : filters.Category,
-                Favourite = filters.OnlyFavourites ? true : null,
-                ReleaseYear = (int)filters.MinReleaseYear,
-                SortBy = filters.SortOption switch
-                {
-                    "Alphabetical" => "title",
-                    "Favourites" => "favourite",
-                    "Ranking" => "rating",
-                    _ => "title"
-                },
-                SortOrder = filters.IsDescending ? "desc" : "asc"
-            };
-
-            await _viewModel.ApplyFilterAsync(movieFilter);
-        }
     }
 
 }

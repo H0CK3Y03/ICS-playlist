@@ -100,12 +100,17 @@ public class FilterPopupViewModel : BindableObject
         var hardcodedCategories = new List<string>
         {
             "All",
-            "Drama",
-            "Fantasy",
-            "Sci-fi",
+            "Action",
+            "Adventure",
             "Comedy",
+            "Drama",
+            "Horror",
             "Romance",
-            "Horror"
+            "Sci-Fi",
+            "Thriller",
+            "Fantasy",
+            "Mystery",
+            "Crime"
         };
         Categories.Clear();
         foreach (var category in hardcodedCategories)
@@ -144,4 +149,5 @@ public class FilterPopupViewModel : BindableObject
     {
         // Handled in FilterPopup.xaml.cs
     }
+
 }
