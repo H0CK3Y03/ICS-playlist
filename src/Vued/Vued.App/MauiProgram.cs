@@ -35,8 +35,10 @@ namespace Vued.App
             // Database configuration (SQLite)
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
-                string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "app.db");
+                string projectRoot = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\.."));
+                string dbPath = Path.Combine(projectRoot, "app.db");
                 options.UseSqlite($"Data Source={dbPath}");
+                System.Diagnostics.Debug.WriteLine($"[AHHH]database: {dbPath}");
             });
 
             // Business layer registrations (Facades and Mappers)

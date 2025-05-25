@@ -21,7 +21,7 @@ public class MainPageViewModel : BindableObject
     private ObservableCollection<MediaItem> _mediaItems;
     private int _gridSpan;
 
-    public MainPageViewModel(IServiceProvider serviceProvider, MediaFileFacade mediaFileFacade)
+    public MainPageViewModel(IServiceProvider serviceProvider /*MediaFileFacade mediaFileFacade*/)
     {
         System.Diagnostics.Debug.WriteLine("[AHHH]MainPageViewModel");
         _serviceProvider = serviceProvider;
