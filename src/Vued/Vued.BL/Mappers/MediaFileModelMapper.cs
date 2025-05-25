@@ -35,6 +35,7 @@ public class MediaFileModelMapper : ModelMapperBase<MediaFile, MediaFileModel>
             Rating = entity.Rating,
             URL = entity.URL,
             Favourite = entity.Favourite,
+            MediaType = entity is Movie ? MediaType.Movie : MediaType.Series,
             GenreNames = entity.Genres.Select(g => g.Name).ToList()
         };
 

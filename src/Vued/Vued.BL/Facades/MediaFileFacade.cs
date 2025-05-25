@@ -3,6 +3,7 @@ using Vued.BL.Mappers;
 using Vued.DAL.Entities;
 using Vued.DAL;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.CodeAnalysis;
 
 namespace Vued.BL.Facades;
 
