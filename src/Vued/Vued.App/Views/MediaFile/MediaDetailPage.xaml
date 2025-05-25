@@ -96,7 +96,7 @@
         <Label
             Grid.Row="6"
             Grid.Column="2"
-            Text="Fantasy, Horror, Sci-fi"
+            Text="{Binding Genres, StringFormat='{0}'}"
             FontSize="16"
             FontFamily="RajdhaniRegular"
             TextColor="{StaticResource ColorTextMuted}"
