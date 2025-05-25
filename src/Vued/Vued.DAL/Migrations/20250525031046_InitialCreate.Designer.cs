@@ -10,7 +10,7 @@ using Vued.DAL;
 namespace Vued.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250524144631_InitialCreate")]
+    [Migration("20250525031046_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
