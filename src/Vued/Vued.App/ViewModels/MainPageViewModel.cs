@@ -26,6 +26,7 @@ public class MainPageViewModel : BindableObject
     private int _gridSpan;
     private readonly MovieService _movieService;
     private readonly IRepository<Movie> _movieRepository;
+    private List<MediaItem> _allMediaItems = new();
 
     public Func<Popup, Task<object?>>? ShowPopupAsyncDelegate { get; set; }
     public Func<string, string, string, Task>? ShowAlertAsyncDelegate { get; set; }
@@ -34,8 +35,6 @@ public class MainPageViewModel : BindableObject
     {
         System.Diagnostics.Debug.WriteLine("[AHHH]MainPageViewModel");
         _serviceProvider = serviceProvider;
-        _movieService = _movieService;
-        _movieRepository = _movieRepository;
         //_mediaFileFacade = mediaFileFacade;
         SettingsCommand = new Command(OnSettingsClicked);
         SearchCommand = new Command(OnSearch);
@@ -43,6 +42,7 @@ public class MainPageViewModel : BindableObject
         MediaSelectedCommand = new Command<MediaItem>(OnMediaSelected);
         MediaItems = new ObservableCollection<MediaItem>();
         GridSpan = 1; // Default span
+
     }
     public event EventHandler? FilterRequested;
 
@@ -64,6 +64,7 @@ public class MainPageViewModel : BindableObject
                 }
 
                 var mediaList = await mediaFileFacade.GetAllAsync();
+                _allMediaItems = new List<MediaItem>();
                 MediaItems.Clear();
                 foreach (var media in mediaList)
                 {
@@ -78,7 +79,7 @@ public class MainPageViewModel : BindableObject
                     System.Diagnostics.Debug.WriteLine($"[AHHH]Favourite : {media.Favourite}");
                     System.Diagnostics.Debug.WriteLine($"[AHHH]MediaType : {media.MediaType}");
                     System.Diagnostics.Debug.WriteLine($"[AHHH]GenreNames : {media.GenreNames}");
-                    MediaItems.Add(new MediaItem
+                    var item = new MediaItem
                     {
                         Id = media.Id,
                         Name = media.Name,
@@ -91,7 +92,10 @@ public class MainPageViewModel : BindableObject
                         Favourite = media.Favourite,
                         MediaType = media.MediaType,
                         GenreNames = media.GenreNames
-                    });
+                    };
+
+                    _allMediaItems.Add(item);
+                    MediaItems.Add(item);
                 }
             }
         }
@@ -109,9 +113,25 @@ public class MainPageViewModel : BindableObject
         {
             _searchQuery = value;
             OnPropertyChanged();
+            OnSearch(); 
         }
     }
+    private void OnSearch()
+    {
+        if (string.IsNullOrWhiteSpace(SearchQuery))
+        {
+            MediaItems = new ObservableCollection<MediaItem>(_allMediaItems);
+            return;
+        }
 
+        var filtered = _allMediaItems
+            .Where(item => item.Name.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
+                           item.Description.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
+                           item.Director.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        MediaItems = new ObservableCollection<MediaItem>(filtered);
+    }
     public ObservableCollection<MediaItem> MediaItems
     {
         get => _mediaItems;
@@ -131,6 +151,7 @@ public class MainPageViewModel : BindableObject
             OnPropertyChanged();
         }
     }
+
 
     public ICommand SettingsCommand { get; }
     public ICommand SearchCommand { get; }
@@ -156,14 +177,6 @@ public class MainPageViewModel : BindableObject
         if (Application.Current?.MainPage != null)
         {
             await Application.Current.MainPage.DisplayAlert("Settings", "Settings clicked!", "OK");
-        }
-    }
-
-    private void OnSearch()
-    {
-        if (!string.IsNullOrEmpty(SearchQuery))
-        {
-            System.Diagnostics.Debug.WriteLine($"Search query: {SearchQuery}");
         }
     }
 
