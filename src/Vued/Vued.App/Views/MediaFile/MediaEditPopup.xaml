@@ -259,7 +259,7 @@
                 FontSize="14" />
             <Button
                 Text="Apply"
-                Clicked="OnApplyClicked"
+                Command="{Binding EditCommand}"
                 BackgroundColor="{StaticResource ColorButtonPrimary}"
                 TextColor="{StaticResource ColorButtonPrimaryText}"
                 HeightRequest="36"
