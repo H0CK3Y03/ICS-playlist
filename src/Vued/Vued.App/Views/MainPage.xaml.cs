@@ -22,16 +22,13 @@ public partial class MainPage : ContentPage
             // Log to Output window
             System.Diagnostics.Debug.WriteLine($"MainPage constructor failed: {ex.Message}\nStackTrace: {ex.StackTrace}");
             // Display alert to user
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                await DisplayAlert("Error", $"Failed to initialize MainPage: {ex.Message}", "OK");
-            });
-            // Rethrow in Debug to pause in debugger
-#if DEBUG
-            throw;
-#endif
         }
+    }
 
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await _viewModel.InitializeAsync();
     }
 
     private void OnSizeChanged(object sender, EventArgs e)
