@@ -6,7 +6,7 @@ namespace Vued.App.ViewModels;
 
 public class MediaEditViewModel : BindableObject
 {
-    private string _title;
+    private string _name;
     private ObservableCollection<string> _ratings;
     private string _selectedRating;
     private string _releaseYear;
@@ -18,7 +18,7 @@ public class MediaEditViewModel : BindableObject
 
     public MediaEditViewModel(MediaItem mediaItem)
     {
-        Title = mediaItem.Title;
+        Name = mediaItem.Name;
         Ratings = new ObservableCollection<string> { "1/10", "2/10", "3/10", "4/10", "5/10", "6/10", "7/10", "8/10", "9/10", "10/10" };
         // Default, to be replaced with DAL data
         SelectedRating = "10/10"; 
@@ -30,12 +30,12 @@ public class MediaEditViewModel : BindableObject
         Review = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum";
     }
 
-    public string Title
+    public string Name
     {
-        get => _title;
+        get => _name;
         set
         {
-            _title = value;
+            _name = value;
             OnPropertyChanged();
         }
     }

@@ -1,4 +1,4 @@
-﻿using Vued.DAL.Entities;
+using Vued.DAL.Entities;
 using Vued.DAL;
 using Vued.DAL.Seeds;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +33,7 @@ public class DbContextSeriesTests(ITestOutputHelper output) : DbContextTestsBase
     {
         var entity = new Series
         {
+            Id = 1,
             Name = "Stranger Things",
             Status = MediaStatus.PlanToWatch,
             ReleaseDate = 2016,

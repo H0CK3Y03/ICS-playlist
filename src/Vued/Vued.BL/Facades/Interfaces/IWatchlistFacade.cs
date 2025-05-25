@@ -4,8 +4,8 @@ namespace Vued.BL.Facades;
 
 public interface IWatchlistFacade
 {
-    Task SaveAsync(WatchlistDetailModel model);
+    Task SaveAsync(WatchlistModel model);
     Task SaveAsync(WatchlistListModel model);
-    Task<WatchlistDetailModel?> GetAsync(Guid id);
+    Task<WatchlistModel?> GetAsync(Guid id);
     Task DeleteAsync(Guid id);
 }

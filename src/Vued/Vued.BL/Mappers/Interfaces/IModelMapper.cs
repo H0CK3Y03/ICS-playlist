@@ -1,12 +1,12 @@
-﻿namespace Vued.BL.Mappers;
+namespace Vued.BL.Mappers;
 
-public interface IModelMapper<TEntity, out TListModel, TDetailModel>
+public interface IModelMapper<TEntity, TModel>
 {
-    TListModel MapToListModel(TEntity? entity);
+    //TListModel MapToListModel(TEntity? entity);
 
-    IEnumerable<TListModel> MapToListModel(IEnumerable<TEntity> entities)
-        => entities.Select(MapToListModel);
+    //IEnumerable<TListModel> MapToListModel(IEnumerable<TEntity> entities)
+    //    => entities.Select(MapToListModel);
 
-    TDetailModel MapToDetailModel(TEntity entity);
-    TEntity MapToEntity(TDetailModel model);
+    TModel MapToModel(TEntity entity);
+    TEntity MapToEntity(TModel model);
 }

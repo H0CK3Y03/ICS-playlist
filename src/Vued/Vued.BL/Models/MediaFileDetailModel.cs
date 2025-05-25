@@ -8,7 +8,7 @@ public enum MediaType
     Movie,
     Series
 }
-public record MediaFileDetailModel : ModelBase
+public record MediaFileModel : ModelBase
 {
     public required int Id { get; set; }
     public required string Name { get; set; }
@@ -24,7 +24,7 @@ public record MediaFileDetailModel : ModelBase
 
     public List<string> GenreNames { get; set; } = new();
 
-    public static MediaFileDetailModel Empty => new()
+    public static MediaFileModel Empty => new()
     {
         Id = 0,
         Name = string.Empty,

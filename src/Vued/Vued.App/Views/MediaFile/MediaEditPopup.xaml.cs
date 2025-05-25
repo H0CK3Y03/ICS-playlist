@@ -27,7 +27,7 @@ public partial class MediaEditPopup : Popup
         var viewModel = (MediaEditViewModel)BindingContext;
         var updatedMedia = new
         {
-            Title = viewModel.Title,
+            Name = viewModel.Name,
             Rating = viewModel.SelectedRating,
             ReleaseYear = viewModel.ReleaseYear,
             LengthOrEpisodes = viewModel.LengthOrEpisodes,

@@ -1,13 +1,18 @@
 using System.Windows.Input;
 using CommunityToolkit.Maui.Views;
+using Microsoft.EntityFrameworkCore;
 using Vued.App.Views.MediaFile;
+using Vued.BL.Facades;
+using Vued.BL.Models;
+using Vued.DAL.Entities;
 
 namespace Vued.App.ViewModels;
 
 public class MediaDetailViewModel : BindableObject
 {
+    private readonly MediaFileFacade _mediaFileFacade;
     private readonly MediaItem _mediaItem;
-    private string _title;
+    private string _name;
     private string _rating;
     private string _releaseYear;
     private string _lengthOrEpisodes;
@@ -15,28 +20,42 @@ public class MediaDetailViewModel : BindableObject
     private string _genres;
     private string _description;
     private string _review;
+    private string _url;
+    private bool _favourite;
+    private MediaStatus _status;
+    private MediaType _mediaType;
 
-    public MediaDetailViewModel(MediaItem mediaItem)
+    public MediaDetailViewModel(MediaItem mediaItem /*MediaFileFacade mediaFileFacade*/)
     {
         _mediaItem = mediaItem;
-        Title = mediaItem.Title;
-        Rating = "10/10"; // Hardcoded for now
-        ReleaseYear = "1999";
-        LengthOrEpisodes = "1h 20min / 22 episodes";
-        Director = "Director Name";
-        Genres = "Fantasy, Horror, Sci-fi";
-        Description = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum";
-        Review = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum";
+        //_mediaFileFacade = mediaFileFacade;
         GoBackCommand = new Command(OnGoBack);
         EditCommand = new Command(OnEdit);
+        System.Diagnostics.Debug.WriteLine("[AHHH]MediaDetailViewModel");
+        //LoadMediaDetailsAsync().GetAwaiter().GetResult();
+        Name = mediaItem.Name;
+        //Rating = "10/10"; // Hardcoded for now
+        //ReleaseYear = "1999";
+        //LengthOrEpisodes = "1h 20min / 22 episodes";
+        //Director = "Director Name";
+        //Genres = "Fantasy, Horror, Sci-fi";
+        //Description = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum";
+        //Review = "Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum";
+        //GoBackCommand = new Command(OnGoBack);
+        //EditCommand = new Command(OnEdit);
     }
 
-    public string Title
+    //public MediaDetailViewModel(MediaItem mediaItem)
+    //{
+    //    _mediaItem = mediaItem;
+    //}
+
+    public string Name
     {
-        get => _title;
+        get => _name;
         set
         {
-            _title = value;
+            _name = value;
             OnPropertyChanged();
         }
     }
@@ -111,6 +130,46 @@ public class MediaDetailViewModel : BindableObject
         }
     }
 
+    public string URL
+    {
+        get => _url;
+        set
+        {
+            _url = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool Favourite
+    {
+        get => _favourite;
+        set
+        {
+            _favourite = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public MediaStatus Status
+    {
+        get => _status;
+        set
+        {
+            _status = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public MediaType MediaType
+    {
+        get => _mediaType;
+        set
+        {
+            _mediaType = value;
+            OnPropertyChanged();
+        }
+    }
+
     public ICommand GoBackCommand { get; }
     public ICommand EditCommand { get; }
 
@@ -130,7 +189,7 @@ public class MediaDetailViewModel : BindableObject
             {
                 var updatedMedia = (dynamic)result;
                 // Update ViewModel properties with edited values
-                Title = updatedMedia.Title;
+                Name = updatedMedia.Name;
                 Rating = updatedMedia.Rating;
                 ReleaseYear = updatedMedia.ReleaseYear;
                 LengthOrEpisodes = updatedMedia.LengthOrEpisodes;
@@ -139,8 +198,44 @@ public class MediaDetailViewModel : BindableObject
                 Description = updatedMedia.Description;
                 Review = updatedMedia.Review;
                 // TODO: Save to database when DAL is ready
-                System.Diagnostics.Debug.WriteLine($"Updated media: {Title}, {Rating}, {ReleaseYear}");
+                System.Diagnostics.Debug.WriteLine($"Updated media: {Name}, {Rating}, {ReleaseYear}");
             }
+        }
+    }
+
+    private async Task LoadMediaDetailsAsync()
+    {
+        try
+        {
+            var mediaDetail = await _mediaFileFacade.GetByIdAsync(_mediaItem.Id);
+            if (mediaDetail == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Media not found", "OK");
+                await Shell.Current.Navigation.PopAsync();
+                return;
+            }
+
+            Name = mediaDetail.Name;
+            Rating = mediaDetail.Rating;
+            ReleaseYear = mediaDetail.ReleaseDate.ToString();
+            LengthOrEpisodes = mediaDetail.MediaType == MediaType.Movie
+                ? $"{mediaDetail.Duration} min"
+                : $"{mediaDetail.Duration} episodes";
+            Director = mediaDetail.Director;
+            Genres = mediaDetail.GenreNames != null
+                ? string.Join(", ", mediaDetail.GenreNames)
+                : string.Empty;
+            Description = mediaDetail.Description ?? "No description available";
+            Review = "";
+            URL = mediaDetail.URL ?? string.Empty;
+            Favourite = mediaDetail.Favourite;
+            Status = mediaDetail.Status;
+            MediaType = mediaDetail.MediaType;
+        }
+        catch (Exception ex)
+        {
+            await Application.Current.MainPage.DisplayAlert("Error", $"Failed to load media details: {ex.Message}", "OK");
+            await Shell.Current.Navigation.PopAsync();
         }
     }
 }

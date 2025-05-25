@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace Vued.BL.Models;
 
-public record GenreDetailModel : ModelBase
+public record GenreModel : ModelBase
 {
     public required int Id { get; set; }
     public required string Name { get; set; }
 
     //public List<string> MediaFileTitles { get; set; } = new(); ???
 
-    public static GenreDetailModel Empty => new()
+    public static GenreModel Empty => new()
     {
         Id = 0,
         Name = string.Empty,

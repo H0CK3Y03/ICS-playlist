@@ -40,7 +40,7 @@ public class WatchlistFacadeTests : FacadeTestsBase
         // Arrange
         await using var dbx = await DbContextFactory.CreateDbContextAsync();
         var facade = new WatchlistFacade(dbx, _mapper);
-        var newWatchlist = new WatchlistDetailModel
+        var newWatchlist = new WatchlistModel
         {
             Id = 0, // New watchlist
             Name = "Test Watchlist", // Unique name

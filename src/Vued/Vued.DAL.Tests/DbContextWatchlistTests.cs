@@ -1,4 +1,4 @@
-﻿using Vued.DAL.Entities;
+using Vued.DAL.Entities;
 using Vued.DAL;
 using Vued.DAL.Seeds;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +33,7 @@ public class DbContextWatchlistTests(ITestOutputHelper output) : DbContextTestsB
     {
         var entity = new Watchlist
         {
+            Id = 1,
             Name = "Weekend Movies",
         };
 

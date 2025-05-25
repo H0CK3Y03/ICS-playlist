@@ -4,7 +4,7 @@ using Vued.DAL.Entities;
 
 namespace Vued.BL.Models;
 
-public record SeriesDetailModel : ModelBase
+public record SeriesModel : ModelBase
 {
     public required int Id { get; set; }
     public required string Name { get; set; }
@@ -21,7 +21,7 @@ public record SeriesDetailModel : ModelBase
 
     public List<string> GenreNames { get; set; } = new();
 
-    public static SeriesDetailModel Empty => new()
+    public static SeriesModel Empty => new()
     {
         Id = 0,
         Name = string.Empty,

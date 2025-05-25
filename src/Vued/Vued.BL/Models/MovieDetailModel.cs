@@ -4,7 +4,7 @@ using Vued.DAL.Entities;
 
 namespace Vued.BL.Models;
 
-public record MovieDetailModel : ModelBase
+public record MovieModel : ModelBase
 {
     public required int Id { get; set; }
     public required string Name { get; set; }
@@ -21,7 +21,7 @@ public record MovieDetailModel : ModelBase
 
     public List<string> GenreNames { get; set; } = new();
 
-    public static MovieDetailModel Empty => new()
+    public static MovieModel Empty => new()
     {
         Id = 0,
         Name = string.Empty,

@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Maui.Views;
 using Vued.App.ViewModels;
 using Vued.App.Views.Add;
 
@@ -10,10 +10,28 @@ public partial class MainPage : ContentPage
 
     public MainPage(MainPageViewModel viewModel)
     {
-        InitializeComponent();
-        BindingContext = viewModel;
-        _viewModel = viewModel;
-        SizeChanged += OnSizeChanged;
+        try
+        {
+            InitializeComponent();
+            BindingContext = viewModel;
+            _viewModel = viewModel;
+            SizeChanged += OnSizeChanged;
+        }
+        catch (Exception ex)
+        {
+            // Log to Output window
+            System.Diagnostics.Debug.WriteLine($"MainPage constructor failed: {ex.Message}\nStackTrace: {ex.StackTrace}");
+            // Display alert to user
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await DisplayAlert("Error", $"Failed to initialize MainPage: {ex.Message}", "OK");
+            });
+            // Rethrow in Debug to pause in debugger
+#if DEBUG
+            throw;
+#endif
+        }
+
     }
 
     private void OnSizeChanged(object sender, EventArgs e)

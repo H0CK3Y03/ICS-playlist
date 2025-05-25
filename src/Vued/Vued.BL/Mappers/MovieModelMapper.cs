@@ -3,25 +3,25 @@ using Vued.DAL.Entities;
 
 namespace Vued.BL.Mappers;
 
-public class MovieModelMapper : ModelMapperBase<Movie, MovieListModel, MovieDetailModel>
+public class MovieModelMapper : ModelMapperBase<Movie, MovieModel>
 {
-    public override MovieListModel MapToListModel(Movie? entity) => entity is null
-        ? MovieListModel.Empty
-        : new MovieListModel
-        {
-            Id = entity.Id,
-            Name = entity.Name,
-            Director = entity.Director,
-            ReleaseDate = entity.ReleaseDate,
-            Status = entity.Status,
-            Favourite = entity.Favourite,
-            Length = entity.Length
-        };
+    //public override MovieListModel MapToListModel(Movie? entity) => entity is null
+    //    ? MovieListModel.Empty
+    //    : new MovieListModel
+    //    {
+    //        Id = entity.Id,
+    //        Name = entity.Name,
+    //        Director = entity.Director,
+    //        ReleaseDate = entity.ReleaseDate,
+    //        Status = entity.Status,
+    //        Favourite = entity.Favourite,
+    //        Length = entity.Length
+    //    };
 
 
-    public override MovieDetailModel MapToDetailModel(Movie? entity) => entity is null
-        ? MovieDetailModel.Empty
-        : new MovieDetailModel
+    public override MovieModel MapToModel(Movie? entity) => entity is null
+        ? MovieModel.Empty
+        : new MovieModel
         {
             Id = entity.Id,
             Name = entity.Name,
@@ -38,7 +38,7 @@ public class MovieModelMapper : ModelMapperBase<Movie, MovieListModel, MovieDeta
         };
 
 
-    public override Movie MapToEntity(MovieDetailModel model) => new()
+    public override Movie MapToEntity(MovieModel model) => new()
     {
         Id = model.Id,
         Name = model.Name,
@@ -51,6 +51,6 @@ public class MovieModelMapper : ModelMapperBase<Movie, MovieListModel, MovieDeta
         URL = model.URL,
         Favourite = model.Favourite,
         Length = model.Length,
-        Genres = model.GenreNames.Select(name => new Genre { Name = name }).ToList()
+        Genres = model.GenreNames.Select(name => new Genre { Id = 3, Name = name }).ToList() // TODO: Replace with actual genre IDs
     };
 }

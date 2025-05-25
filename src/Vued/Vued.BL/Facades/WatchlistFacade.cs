@@ -17,27 +17,27 @@ public class WatchlistFacade
         _mapper = mapper;
     }
 
-    public async Task<List<WatchlistListModel>> GetAllAsync()
+    public async Task<List<WatchlistModel>> GetAllAsync()
     {
         var entities = await _dbContext.Watchlists
             .Include(w => w.MediaFiles)
             .ToListAsync();
 
         return entities
-            .Select(e => _mapper.MapToListModel(e))
+            .Select(e => _mapper.MapToModel(e))
             .ToList();
     }
 
-    public async Task<WatchlistDetailModel?> GetByIdAsync(int id)
+    public async Task<WatchlistModel?> GetByIdAsync(int id)
     {
         var entity = await _dbContext.Watchlists
             .Include(w => w.MediaFiles)
             .FirstOrDefaultAsync(w => w.Id == id);
 
-        return entity is null ? null : _mapper.MapToDetailModel(entity);
+        return entity is null ? null : _mapper.MapToModel(entity);
     }
 
-    public async Task<WatchlistDetailModel> SaveAsync(WatchlistDetailModel model)
+    public async Task<WatchlistModel> SaveAsync(WatchlistModel model)
     {
         var entity = await _dbContext.Watchlists
             .Include(w => w.MediaFiles)

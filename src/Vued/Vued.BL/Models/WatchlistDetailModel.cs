@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Vued.BL.Models;
 
-public record WatchlistDetailModel : ModelBase
+public record WatchlistModel : ModelBase
 {
     public required int Id { get; set; }
     public required string Name { get; set; }
@@ -11,7 +11,7 @@ public record WatchlistDetailModel : ModelBase
 
     public List<string> MediaFileTitles { get; set; } = new();
 
-    public static WatchlistDetailModel Empty => new()
+    public static WatchlistModel Empty => new()
     {
         Id = 0,
         Name = string.Empty,
