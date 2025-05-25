@@ -93,7 +93,7 @@
             Grid.Row="3"
             Grid.Column="0"
             ItemsSource="{Binding Ratings}"
-            SelectedItem="{Binding SelectedRating}"
+            SelectedItem="{Binding Rating}"
             FontSize="14"
             FontFamily="RajdhaniRegular"
             TextColor="{StaticResource ColorTextPrimary}"
