@@ -1,11 +1,13 @@
-﻿namespace Vued.App;
+﻿using Vued.App.Shells;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Vued.App;
 
 public partial class App : Application
 {
-	public App()
-	{
-		InitializeComponent();
-
-		MainPage = new AppShell();
-	}
+    public App(IServiceProvider serviceProvider)
+    {
+        InitializeComponent();
+        MainPage = serviceProvider.GetService<AppShell>();
+    }
 }

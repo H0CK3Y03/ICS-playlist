@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Vued.BL.Models;
+using Vued.BL.Queries;
 using Vued.DAL.Entities;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace Vued.BL.Services

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ct:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
+    xmlns:vm="clr-namespace:Vued.App.ViewModels"
+    x:Class="Vued.App.Views.Filter.FilterPopup"
+    Size="600,350"
+    Color="{StaticResource ColorBackgroundSecondary}">
+
+    <ct:Popup.BindingContext>
+        <vm:FilterPopupViewModel />
+    </ct:Popup.BindingContext>
+
+    <Grid Padding="20" RowDefinitions="*,Auto">
+        <!-- Filter Controls Grid -->
+        <Grid ColumnDefinitions="*,*,*" RowSpacing="20" ColumnSpacing="20">
+            <!-- Category Picker -->
+            <VerticalStackLayout Grid.Column="0">
+                <Label Text="Category"
+                       FontSize="14"
+                       TextColor="{StaticResource ColorTextPrimary}" />
+                <Picker x:Name="CategoryPicker"
+                        Title="Select Category"
+                        FontFamily="RajdhaniRegular"
+                        TextColor="{StaticResource ColorTextPrimary}"
+                        BackgroundColor="{StaticResource ColorInputBackground}"
+                        ItemsSource="{Binding Categories}"
+                        SelectedItem="{Binding SelectedCategory}" />
+            </VerticalStackLayout>
+
+            <!-- Sort By Picker -->
+            <VerticalStackLayout Grid.Column="1">
+                <Label Text="Sort By"
+                       FontSize="14"
+                       TextColor="{StaticResource ColorTextPrimary}" />
+                <Picker x:Name="SortPicker"
+                        Title="Sort by..."
+                        FontFamily="RajdhaniRegular"
+                        TextColor="{StaticResource ColorTextPrimary}"
+                        BackgroundColor="{StaticResource ColorInputBackground}"
+                        ItemsSource="{Binding SortOptions}"
+                        SelectedItem="{Binding SelectedSortOption}" />
+            </VerticalStackLayout>
+
+            <!-- Release Date Slider -->
+            <VerticalStackLayout Grid.Column="2">
+                <Label Text="Min Year"
+                       FontSize="14"
+                       TextColor="{StaticResource ColorTextPrimary}" />
+                <Slider x:Name="ReleaseYearSlider"
+                        Minimum="1980"
+                        Maximum="2025"
+                        Value="{Binding MinReleaseYear}" />
+                <Label Text="{Binding MinReleaseYear, StringFormat='Year: {0:F0}'}"
+                       FontSize="12"
+                       TextColor="{StaticResource ColorTextMuted}" />
+            </VerticalStackLayout>
+
+            <!-- Favourites Checkbox -->
+            <VerticalStackLayout Grid.Column="0" Grid.Row="1" VerticalOptions="Center">
+                <Label Text="Only Favourites"
+                       FontSize="14"
+                       TextColor="{StaticResource ColorTextPrimary}" />
+                <CheckBox x:Name="FavouritesCheckBox"
+                          Color="{StaticResource ColorAccent}"
+                          IsChecked="{Binding OnlyFavourites}" />
+            </VerticalStackLayout>
+
+            <!-- Descending Checkbox -->
+            <VerticalStackLayout Grid.Column="1" Grid.Row="1" VerticalOptions="Center">
+                <Label Text="Descending"
+                       FontSize="14"
+                       TextColor="{StaticResource ColorTextPrimary}" />
+                <CheckBox x:Name="DescendingCheckbox"
+                          Color="{StaticResource ColorAccent}"
+                          IsChecked="{Binding IsDescending}" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <!-- Buttons aligned bottom right -->
+        <HorizontalStackLayout Grid.Row="2"
+                               Spacing="10"
+                               HorizontalOptions="End"
+                               Margin="0,20,0,0">
+            <Button Text="Cancel"
+                    BackgroundColor="{StaticResource ColorButtonSecondary}"
+                    TextColor="{StaticResource ColorButtonSecondaryText}"
+                    Clicked="OnCancelClicked" />
+            <Button Text="Apply"
+                    BackgroundColor="{StaticResource ColorButtonPrimary}"
+                    TextColor="{StaticResource ColorButtonPrimaryText}"
+                    Clicked="OnApplyClicked" />
+        </HorizontalStackLayout>
+    </Grid>
+</ct:Popup>

@@ -4,6 +4,41 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+   <!-- Base Backgrounds -->
+    <Color x:Key="ColorBackgroundPrimary">#121212</Color> 
+    <Color x:Key="ColorBackgroundSecondary">#1F1B24</Color>
+
+    <!-- Text Colors -->
+    <Color x:Key="ColorTextPrimary">#FFFFFF</Color>
+    <Color x:Key="ColorTextSecondary">#BB86FC</Color>
+    <Color x:Key="ColorTextMuted">#9E9E9E</Color>
+
+    <!-- Accent / Branding -->
+    <Color x:Key="ColorAccent">#BB86FC</Color>
+    <Color x:Key="ColorAccentLight">#E2C9FF</Color>
+    <Color x:Key="ColorAccentDark">#8850C8</Color>
+
+    <!-- Status Colors -->
+    <Color x:Key="ColorSuccess">#03DAC6</Color>
+    <Color x:Key="ColorWarning">#FFD600</Color> 
+    <Color x:Key="ColorError">#CF6679</Color> 
+
+    <!-- UI Elements -->
+    <Color x:Key="ColorCardBackground">#1E1E1E</Color>
+    <Color x:Key="ColorDivider">#2C2C2C</Color>
+    <Color x:Key="ColorOverlay">#66000000</Color>
+
+    <!-- Buttons -->
+    <Color x:Key="ColorButtonPrimary">#BB86FC</Color>
+    <Color x:Key="ColorButtonPrimaryText">Black</Color>
+    <Color x:Key="ColorButtonSecondary">#2E2E2E</Color>
+    <Color x:Key="ColorButtonSecondaryText">#FFFFFF</Color>
+
+    <!-- Inputs / Forms -->
+    <Color x:Key="ColorInputBackground">#292929</Color>
+    <Color x:Key="ColorInputBorder">#444444</Color>
+    <Color x:Key="ColorInputPlaceholder">#AAAAAA</Color>
+
     <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
 
     <Color x:Key="Primary">#512BD4</Color>

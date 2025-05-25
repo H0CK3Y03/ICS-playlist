@@ -25,6 +25,7 @@ public class MovieFacade
         var movies = await _dbContext.Movies.ToListAsync();
         return movies.Select(m => _mapper.MapToListModel(m)).ToList();
     }
+  
     public async Task<List<MovieListModel>> FilterAsync(MovieFilterQuery filter)
     {
         IQueryable<Movie> query = _dbContext.Movies;
