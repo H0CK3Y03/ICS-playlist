@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Input;
 
 namespace Vued.App.ViewModels;
@@ -7,8 +6,8 @@ namespace Vued.App.ViewModels;
 public class FilterPopupViewModel : BindableObject
 {
     private ObservableCollection<string> _categories;
-    private string _selectedCategory;
     private ObservableCollection<string> _sortOptions;
+    private string _selectedCategory;
     private string _selectedSortOption;
     private double _minReleaseYear;
     private bool _onlyFavourites;
@@ -96,7 +95,6 @@ public class FilterPopupViewModel : BindableObject
 
     private void LoadFilterOptions()
     {
-        // Hardcoded categories (to be replaced with DAL later)
         var hardcodedCategories = new List<string>
         {
             "All",
@@ -114,34 +112,29 @@ public class FilterPopupViewModel : BindableObject
         }
         if (Categories.Count > 0)
         {
-            SelectedCategory = Categories[0]; // Default selection
+            SelectedCategory = Categories[0];
         }
 
-        // Hardcoded sort options
-        var hardcodedSortOptions = new List<string>
+        var sortOptions = new List<string>
         {
             "Alphabetical",
             "Favourites",
             "Ranking"
         };
         SortOptions.Clear();
-        foreach (var sortOption in hardcodedSortOptions)
+        foreach (var sortOption in sortOptions)
         {
             SortOptions.Add(sortOption);
         }
         if (SortOptions.Count > 0)
         {
-            SelectedSortOption = SortOptions[0]; // Default selection
+            SelectedSortOption = SortOptions[0];
         }
 
-        // Initialize other filter defaults
-        MinReleaseYear = 2000;
+        MinReleaseYear = 1000;
         OnlyFavourites = false;
         IsDescending = false;
     }
 
-    private void OnApply()
-    {
-        // Handled in FilterPopup.xaml.cs
-    }
+    private void OnApply() { /* Handled inside Views.Filter */ }
 }

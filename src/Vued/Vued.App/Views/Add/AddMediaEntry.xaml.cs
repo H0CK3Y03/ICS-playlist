@@ -1,7 +1,5 @@
 using CommunityToolkit.Maui.Views;
-using Microsoft.Extensions.DependencyInjection;
 using Vued.App.ViewModels;
-using Vued.BL.Models;
 
 namespace Vued.App.Views.Add;
 
@@ -20,6 +18,6 @@ public partial class AddMediaEntry : Popup
 
     private void OnCancelClicked(object sender, EventArgs e)
     {
-        Close(); // Close the popup without saving
+        Close();
     }
 }
