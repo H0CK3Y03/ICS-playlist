@@ -9,18 +9,6 @@ namespace Vued.BL.Mappers;
 public class MediaFileModelMapper : ModelMapperBase<MediaFile, MediaFileModel>
 
 {
-    //public override MediaListModel MapToListModel(MediaFile? entity) => entity is null
-    //    ? MediaListModel.Empty
-    //    : new MediaListModel
-    //    {
-    //        Id = entity.Id,
-    //        Name = entity.Name,
-    //        Director = entity.Director,
-    //        ReleaseDate = entity.ReleaseDate,
-    //        Status = entity.Status,
-    //        Favourite = entity.Favourite
-    //    };
-
     public override MediaFileModel MapToModel(MediaFile entity) => entity is null
         ? MediaFileModel.Empty
         : new MediaFileModel

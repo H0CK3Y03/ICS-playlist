@@ -251,6 +251,7 @@
             <Button
                 Text="Delete"
                 Command="{Binding DeleteCommand}"
+                Clicked="OnCancelClicked"
                 BackgroundColor="{StaticResource ColorError}"
                 TextColor="{StaticResource ColorButtonSecondaryText}"
                 HeightRequest="36"
@@ -259,7 +260,8 @@
                 FontSize="14" />
             <Button
                 Text="Apply"
-                Clicked="OnApplyClicked"
+                Clicked="OnCancelClicked"
+                Command="{Binding EditCommand}"
                 BackgroundColor="{StaticResource ColorButtonPrimary}"
                 TextColor="{StaticResource ColorButtonPrimaryText}"
                 HeightRequest="36"

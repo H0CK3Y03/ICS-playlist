@@ -30,6 +30,7 @@ namespace Vued.DAL
                 .WithMany(w => w.MediaFiles);
 
             // ----- Seed Data -----
+            GenreMediaSeed.Seed(modelBuilder);
             GenreSeed.Seed(modelBuilder);
             MovieSeed.Seed(modelBuilder);
             SeriesSeed.Seed(modelBuilder);

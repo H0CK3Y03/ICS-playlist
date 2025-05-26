@@ -28,21 +28,16 @@ public class MainPageViewModel : BindableObject
     private readonly IRepository<Movie> _movieRepository;
     private List<MediaItem> _allMediaItems = new();
 
-    public Func<Popup, Task<object?>>? ShowPopupAsyncDelegate { get; set; }
-    public Func<string, string, string, Task>? ShowAlertAsyncDelegate { get; set; }
-
     public MainPageViewModel(IServiceProvider serviceProvider)
     {
         System.Diagnostics.Debug.WriteLine("[AHHH]MainPageViewModel");
         _serviceProvider = serviceProvider;
-        //_mediaFileFacade = mediaFileFacade;
         SettingsCommand = new Command(OnSettingsClicked);
         SearchCommand = new Command(OnSearch);
-        FilterCommand = new Command(OnFilterClicked);
+        //FilterCommand = new Command(OnFilterClicked);
         MediaSelectedCommand = new Command<MediaItem>(OnMediaSelected);
         MediaItems = new ObservableCollection<MediaItem>();
         GridSpan = 1; // Default span
-
     }
     public event EventHandler? FilterRequested;
 
@@ -68,17 +63,6 @@ public class MainPageViewModel : BindableObject
                 MediaItems.Clear();
                 foreach (var media in mediaList)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[AHHH]Id : {media.Id}");
-                    System.Diagnostics.Debug.WriteLine($"[AHHH]Name : {media.Name}");
-                    System.Diagnostics.Debug.WriteLine($"[AHHH]Stauts : {media.Status}");
-                    System.Diagnostics.Debug.WriteLine($"[AHHH]Description : {media.Description}");
-                    System.Diagnostics.Debug.WriteLine($"[AHHH]Duration : {media.Duration}");
-                    System.Diagnostics.Debug.WriteLine($"[AHHH]Director : {media.Director}");
-                    System.Diagnostics.Debug.WriteLine($"[AHHH]ReleaseDate : {media.ReleaseDate}");
-                    System.Diagnostics.Debug.WriteLine($"[AHHH]Rating : {media.Rating}");
-                    System.Diagnostics.Debug.WriteLine($"[AHHH]Favourite : {media.Favourite}");
-                    System.Diagnostics.Debug.WriteLine($"[AHHH]MediaType : {media.MediaType}");
-                    System.Diagnostics.Debug.WriteLine($"[AHHH]GenreNames : {media.GenreNames}");
                     var item = new MediaItem
                     {
                         Id = media.Id,
@@ -152,7 +136,6 @@ public class MainPageViewModel : BindableObject
         }
     }
 
-
     public ICommand SettingsCommand { get; }
     public ICommand SearchCommand { get; }
     public ICommand FilterCommand { get; }
@@ -182,37 +165,23 @@ public class MainPageViewModel : BindableObject
 
     private async void OnFilterClicked()
     {
-        if (ShowPopupAsyncDelegate is null || ShowAlertAsyncDelegate is null)
-            return;
-
-        try
+        if (!string.IsNullOrEmpty(SearchQuery))
         {
-            var filterPopup = new FilterPopup(new FilterPopupViewModel());
-            var result = await ShowPopupAsyncDelegate(filterPopup);
-
-            if (result is MovieApplyFilterModel filters)
-            {
-                var movieFilter = new MovieFilterQuery
-                {
-                    Genre = (filters.Category == "All" || string.IsNullOrWhiteSpace(filters.Category)) ? null : filters.Category,
-                    ReleaseYear = (int)Math.Round(filters.MinReleaseYear),
-                    Favourite = filters.OnlyFavourites ? true : null,
-                    SortBy = filters.SortOption switch
-                    {
-                        "Alphabetical" => "title",
-                        "Favourites" => "favourite",
-                        "Ranking" => "rating",
-                        _ => "title"
-                    },
-                    SortOrder = filters.IsDescending ? "desc" : "asc"
-                };
-
-                await ApplyFilterAsync(movieFilter);
-            }
+            System.Diagnostics.Debug.WriteLine($"Search query: {SearchQuery}");
         }
-        catch (Exception ex)
+    }
+
+    private async void OnFilterClicked()
+    {
+        if (Application.Current?.MainPage != null)
         {
-            System.Diagnostics.Debug.WriteLine("Filter Error: " + ex.Message);
+            var popup = _serviceProvider.GetService<FilterPopup>();
+            var result = await Application.Current.MainPage.ShowPopupAsync(popup);
+            if (result != null)
+            {
+                var filters = (dynamic)result;
+                System.Diagnostics.Debug.WriteLine($"Filters applied: Category={filters.Category}, SortOption={filters.SortOption}, MinReleaseYear={filters.MinReleaseYear}, OnlyFavourites={filters.OnlyFavourites}, IsDescending={filters.IsDescending}");
+            }
         }
     }
 
@@ -221,77 +190,7 @@ public class MainPageViewModel : BindableObject
         if (mediaItem == null) return;
         var viewModel = new MediaDetailViewModel(mediaItem, _serviceProvider);
         var detailPage = new MediaDetailPage(viewModel);
-        await Application.Current!.MainPage!.Navigation.PushAsync(detailPage);
-    }
-
-    public async Task ApplyFilterAsync(MovieFilterQuery filter)
-    {
-        try
-        {
-            var allMovies = await _movieRepository.GetAllAsync();
-            var query = allMovies.AsQueryable();
-
-            var filtered = _movieService.ApplyFilter(query, filter).ToList();
-
-            MediaItems.Clear();
-            foreach (var movie in filtered)
-            {
-                MediaItems.Add(new MediaItem
-                {
-                    Id = movie.Id,
-                    Name = movie.Name,
-                    Duration = movie.Duration,
-                    Rating = movie.Rating,
-                    ReleaseDate = movie.ReleaseDate,
-                    Director = movie.Director,
-                    URL = movie.URL,
-                    Favourite = movie.Favourite,
-                    Status = movie.Status,
-                    Description = movie.Description ?? string.Empty,
-                    MediaType = MediaType.Movie,
-                    GenreNames = movie.Genres?.Select(g => g.Name).ToList() ?? new List<string>()
-                });
-            }
-
-            if (MediaItems.Count == 0)
-            {
-                MediaItems.Add(new MediaItem
-                {
-                    Id = 0,
-                    Name = "ZERO",
-                    Status = MediaStatus.Completed,
-                    Description = "",
-                    Duration = 0,
-                    Director = "",
-                    ReleaseDate = 0,
-                    Rating = "",
-                    URL = null,
-                    Favourite = false,
-                    MediaType = MediaType.Movie,
-                    GenreNames = new List<string>()
-                });
-            }
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"Error applying filter: {ex.Message}");
-            MediaItems.Clear();
-            MediaItems.Add(new MediaItem
-            {
-                Id = 0,
-                Name = "ERROR",
-                Status = MediaStatus.Completed,
-                Description = "",
-                Duration = 0,
-                Director = "",
-                ReleaseDate = 0,
-                Rating = "",
-                URL = null,
-                Favourite = false,
-                MediaType = MediaType.Movie,
-                GenreNames = new List<string>()
-            });
-        }
+        await Application.Current.MainPage.Navigation.PushAsync(detailPage);
     }
 }
 
