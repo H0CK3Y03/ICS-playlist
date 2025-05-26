@@ -1,7 +1,10 @@
 using System.Windows.Input;
+using Vued.App.Utilities;
 using Vued.BL.Facades;
 using Vued.BL.Models;
 using Vued.DAL.Entities;
+
+// TODO: Link Genre id with Media id to create connection in db
 
 namespace Vued.App.ViewModels;
 
@@ -59,7 +62,7 @@ public class AddMediaEntryViewModel
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Error loading genres: {ex.Message}");
+            Logger.Error(GetType(), "Error loading genres", ex);
         }
     }
 
@@ -69,7 +72,7 @@ public class AddMediaEntryViewModel
         {
             if (string.IsNullOrWhiteSpace(Name))
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Media name is required.", "OK");
+                await AlertDisplay.ShowAlertAsync("Error", "Media name is required.", "OK");
                 return;
             }
 
@@ -89,19 +92,19 @@ public class AddMediaEntryViewModel
             };
 
             await _mediaFileFacade.SaveAsync(mediaFileModel);
-            System.Diagnostics.Debug.WriteLine(
+
+            Logger.Debug(GetType(),
                 $"New media added with ID {mediaFileModel.Id}: {mediaFileModel.Name}, {mediaFileModel.Rating}, {mediaFileModel.ReleaseDate}"
             );
-
-            await Application.Current.MainPage.DisplayAlert("Success", "Media item added successfully.", "OK");
+            await AlertDisplay.ShowAlertAsync("Success", "Media item added successfully", "OK");
             _onSaveComplete?.Invoke();
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Error creating media: {ex.Message}\nStackTrace: {ex.StackTrace}");
+            Logger.Debug(GetType(), $"Error creating media: {ex.Message}\nStackTrace: {ex.StackTrace}");
             if (Application.Current?.MainPage != null)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", $"Failed to create new media: {ex.Message}", "OK");
+                await AlertDisplay.ShowAlertAsync("Error", $"Failed to create new media: {ex.Message}", "OK");
             }
         }
     }
