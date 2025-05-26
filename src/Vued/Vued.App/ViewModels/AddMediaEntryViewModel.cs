@@ -37,13 +37,10 @@ public class AddMediaEntryViewModel
 
     public ICommand AddCommand { get; }
 
-    public AddMediaEntryViewModel(
-        GenreFacade genreFacade,
-        MediaFileFacade mediaFileFacade,
-        Action onSaveComplete)
+    public AddMediaEntryViewModel(IServiceProvider serviceProvider, Action onSaveComplete)
     {
-        _genreFacade = genreFacade;
-        _mediaFileFacade = mediaFileFacade;
+        _genreFacade = serviceProvider.GetRequiredService<GenreFacade>();
+        _mediaFileFacade = serviceProvider.GetRequiredService<MediaFileFacade>();
         _onSaveComplete = onSaveComplete;
 
         AddCommand = new Command(async () => await OnAddAsync());

@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Maui.Views;
 using Vued.App.Views.Add;
-using Vued.BL.Facades;
-using Vued.BL.Models;
-using Vued.DAL.Entities;
+using Vued.App.Utilities;
 
 namespace Vued.App.ViewModels;
 
@@ -34,11 +29,8 @@ public class AddPopupViewModel
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"Error creating media: {ex.Message}\nStackTrace: {ex.StackTrace}");
-            if (Application.Current?.MainPage != null)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", $"Failed to create new media: {ex.Message}", "OK");
-            }
+            Logger.Error(GetType(), "Error creating media", ex);
+            await AlertDisplay.ShowAlertAsync("Error", $"Failed to create new media: {ex.Message}", "OK");
         }
     }
 }
