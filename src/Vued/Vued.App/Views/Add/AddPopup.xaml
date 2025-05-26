@@ -26,7 +26,7 @@
                 HorizontalOptions="Center" />
             <Button
                 Text="Add New Media Entry"
-                Clicked="OnAddMediaEntryClicked"
+                Command="{Binding AddMediaEntryCommand}"
                 BackgroundColor="{StaticResource ColorButtonPrimary}"
                 TextColor="{StaticResource ColorButtonPrimaryText}"
                 HeightRequest="40"

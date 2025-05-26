@@ -64,6 +64,7 @@ namespace Vued.App
             builder.Services.AddTransient<MediaDetailViewModel>();
             builder.Services.AddTransient<MediaEditPopup>();
             builder.Services.AddTransient<MediaEditViewModel>();
+            builder.Services.AddTransient<AddPopupViewModel>();
 
             var app = builder.Build();
 
