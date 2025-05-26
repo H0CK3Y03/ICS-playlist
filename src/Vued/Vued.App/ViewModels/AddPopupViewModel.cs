@@ -13,9 +13,11 @@ namespace Vued.App.ViewModels;
 public class AddPopupViewModel
 {
     private readonly IServiceProvider _serviceProvider;
+    private readonly MainPageViewModel _mainPageViewModel;
 
-    public AddPopupViewModel(IServiceProvider serviceProvider)
+    public AddPopupViewModel(IServiceProvider serviceProvider, MainPageViewModel mainPageViewModel)
     {
+        _mainPageViewModel = mainPageViewModel;
         _serviceProvider = serviceProvider;
         AddMediaEntryCommand = new Command(async () => await OnAddMediaEntry());
     }
@@ -28,6 +30,7 @@ public class AddPopupViewModel
         {
             var popup = new AddMediaEntry(_serviceProvider);
             var result = await Application.Current.MainPage.ShowPopupAsync(popup);
+            await _mainPageViewModel.LoadMediaFiles();
         }
         catch (Exception ex)
         {

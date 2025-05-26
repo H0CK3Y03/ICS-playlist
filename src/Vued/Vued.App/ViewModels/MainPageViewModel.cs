@@ -52,10 +52,11 @@ public class MainPageViewModel : BindableObject
                 }
 
                 var mediaList = await mediaFileFacade.GetAllAsync();
+                var newItems = new ObservableCollection<MediaItem>();
                 MediaItems.Clear();
                 foreach (var media in mediaList)
                 {
-                    MediaItems.Add(new MediaItem
+                    newItems.Add(new MediaItem
                     {
                         Id = media.Id,
                         Name = media.Name,
@@ -70,6 +71,16 @@ public class MainPageViewModel : BindableObject
                         GenreNames = media.GenreNames
                     });
                 }
+
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    MediaItems.Clear();
+                    foreach (var item in newItems)
+                    {
+                        MediaItems.Add(item);
+                    }
+                    OnPropertyChanged(nameof(MediaItems)); // Ensure UI updates
+                });
             }
         }
         catch (Exception ex)
@@ -95,7 +106,7 @@ public class MainPageViewModel : BindableObject
         set
         {
             _mediaItems = value;
-            OnPropertyChanged();
+            OnPropertyChanged(nameof(MediaItems));
         }
     }
 

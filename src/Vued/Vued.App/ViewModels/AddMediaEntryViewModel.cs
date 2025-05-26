@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Vued.BL.Facades;
@@ -18,18 +19,22 @@ public class AddMediaEntryViewModel
     public string LengthOrEpisodes { get; set; } = string.Empty;
     public string Rating { get; set; } = "0/10";
     public string ImageUrl { get; set; } = string.Empty;
-    public string Genres { get; set; } = string.Empty;
+    public GenreModel SelectedGenre { get; set; } // Changed from string to GenreModel
     public string ReleaseYear { get; set; } = string.Empty;
     public string MediaUrl { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string Review { get; set; } = string.Empty;
+    public bool Favourite { get; set; } = false;
+    public string SelectedMediaType { get; set; } = "Movie";
 
-    // Ratings list for the Picker
+    // Data sources for pickers
     public List<string> Ratings { get; } = new List<string>
     {
         "0/10", "1/10", "2/10", "3/10", "4/10", "5/10",
         "6/10", "7/10", "8/10", "9/10", "10/10"
     };
+    public List<string> MediaTypes { get; } = new List<string> { "Movie", "Series" };
+    public List<GenreModel> AvailableGenres { get; private set; } = new List<GenreModel>();
 
     public ICommand AddCommand { get; }
 
@@ -37,6 +42,30 @@ public class AddMediaEntryViewModel
     {
         _serviceProvider = serviceProvider;
         AddCommand = new Command(async () => await OnAddAsync());
+        LoadGenresAsync().GetAwaiter().GetResult(); // Load genres during initialization
+    }
+
+    private async Task LoadGenresAsync()
+    {
+        try
+        {
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var genreFacade = scope.ServiceProvider.GetService<GenreFacade>();
+                if (genreFacade != null)
+                {
+                    AvailableGenres = (await genreFacade.GetAllAsync()).ToList();
+                    if (AvailableGenres.Any() && SelectedGenre == null)
+                    {
+                        SelectedGenre = AvailableGenres[0]; // Now valid, as both are GenreModel
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error loading genres: {ex.Message}");
+        }
     }
 
     private async Task OnAddAsync()
@@ -68,11 +97,13 @@ public class AddMediaEntryViewModel
                     ReleaseDate = int.TryParse(ReleaseYear, out int releaseYear) ? releaseYear : 0,
                     Duration = int.TryParse(LengthOrEpisodes.Split(' ')[0], out int duration) ? duration : 0,
                     Director = Director,
+                    // Replace this with genre to mediafile linking
+                    //Genres = SelectedGenre != null ? new List<string> { SelectedGenre.Name } : new List<string>(),
                     Description = Description,
                     URL = MediaUrl,
-                    Favourite = false,
+                    Favourite = Favourite,
                     Status = MediaStatus.Watching,
-                    MediaType = MediaType.Movie
+                    MediaType = SelectedMediaType == "Movie" ? MediaType.Movie : MediaType.Series
                 };
 
                 // Save to database
@@ -81,8 +112,8 @@ public class AddMediaEntryViewModel
                     $"New media added with ID {mediaFileModel.Id}: {mediaFileModel.Name}, {mediaFileModel.Rating}, {mediaFileModel.ReleaseDate}"
                 );
 
+                // Close the popup and return the saved model
                 await Application.Current.MainPage.DisplayAlert("Success", "Media item added successfully.", "OK");
-                await Shell.Current.GoToAsync("..");
             }
         }
         catch (Exception ex)

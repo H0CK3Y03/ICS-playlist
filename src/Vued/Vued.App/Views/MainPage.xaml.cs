@@ -39,7 +39,7 @@ public partial class MainPage : ContentPage
 
     private async void OnAddButtonClicked(object sender, EventArgs e)
     {
-        var popup = new AddPopup(_serviceProvider);
+        var popup = new AddPopup(_serviceProvider, _viewModel);
         await this.ShowPopupAsync(popup);
     }
 }
