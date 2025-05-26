@@ -12,6 +12,7 @@ namespace Vued.App.ViewModels;
 public class AddMediaEntryViewModel
 {
     private readonly IServiceProvider _serviceProvider;
+    private readonly Action _onSaveComplete;
 
     // Properties bound to the XAML
     public string Name { get; set; } = string.Empty;
@@ -38,9 +39,10 @@ public class AddMediaEntryViewModel
 
     public ICommand AddCommand { get; }
 
-    public AddMediaEntryViewModel(IServiceProvider serviceProvider)
+    public AddMediaEntryViewModel(IServiceProvider serviceProvider, Action onSaveComplete)
     {
         _serviceProvider = serviceProvider;
+        _onSaveComplete = onSaveComplete;
         AddCommand = new Command(async () => await OnAddAsync());
         LoadGenresAsync().GetAwaiter().GetResult(); // Load genres during initialization
     }
@@ -114,6 +116,7 @@ public class AddMediaEntryViewModel
 
                 // Close the popup and return the saved model
                 await Application.Current.MainPage.DisplayAlert("Success", "Media item added successfully.", "OK");
+                _onSaveComplete?.Invoke();
             }
         }
         catch (Exception ex)
