@@ -7,8 +7,9 @@ namespace Vued.App.Views;
 public partial class MainPage : ContentPage
 {
     private readonly MainPageViewModel _viewModel;
+    IServiceProvider _serviceProvider;
 
-    public MainPage(MainPageViewModel viewModel)
+    public MainPage(MainPageViewModel viewModel, IServiceProvider serviceProvider)
     {
         try
         {
@@ -16,6 +17,7 @@ public partial class MainPage : ContentPage
             BindingContext = viewModel;
             _viewModel = viewModel;
             SizeChanged += OnSizeChanged;
+            _serviceProvider = serviceProvider;
         }
         catch (Exception ex)
         {
@@ -37,7 +39,7 @@ public partial class MainPage : ContentPage
 
     private async void OnAddButtonClicked(object sender, EventArgs e)
     {
-        var popup = new AddPopup();
+        var popup = new AddPopup(_serviceProvider, _viewModel);
         await this.ShowPopupAsync(popup);
     }
 }

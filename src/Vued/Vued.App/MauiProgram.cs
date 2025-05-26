@@ -43,12 +43,18 @@ namespace Vued.App
 
             // Business layer registrations (Facades and Mappers)
             builder.Services.AddScoped<MediaFileFacade>();
-            builder.Services.AddScoped<IModelMapper<MediaFile, MediaFileModel>, MediaFileModelMapper>();
             builder.Services.AddScoped<GenreFacade>();
-            builder.Services.AddScoped<IModelMapper<Genre, GenreModel>, GenreModelMapper>();
-            builder.Services.AddScoped<MovieFacade>();
-            builder.Services.AddScoped<SeriesFacade>();
+            builder.Services.AddScoped<MovieFacade>(); // Remove after simplicifaciton
+            builder.Services.AddScoped<SeriesFacade>(); // Remove after simplification
             builder.Services.AddScoped<WatchlistFacade>();
+
+            builder.Services.AddScoped<GenreModelMapper>();
+            builder.Services.AddScoped<IModelMapper<Genre, GenreModel>, GenreModelMapper>();
+
+            builder.Services.AddScoped<MediaFileModelMapper>();
+            builder.Services.AddScoped<IModelMapper<MediaFile, MediaFileModel>, MediaFileModelMapper>();
+
+            builder.Services.AddScoped<WatchlistModelMapper>();
             builder.Services.AddScoped<IModelMapper<Watchlist, WatchlistModel>, WatchlistModelMapper>();
 
             // App and shell
@@ -64,6 +70,8 @@ namespace Vued.App
             builder.Services.AddTransient<MediaDetailViewModel>();
             builder.Services.AddTransient<MediaEditPopup>();
             builder.Services.AddTransient<MediaEditViewModel>();
+            builder.Services.AddTransient<AddPopupViewModel>();
+            builder.Services.AddTransient<AddMediaEntryViewModel>();
 
             var app = builder.Build();
 

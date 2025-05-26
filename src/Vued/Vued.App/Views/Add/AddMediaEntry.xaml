@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ct:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
+    x:Class="Vued.App.Views.Add.AddMediaEntry"
+    Size="750,600"
+    Color="{StaticResource ColorBackgroundSecondary}">
+
+    <Grid
+        Padding="15"
+        RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+        ColumnDefinitions="*,*,*"
+        ColumnSpacing="10"
+        RowSpacing="5">
+        <!-- Column 1: Title -->
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            Text="Name"
+            FontSize="14"
+            FontFamily="RajdhaniBold"
+            TextColor="{StaticResource ColorAccent}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
+        <Entry
+            Grid.Row="1"
+            Grid.Column="0"
+            Text="{Binding Name}"
+            FontSize="14"
+            FontFamily="RajdhaniRegular"
+            TextColor="{StaticResource ColorTextPrimary}"
+            BackgroundColor="{StaticResource ColorInputBackground}"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill"
+            HeightRequest="32" />
+
+        <!-- Column 2: Director -->
+        <Label
+            Grid.Row="0"
+            Grid.Column="1"
+            Text="Director"
+            FontSize="14"
+            FontFamily="RajdhaniBold"
+            TextColor="{StaticResource ColorAccent}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
+        <Entry
+            Grid.Row="1"
+            Grid.Column="1"
+            Text="{Binding Director}"
+            FontSize="14"
+            FontFamily="RajdhaniRegular"
+            TextColor="{StaticResource ColorTextPrimary}"
+            BackgroundColor="{StaticResource ColorInputBackground}"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill"
+            HeightRequest="32" />
+
+        <!-- Column 3: Length/Episodes -->
+        <Label
+            Grid.Row="0"
+            Grid.Column="2"
+            Text="Length/Episodes"
+            FontSize="14"
+            FontFamily="RajdhaniBold"
+            TextColor="{StaticResource ColorAccent}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
+        <Entry
+            Grid.Row="1"
+            Grid.Column="2"
+            Text="{Binding LengthOrEpisodes}"
+            FontSize="14"
+            FontFamily="RajdhaniRegular"
+            TextColor="{StaticResource ColorTextPrimary}"
+            BackgroundColor="{StaticResource ColorInputBackground}"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill"
+            HeightRequest="32" />
+
+        <!-- Column 1: Rating -->
+        <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            Text="Rating"
+            FontSize="14"
+            FontFamily="RajdhaniBold"
+            TextColor="{StaticResource ColorAccent}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
+        <Picker
+            Grid.Row="3"
+            Grid.Column="0"
+            ItemsSource="{Binding Ratings}"
+            SelectedItem="{Binding Rating}"
+            FontSize="14"
+            FontFamily="RajdhaniRegular"
+            TextColor="{StaticResource ColorTextPrimary}"
+            BackgroundColor="{StaticResource ColorInputBackground}"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill"
+            HeightRequest="32" />
+
+        <!-- Column 2: Change Picture URL -->
+        <Label
+            Grid.Row="2"
+            Grid.Column="1"
+            Text="Picture URL"
+            FontSize="14"
+            FontFamily="RajdhaniBold"
+            TextColor="{StaticResource ColorAccent}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
+        <Entry
+            Grid.Row="3"
+            Grid.Column="1"
+            Text="{Binding ImageUrl}"
+            FontSize="14"
+            FontFamily="RajdhaniRegular"
+            TextColor="{StaticResource ColorTextPrimary}"
+            BackgroundColor="{StaticResource ColorInputBackground}"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill"
+            HeightRequest="32" />
+
+        <!-- Column 3: Genres -->
+        <Label
+            Grid.Row="2"
+            Grid.Column="2"
+            Text="Genres"
+            FontSize="14"
+            FontFamily="RajdhaniBold"
+            TextColor="{StaticResource ColorAccent}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
+        <Picker
+            Grid.Row="3"
+            Grid.Column="2"
+            ItemsSource="{Binding AvailableGenres}"
+            SelectedItem="{Binding SelectedGenre}"
+            FontSize="14"
+            FontFamily="RajdhaniRegular"
+            TextColor="{StaticResource ColorTextPrimary}"
+            BackgroundColor="{StaticResource ColorInputBackground}"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill"
+            HeightRequest="32" />
+
+        <!-- Column 1: Release Year -->
+        <Label
+            Grid.Row="4"
+            Grid.Column="0"
+            Text="Release Year"
+            FontSize="14"
+            FontFamily="RajdhaniBold"
+            TextColor="{StaticResource ColorAccent}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
+        <Entry
+            Grid.Row="5"
+            Grid.Column="0"
+            Text="{Binding ReleaseYear}"
+            Keyboard="Numeric"
+            FontSize="14"
+            FontFamily="RajdhaniRegular"
+            TextColor="{StaticResource ColorTextPrimary}"
+            BackgroundColor="{StaticResource ColorInputBackground}"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill"
+            HeightRequest="32" />
+
+        <!-- Column 2: Change Media URL -->
+        <Label
+            Grid.Row="4"
+            Grid.Column="1"
+            Text="Media URL"
+            FontSize="14"
+            FontFamily="RajdhaniBold"
+            TextColor="{StaticResource ColorAccent}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
+        <Entry
+            Grid.Row="5"
+            Grid.Column="1"
+            Text="{Binding MediaUrl}"
+            FontSize="14"
+            FontFamily="RajdhaniRegular"
+            TextColor="{StaticResource ColorTextPrimary}"
+            BackgroundColor="{StaticResource ColorInputBackground}"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill"
+            HeightRequest="32" />
+
+        <!-- Column 3: Media Type -->
+        <Label
+            Grid.Row="4"
+            Grid.Column="2"
+            Text="Media Type"
+            FontSize="14"
+            FontFamily="RajdhaniBold"
+            TextColor="{StaticResource ColorAccent}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
+        <Picker
+            Grid.Row="5"
+            Grid.Column="2"
+            ItemsSource="{Binding MediaTypes}"
+            SelectedItem="{Binding SelectedMediaType}"
+            FontSize="14"
+            FontFamily="RajdhaniRegular"
+            TextColor="{StaticResource ColorTextPrimary}"
+            BackgroundColor="{StaticResource ColorInputBackground}"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill"
+            HeightRequest="32" />
+
+        <!-- Column 1: Favourite -->
+        <Label
+            Grid.Row="6"
+            Grid.Column="0"
+            Text="Favourite"
+            FontSize="14"
+            FontFamily="RajdhaniBold"
+            TextColor="{StaticResource ColorAccent}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
+        <CheckBox
+            Grid.Row="6"
+            Grid.Column="0"
+            IsChecked="{Binding Favourite}"
+            Color="{StaticResource ColorAccent}"
+            VerticalOptions="Center"
+            HorizontalOptions="End" />
+
+        <!-- Description and Review (spanning all columns) -->
+        <VerticalStackLayout
+            Grid.Row="7"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Spacing="8"
+            Margin="0,8,0,0">
+            <Label
+                Text="Description"
+                FontSize="14"
+                FontFamily="RajdhaniBold"
+                TextColor="{StaticResource ColorAccent}"
+                VerticalOptions="Start" />
+            <Editor
+                Text="{Binding Description}"
+                FontSize="14"
+                FontFamily="RajdhaniRegular"
+                TextColor="{StaticResource ColorTextPrimary}"
+                BackgroundColor="{StaticResource ColorInputBackground}"
+                HeightRequest="80"
+                VerticalOptions="Start"
+                HorizontalOptions="Fill" />
+
+            <Label
+                Text="Review"
+                FontSize="14"
+                FontFamily="RajdhaniBold"
+                TextColor="{StaticResource ColorAccent}"
+                VerticalOptions="Start" />
+            <Editor
+                Text="{Binding Review}"
+                FontSize="14"
+                FontFamily="RajdhaniRegular"
+                TextColor="{StaticResource ColorTextPrimary}"
+                BackgroundColor="{StaticResource ColorInputBackground}"
+                HeightRequest="80"
+                VerticalOptions="Start"
+                HorizontalOptions="Fill" />
+        </VerticalStackLayout>
+
+        <!-- Buttons (spanning all columns) -->
+        <HorizontalStackLayout
+            Grid.Row="8"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Spacing="10"
+            HorizontalOptions="End"
+            Margin="0,15,0,5">
+            <Button
+                Text="Cancel"
+                Clicked="OnCancelClicked"
+                BackgroundColor="{StaticResource ColorButtonSecondary}"
+                TextColor="{StaticResource ColorButtonSecondaryText}"
+                HeightRequest="36"
+                WidthRequest="90"
+                CornerRadius="4"
+                FontSize="14" />
+            <Button
+                Text="Add"
+                Command="{Binding AddCommand}"
+                BackgroundColor="{StaticResource ColorButtonPrimary}"
+                TextColor="{StaticResource ColorButtonPrimaryText}"
+                HeightRequest="36"
+                WidthRequest="90"
+                CornerRadius="4"
+                FontSize="14" />
+        </HorizontalStackLayout>
+    </Grid>
+</ct:Popup>

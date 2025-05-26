@@ -6,14 +6,10 @@ namespace Vued.App.Views.Add;
 public partial class AddPopup : Popup
 {
 
-    public AddPopup()
+    public AddPopup(IServiceProvider serviceProvider, MainPageViewModel mainPageViewModel)
     {
         InitializeComponent();
-    }
-
-    private void OnAddMediaEntryClicked(object sender, EventArgs e)
-    {
-        Close();
+        BindingContext = new AddPopupViewModel(serviceProvider, mainPageViewModel);
     }
 
     private void OnAddWatchlistClicked(object sender, EventArgs e)
