@@ -5,9 +5,11 @@ using Vued.App.Views.Filter;
 using Vued.App.Views.MediaFile;
 using Vued.BL.Facades;
 using Vued.BL.Models;
-using Vued.DAL.Entities;
+using Vued.App.Utilities;
 
 namespace Vued.App.ViewModels;
+
+public record MediaItem : MediaFileModel { /* Primitive Adapter for MediaFileModel */} 
 
 public class MainPageViewModel : BindableObject
 {
@@ -22,6 +24,8 @@ public class MainPageViewModel : BindableObject
     private double _minReleaseYear;
     private bool _onlyFavourites;
     private bool _isDescending;
+
+    private List<MediaItem> _allMediaItems = new();
 
     public MainPageViewModel(IServiceProvider serviceProvider)
     {
@@ -65,6 +69,7 @@ public class MainPageViewModel : BindableObject
                 });
             }
 
+            _allMediaItems = newItems.ToList();
             foreach (var item in newItems)
             {
                 MediaItems.Add(item);
@@ -72,8 +77,8 @@ public class MainPageViewModel : BindableObject
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"[]Error loading media: {ex.Message}\nStackTrace: {ex.StackTrace}");
-            await Application.Current.MainPage.DisplayAlert("[]Error", $"Failed to load media: {ex.Message}", "OK");
+            Logger.Error(GetType(), "Error loading media", ex);
+            await AlertDisplay.ShowAlertAsync("Error", $"Failed to load media: {ex.Message}", "OK");
         }
     }
 
@@ -133,17 +138,6 @@ public class MainPageViewModel : BindableObject
         }
     }
 
-    private async void OnFilterClicked()
-    {
-        var popup = _serviceProvider.GetService<FilterPopup>();
-        var result = await Application.Current.MainPage.ShowPopupAsync(popup);
-        if (result != null)
-        {
-            var filters = (dynamic)result;
-            System.Diagnostics.Debug.WriteLine($"Filters applied: Category={filters.Category}, SortOption={filters.SortOption}, MinReleaseYear={filters.MinReleaseYear}, OnlyFavourites={filters.OnlyFavourites}, IsDescending={filters.IsDescending}");
-        }
-    }
-
     private async void OnMediaSelected(MediaItem mediaItem)
     {
         if (mediaItem == null) return;
@@ -151,20 +145,70 @@ public class MainPageViewModel : BindableObject
         var detailPage = new MediaDetailPage(viewModel);
         await Application.Current.MainPage.Navigation.PushAsync(detailPage);
     }
+
+    private async void OnFilterClicked()
+    {
+        var popup = _serviceProvider.GetService<FilterPopup>();
+        var result = await Application.Current.MainPage.ShowPopupAsync(popup);
+        if (result != null)
+        {
+            var filters = (dynamic)result;
+
+            _selectedCategory = filters.Category;
+            _selectedSortOption = filters.SortOption;
+            _minReleaseYear = filters.MinReleaseYear;
+            _onlyFavourites = filters.OnlyFavourites;
+            _isDescending = filters.IsDescending;
+
+            ApplyFilters();
+        }
+    }
+
+    // MOVE THIS TO BL AFTER SIMPLIFYING ARCHITECTURE
+    private void ApplyFilters()
+    {
+        var filtered = _allMediaItems.AsEnumerable();
+
+        if (!string.IsNullOrEmpty(_selectedCategory) && _selectedCategory != "All")
+        {
+            filtered = filtered.Where(item => item.GenreNames.Contains(_selectedCategory));
+        }
+
+        if (_onlyFavourites)
+        {
+            filtered = filtered.Where(item => item.Favourite);
+        }
+
+        if (_minReleaseYear > 1000)
+        {
+            filtered = filtered.Where(item => item.ReleaseDate >= _minReleaseYear);
+        }
+
+        switch (_selectedSortOption)
+        {
+            case "Alphabetical":
+                filtered = _isDescending
+                    ? filtered.OrderByDescending(item => item.Name)
+                    : filtered.OrderBy(item => item.Name);
+                break;
+            case "Favourites":
+                filtered = _isDescending
+                    ? filtered.OrderByDescending(item => item.Favourite)
+                    : filtered.OrderBy(item => item.Favourite);
+                break;
+            case "Ranking":
+                filtered = _isDescending
+                    ? filtered.OrderByDescending(item => item.Rating)
+                    : filtered.OrderBy(item => item.Rating);
+                break;
+        }
+
+        MediaItems.Clear();
+        foreach (var item in filtered)
+        {
+            MediaItems.Add(item);
+        }
+    }
 }
 
-public class MediaItem
-{
-    public required int Id { get; set; }
-    public required string Name { get; set; }
-    public required MediaStatus Status { get; set; }
-    public required string Description { get; set; }
-    public required int Duration { get; set; }
-    public required string Director { get; set; }
-    public required int ReleaseDate { get; set; }
-    public required string Rating { get; set; }
-    public string? URL { get; set; }
-    public bool Favourite { get; set; }
-    public MediaType MediaType { get; set; }
-    public List<string> GenreNames { get; set; } = new List<string>();
-}
+
