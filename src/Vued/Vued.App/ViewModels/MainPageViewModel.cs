@@ -1,4 +1,3 @@
-
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -11,6 +10,10 @@ using Vued.App.Views.MediaFile;
 using Vued.BL.Facades;
 using Vued.BL.Models;
 using Vued.DAL.Entities;
+using Vued.BL.Services;
+using Vued.BL.Queries;
+using Vued.DAL.Repositories;
+using Vued.DAL.Entities;
 
 namespace Vued.App.ViewModels;
 
@@ -21,18 +24,20 @@ public class MainPageViewModel : BindableObject
     private string _searchQuery;
     private ObservableCollection<MediaItem> _mediaItems;
     private int _gridSpan;
+    private readonly MovieService _movieService;
+    private readonly IRepository<Movie> _movieRepository;
+    private List<MediaItem> _allMediaItems = new();
 
     public MainPageViewModel(IServiceProvider serviceProvider)
     {
-        System.Diagnostics.Debug.WriteLine("[AHHH]MainPageViewModel");
         _serviceProvider = serviceProvider;
         SettingsCommand = new Command(OnSettingsClicked);
         SearchCommand = new Command(OnSearch);
-        FilterCommand = new Command(OnFilterClicked);
         MediaSelectedCommand = new Command<MediaItem>(OnMediaSelected);
         MediaItems = new ObservableCollection<MediaItem>();
         GridSpan = 1; // Default span
     }
+    public event EventHandler? FilterRequested;
 
     public async Task InitializeAsync()
     {
@@ -52,10 +57,11 @@ public class MainPageViewModel : BindableObject
                 }
 
                 var mediaList = await mediaFileFacade.GetAllAsync();
+                _allMediaItems = new List<MediaItem>();
                 MediaItems.Clear();
                 foreach (var media in mediaList)
                 {
-                    MediaItems.Add(new MediaItem
+                    var item = new MediaItem
                     {
                         Id = media.Id,
                         Name = media.Name,
@@ -68,7 +74,10 @@ public class MainPageViewModel : BindableObject
                         Favourite = media.Favourite,
                         MediaType = media.MediaType,
                         GenreNames = media.GenreNames
-                    });
+                    };
+
+                    _allMediaItems.Add(item);
+                    MediaItems.Add(item);
                 }
             }
         }
@@ -86,9 +95,25 @@ public class MainPageViewModel : BindableObject
         {
             _searchQuery = value;
             OnPropertyChanged();
+            OnSearch(); 
         }
     }
+    private void OnSearch()
+    {
+        if (string.IsNullOrWhiteSpace(SearchQuery))
+        {
+            MediaItems = new ObservableCollection<MediaItem>(_allMediaItems);
+            return;
+        }
 
+        var filtered = _allMediaItems
+            .Where(item => item.Name.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
+                           item.Description.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
+                           item.Director.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        MediaItems = new ObservableCollection<MediaItem>(filtered);
+    }
     public ObservableCollection<MediaItem> MediaItems
     {
         get => _mediaItems;
@@ -111,7 +136,6 @@ public class MainPageViewModel : BindableObject
 
     public ICommand SettingsCommand { get; }
     public ICommand SearchCommand { get; }
-    public ICommand FilterCommand { get; }
     public ICommand MediaSelectedCommand { get; }
 
     public void UpdateGridSpan(double windowWidth)
@@ -136,27 +160,7 @@ public class MainPageViewModel : BindableObject
         }
     }
 
-    private void OnSearch()
-    {
-        if (!string.IsNullOrEmpty(SearchQuery))
-        {
-            System.Diagnostics.Debug.WriteLine($"Search query: {SearchQuery}");
-        }
-    }
-
-    private async void OnFilterClicked()
-    {
-        if (Application.Current?.MainPage != null)
-        {
-            var popup = _serviceProvider.GetService<FilterPopup>();
-            var result = await Application.Current.MainPage.ShowPopupAsync(popup);
-            if (result != null)
-            {
-                var filters = (dynamic)result;
-                System.Diagnostics.Debug.WriteLine($"Filters applied: Category={filters.Category}, SortOption={filters.SortOption}, MinReleaseYear={filters.MinReleaseYear}, OnlyFavourites={filters.OnlyFavourites}, IsDescending={filters.IsDescending}");
-            }
-        }
-    }
+   
 
     private async void OnMediaSelected(MediaItem mediaItem)
     {
