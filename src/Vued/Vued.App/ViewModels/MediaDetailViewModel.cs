@@ -32,7 +32,6 @@ public class MediaDetailViewModel : BindableObject
         _serviceProvider = serviceProvider;
         GoBackCommand = new Command(OnGoBack);
         EditCommand = new Command(OnEdit);
-        System.Diagnostics.Debug.WriteLine("[AHHH]MediaDetailViewModel");
         LoadMediaDetailsAsync().GetAwaiter().GetResult();
     }
 
@@ -183,7 +182,6 @@ public class MediaDetailViewModel : BindableObject
                 Genres = updatedMedia.Genres;
                 Description = updatedMedia.Description;
                 Review = updatedMedia.Review;
-                // TODO: Save to database when DAL is ready
                 System.Diagnostics.Debug.WriteLine($"Updated media: {Name}, {Rating}, {ReleaseYear}");
             }
         }
