@@ -47,6 +47,7 @@ public class MainPageViewModel : BindableObject
         SearchCommand = new Command(OnSearch);
         FilterCommand = new Command(OnFilterClicked);
         MediaSelectedCommand = new Command<MediaItem>(OnMediaSelected);
+        WatchlistSelectedCommand = new Command<WatchlistItem>(OnWatchlistSelected);
     }
 
     public async Task InitializeAsync()
@@ -165,10 +166,10 @@ public class MainPageViewModel : BindableObject
         }
     }
 
-
     public ICommand SearchCommand { get; }
     public ICommand FilterCommand { get; }
     public ICommand MediaSelectedCommand { get; }
+    public ICommand WatchlistSelectedCommand { get; }
 
     public void UpdateGridSpan(double windowWidth)
     {
@@ -198,6 +199,14 @@ public class MainPageViewModel : BindableObject
         var viewModel = new MediaDetailViewModel(mediaItem, _serviceProvider);
         var detailPage = new MediaDetailPage(viewModel);
         await Application.Current.MainPage.Navigation.PushAsync(detailPage);
+    }
+
+    private async void OnWatchlistSelected(WatchlistItem watchlistItem)
+    {
+        if (watchlistItem == null) return;
+        var detailPage = new WatchlistDetail();
+        await Application.Current.MainPage.Navigation.PushAsync(detailPage);
+
     }
 
     private async void OnFilterClicked()
