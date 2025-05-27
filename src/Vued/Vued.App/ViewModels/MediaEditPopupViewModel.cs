@@ -4,7 +4,6 @@ using Vued.BL.Facades;
 using Vued.BL.Models;
 using Vued.DAL.Entities;
 using Vued.App.Utilities;
-using System.Diagnostics;
 
 namespace Vued.App.ViewModels;
 
