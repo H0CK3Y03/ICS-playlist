@@ -1,16 +1,14 @@
 using System.Windows.Input;
 using CommunityToolkit.Maui.Views;
-using Microsoft.EntityFrameworkCore;
 using Vued.App.Views.MediaFile;
-using Vued.BL.Facades;
 using Vued.BL.Models;
 using Vued.DAL.Entities;
+using Vued.App.Utilities;
 
 namespace Vued.App.ViewModels;
 
 public class MediaDetailViewModel : BindableObject
 {
-    private readonly MediaFileFacade _mediaFileFacade;
     private readonly IServiceProvider _serviceProvider;
     private readonly MediaItem _mediaItem;
     private string _name;
@@ -173,7 +171,7 @@ public class MediaDetailViewModel : BindableObject
             if (result != null)
             {
                 var updatedMedia = (dynamic)result;
-                // Update ViewModel properties with edited values
+
                 Name = updatedMedia.Name;
                 Rating = updatedMedia.Rating;
                 ReleaseYear = updatedMedia.ReleaseYear;
@@ -182,7 +180,8 @@ public class MediaDetailViewModel : BindableObject
                 Genres = updatedMedia.Genres;
                 Description = updatedMedia.Description;
                 Review = updatedMedia.Review;
-                System.Diagnostics.Debug.WriteLine($"Updated media: {Name}, {Rating}, {ReleaseYear}");
+
+                Logger.Debug(GetType(), $"Updated media: {Name}, {Rating}, {ReleaseYear}");
             }
         }
     }
@@ -193,7 +192,7 @@ public class MediaDetailViewModel : BindableObject
         {
             if (_mediaItem == null)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Media not found", "OK");
+                await AlertDisplay.ShowAlertAsync("Error", "Media not found", "OK");
                 await Shell.Current.Navigation.PopAsync();
                 return;
             }
@@ -209,7 +208,7 @@ public class MediaDetailViewModel : BindableObject
                 ? string.Join(", ", _mediaItem.GenreNames)
                 : string.Empty;
             Description = _mediaItem.Description ?? "No description available";
-            Review = "Good.";
+            Review = "TODO";
             URL = _mediaItem.URL ?? string.Empty;
             Favourite = _mediaItem.Favourite;
             Status = _mediaItem.Status;
@@ -217,7 +216,7 @@ public class MediaDetailViewModel : BindableObject
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert("Error", $"Failed to load media details: {ex.Message}", "OK");
+            await AlertDisplay.ShowAlertAsync("Error", $"Failed to load media details: {ex.Message}", "OK");
             await Shell.Current.Navigation.PopAsync();
         }
     }

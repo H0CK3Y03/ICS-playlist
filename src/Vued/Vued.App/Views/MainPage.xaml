@@ -7,10 +7,10 @@
     BackgroundColor="{StaticResource ColorBackgroundSecondary}">
 
     <Grid>
-        <!-- Define rows: fixed top bar, expandable content area -->
+        <!-- Define rows: fixed top bar, scrollable content area -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" /> <!-- Fixed height for nav bar -->
-            <RowDefinition Height="*" /> <!-- Expandable for CollectionView -->
+            <RowDefinition Height="*" /> <!-- Expandable for scrollable content -->
         </Grid.RowDefinitions>
 
         <!-- Top Nav Bar (Fixed) -->
@@ -60,33 +60,80 @@
             </HorizontalStackLayout>
         </Grid>
 
-        <!-- Scrollable Media Thumbnails Grid -->
-        <CollectionView
-            Grid.Row="1"
-            ItemsSource="{Binding MediaItems}"
-            Margin="0"
-            SelectionMode="Single"
-            SelectionChangedCommand="{Binding MediaSelectedCommand}"
-            VerticalOptions="FillAndExpand">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout
-                    Orientation="Vertical"
-                    Span="{Binding GridSpan}"
-                    HorizontalItemSpacing="0"
-                    VerticalItemSpacing="10" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <media:MediaThumbnail>
-                        <media:MediaThumbnail.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Command="{Binding BindingContext.MediaSelectedCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
-                                CommandParameter="{Binding .}" />
-                        </media:MediaThumbnail.GestureRecognizers>
-                    </media:MediaThumbnail>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        <!-- Scrollable Content -->
+        <ScrollView Grid.Row="1" VerticalOptions="FillAndExpand">
+            <VerticalStackLayout Spacing="10" Padding="10">
+                <!-- Movies and Series Section -->
+                <Label
+                    Text="Movies and Series"
+                    FontSize="20"
+                    FontFamily="RubikRegular"
+                    TextColor="{StaticResource PrimaryDark}"
+                    Padding="36,0,0,0"
+                    Margin="0,10,0,0" />
+
+                <CollectionView
+                    ItemsSource="{Binding MediaItems}"
+                    Margin="0"
+                    SelectionMode="Single"
+                    SelectionChangedCommand="{Binding MediaSelectedCommand}"
+                    VerticalOptions="FillAndExpand">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            Orientation="Vertical"
+                            Span="{Binding GridSpan}"
+                            HorizontalItemSpacing="0"
+                            VerticalItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <media:MediaThumbnail>
+                                <media:MediaThumbnail.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding BindingContext.MediaSelectedCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                        CommandParameter="{Binding .}" />
+                                </media:MediaThumbnail.GestureRecognizers>
+                            </media:MediaThumbnail>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Watchlists Section -->
+                <Label
+                    Text="Watchlists"
+                    FontSize="20"
+                    FontFamily="RubikRegular"
+                    TextColor="{StaticResource PrimaryDark}"
+                    Padding="36,0,0,0"
+                    Margin="0,10,0,0" />
+
+                <CollectionView
+                    ItemsSource="{Binding WatchlistItems}"
+                    Margin="0"
+                    SelectionMode="Single"
+                    SelectionChangedCommand="{Binding WatchlistSelectedCommand}"
+                    VerticalOptions="FillAndExpand">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            Orientation="Vertical"
+                            Span="{Binding GridSpan}"
+                            HorizontalItemSpacing="0"
+                            VerticalItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <media:MediaThumbnail>
+                                <media:MediaThumbnail.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding BindingContext.WatchlistSelectedCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                        CommandParameter="{Binding .}" />
+                                </media:MediaThumbnail.GestureRecognizers>
+                            </media:MediaThumbnail>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
 
         <!-- Floating Action Button -->
         <Button
