@@ -16,8 +16,9 @@
             <RowDefinition Height="30" />
             <RowDefinition Height="30" />
             <RowDefinition Height="40" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="40" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="60" />
         </Grid.RowDefinitions>
@@ -31,6 +32,9 @@
         <!-- Media Image Placeholder -->
         <BoxView
             Margin="20, 0, 20, 20"
+            VerticalOptions="Start"
+            WidthRequest="300"
+            HeightRequest="400"
             Grid.Row="1"
             Grid.Column="0"
             Grid.RowSpan="11"
@@ -116,6 +120,7 @@
 
         <!-- Description (Content) -->
         <Label
+            Padding="0,20,20,20"
             Grid.Row="8"
             Grid.Column="2"
             Text="{Binding Description, StringFormat='{0}'}"
@@ -138,6 +143,7 @@
 
         <!-- Review (Text) -->
         <Label
+            Padding="0,20,20,20"
             Grid.Row="10"
             Grid.Column="2"
             Text="{Binding Review, StringFormat='{0}'}"
@@ -149,7 +155,7 @@
 
         <!-- Button Edit -->
         <Button
-            Grid.Row="10"
+            Grid.Row="11"
             Grid.Column="3"
             Text="Edit"
             Command="{Binding EditCommand}"
@@ -161,7 +167,7 @@
 
         <!-- Button Back -->
         <Button
-            Grid.Row="11"
+            Grid.Row="12"
             Grid.Column="3"
             Text="Back"
             Command="{Binding GoBackCommand}"
