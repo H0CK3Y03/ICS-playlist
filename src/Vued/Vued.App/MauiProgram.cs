@@ -1,96 +1,99 @@
 using CommunityToolkit.Maui;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Vued.App.Shells;
 using Vued.App.ViewModels;
 using Vued.App.Views;
 using Vued.App.Views.Filter;
 using Vued.App.Views.MediaFile;
+using Vued.App.Views.Watchlist;
+using Vued.App.Utilities;
 using Vued.BL.Facades;
 using Vued.BL.Mappers;
 using Vued.BL.Models;
 using Vued.DAL;
 using Vued.DAL.Entities;
 
-namespace Vued.App
+namespace Vued.App;
+
+public static class MauiProgram
 {
-    public static class MauiProgram
+    public static MauiApp CreateMauiApp()
     {
-        public static MauiApp CreateMauiApp()
-        {
-            var builder = MauiApp.CreateBuilder();
+        var builder = MauiApp.CreateBuilder();
 
-            builder
-                .UseMauiApp<App>()
-                .UseMauiCommunityToolkit()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("materialicons.ttf", "MaterialIcons");
-                    fonts.AddFont("Rubik-Regular.ttf", "RubikRegular");
-                    fonts.AddFont("Rubik-Bold.ttf", "RubikBold");
-                    fonts.AddFont("Rajdhani-Regular.ttf", "RajdhaniRegular");
-                    fonts.AddFont("Rajdhani-Bold.ttf", "RajdhaniBold");
-                });
-
-            // Database configuration (SQLite)
-            builder.Services.AddDbContext<AppDbContext>(options =>
+        builder
+            .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
+            .ConfigureFonts(fonts =>
             {
-                string projectRoot = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\.."));
-                string dbPath = Path.Combine(projectRoot, "app.db");
-                options.UseSqlite($"Data Source={dbPath}");
-                System.Diagnostics.Debug.WriteLine($"[AHHH]database: {dbPath}");
+                fonts.AddFont("materialicons.ttf", "MaterialIcons");
+                fonts.AddFont("Rubik-Regular.ttf", "RubikRegular");
+                fonts.AddFont("Rubik-Bold.ttf", "RubikBold");
+                fonts.AddFont("Rajdhani-Regular.ttf", "RajdhaniRegular");
+                fonts.AddFont("Rajdhani-Bold.ttf", "RajdhaniBold");
             });
 
-            // Business layer registrations (Facades and Mappers)
-            builder.Services.AddScoped<MediaFileFacade>();
-            builder.Services.AddScoped<GenreFacade>();
-            builder.Services.AddScoped<MovieFacade>(); // Remove after simplicifaciton
-            builder.Services.AddScoped<SeriesFacade>(); // Remove after simplification
-            builder.Services.AddScoped<WatchlistFacade>();
+        // Database configuration (SQLite)
+        builder.Services.AddDbContext<AppDbContext>(options =>
+        {
+            string projectRoot = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\..\.."));
+            string dbPath = Path.Combine(projectRoot, "app.db");
+            options.UseSqlite($"Data Source={dbPath}");
+            System.Diagnostics.Debug.WriteLine($"[AHHH]database: {dbPath}");
+        });
 
-            builder.Services.AddScoped<GenreModelMapper>();
-            builder.Services.AddScoped<IModelMapper<Genre, GenreModel>, GenreModelMapper>();
+        // Business layer registrations (Facades and Mappers)
+        builder.Services.AddScoped<MediaFileFacade>();
+        builder.Services.AddScoped<GenreFacade>();
+        builder.Services.AddScoped<MovieFacade>(); // Remove after simplicifaciton
+        builder.Services.AddScoped<SeriesFacade>(); // Remove after simplification
+        builder.Services.AddScoped<WatchlistFacade>();
 
-            builder.Services.AddScoped<MediaFileModelMapper>();
-            builder.Services.AddScoped<IModelMapper<MediaFile, MediaFileModel>, MediaFileModelMapper>();
+        builder.Services.AddScoped<GenreModelMapper>();
+        builder.Services.AddScoped<IModelMapper<Genre, GenreModel>, GenreModelMapper>();
 
-            builder.Services.AddScoped<WatchlistModelMapper>();
-            builder.Services.AddScoped<IModelMapper<Watchlist, WatchlistModel>, WatchlistModelMapper>();
+        builder.Services.AddScoped<MediaFileModelMapper>();
+        builder.Services.AddScoped<IModelMapper<MediaFile, MediaFileModel>, MediaFileModelMapper>();
 
-            // App and shell
-            builder.Services.AddSingleton<App>();
-            builder.Services.AddSingleton<AppShell>();
+        builder.Services.AddScoped<WatchlistModelMapper>();
+        builder.Services.AddScoped<IModelMapper<Watchlist, WatchlistModel>, WatchlistModelMapper>();
 
-            // Views and view-models
-            builder.Services.AddTransient<MainPage>();
-            builder.Services.AddTransient<MainPageViewModel>();
-            builder.Services.AddTransient<FilterPopup>();
-            builder.Services.AddTransient<FilterPopupViewModel>();
-            builder.Services.AddTransient<MediaDetailPage>();
-            builder.Services.AddTransient<MediaDetailViewModel>();
-            builder.Services.AddTransient<MediaEditPopup>();
-            builder.Services.AddTransient<MediaEditViewModel>();
-            builder.Services.AddTransient<AddPopupViewModel>();
-            builder.Services.AddTransient<AddMediaEntryViewModel>();
+        // App and shell
+        builder.Services.AddSingleton<App>();
+        builder.Services.AddSingleton<AppShell>();
 
-            var app = builder.Build();
+        // Views and view-models
+        builder.Services.AddTransient<MainPage>();
+        builder.Services.AddTransient<MainPageViewModel>();
+        builder.Services.AddTransient<FilterPopup>();
+        builder.Services.AddTransient<FilterPopupViewModel>();
+        builder.Services.AddTransient<MediaDetailPage>();
+        builder.Services.AddTransient<MediaDetailViewModel>();
+        builder.Services.AddTransient<MediaEditPopup>();
+        builder.Services.AddTransient<MediaEditViewModel>();
+        builder.Services.AddTransient<AddPopupViewModel>();
+        builder.Services.AddTransient<AddMediaEntryViewModel>();
+        builder.Services.AddTransient<WatchlistDetail>();
+        builder.Services.AddTransient<WatchlistDetailViewModel>();
 
-            // Apply migrations at startup
-            try
+        var app = builder.Build();
+
+        // Apply migrations at startup
+        try
+        {
+            using (var scope = app.Services.CreateScope())
             {
-                using (var scope = app.Services.CreateScope())
-                {
-                    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    dbContext.Database.Migrate();
-                }
+                var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                dbContext.Database.Migrate();
             }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Migration failed: {ex.Message}\nStackTrace: {ex.StackTrace}");
-                throw;
-            }
-
-            return app;
         }
+        catch (Exception ex)
+        {
+            Logger.Error(typeof(MauiProgram), "Migration failed", ex);
+            System.Diagnostics.Debug.WriteLine($"Migration failed: {ex.Message}\nStackTrace: {ex.StackTrace}");
+            throw;
+        }
+
+        return app;
     }
 }

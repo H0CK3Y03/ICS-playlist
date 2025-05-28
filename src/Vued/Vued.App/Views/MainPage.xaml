@@ -3,8 +3,15 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:media="clr-namespace:Vued.App.Views.MediaFile"
-    x:Class="Vued.App.Views.MainPage"
-    BackgroundColor="{StaticResource ColorBackgroundSecondary}">
+    x:Class="Vued.App.Views.MainPage">
+
+    <ContentPage.Background>
+        <LinearGradientBrush EndPoint="0,1">
+            <GradientStop Color="#2B2632" Offset="0.0" />
+            <GradientStop Color="#1F1B24" Offset="0.5" />
+            <GradientStop Color="#131019" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
 
     <Grid>
         <!-- Define rows: fixed top bar, scrollable content area -->
@@ -17,9 +24,14 @@
         <Grid
             Grid.Row="0"
             Padding="30,8,0,10"
-            BackgroundColor="{StaticResource ColorBackgroundPrimary}"
             HeightRequest="65"
             ColumnSpacing="10">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0,1">
+                    <GradientStop Color="#D016131D" Offset="0.0" />
+                    <GradientStop Color="#95292431" Offset="1.0" />
+                </LinearGradientBrush>
+            </Grid.Background>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" /> <!-- App name -->
                 <ColumnDefinition Width="Auto" /> <!-- Search + Filter -->

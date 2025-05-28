@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:media="clr-namespace:Vued.App.Views.MediaFile"
+    x:Class="Vued.App.Views.Watchlist.WatchlistDetail">
+
+    <ContentPage.Background>
+        <LinearGradientBrush EndPoint="0,1">
+            <GradientStop Color="#2B2632" Offset="0.0" />
+            <GradientStop Color="#1F1B24" Offset="0.5" />
+            <GradientStop Color="#131019" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" /> <!-- Watchlist details -->
+            <RowDefinition Height="*" /> <!-- Scrollable content -->
+        </Grid.RowDefinitions>
+
+        <!-- Watchlist Details -->
+        <Grid x:Name="DetailsGrid" Grid.Row="0" Padding="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <BoxView
+                x:Name="PlaceholderBoxView"
+                Grid.Column="0"
+                Margin="0,0,20,0"
+                VerticalOptions="Start"
+                WidthRequest="200"
+                HeightRequest="200"
+                BackgroundColor="{StaticResource ColorBackgroundPrimary}" />
+
+            <VerticalStackLayout Grid.Column="1" Spacing="10">
+                <Label
+                    Text="{Binding WatchlistName}"
+                    FontSize="28"
+                    FontFamily="RajdhaniBold"
+                    TextColor="{StaticResource ColorTextSecondary}"
+                    LineBreakMode="WordWrap"
+                    MaxLines="2"
+                    HorizontalOptions="FillAndExpand" />
+                <Label
+                    Text="{Binding WatchlistDescription}"
+                    FontSize="16"
+                    FontFamily="RajdhaniRegular"
+                    TextColor="{StaticResource ColorTextPrimary}"
+                    LineBreakMode="WordWrap"
+                    MaxLines="4"
+                    HorizontalOptions="FillAndExpand" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout
+                Grid.Column="2"
+                Spacing="10"
+                Padding="35,0,10,0"
+                VerticalOptions="Start">
+                <Button
+                    Text="Edit"
+                    Command="{Binding EditCommand}"
+                    BackgroundColor="{StaticResource ColorButtonPrimary}"
+                    TextColor="{StaticResource ColorButtonPrimaryText}"
+                    Margin="0,0,0,0" />
+                <Button
+                    Text="Back"
+                    Command="{Binding GoBackCommand}"
+                    BackgroundColor="{StaticResource ColorButtonSecondary}"
+                    TextColor="{StaticResource ColorButtonSecondaryText}"
+                    Margin="0,0,0,0" />
+            </VerticalStackLayout>
+        </Grid>
+
+        <!-- Scrollable Content -->
+        <ScrollView Grid.Row="1" Grid.ColumnSpan="2" VerticalOptions="FillAndExpand" Scrolled="OnScrollViewScrolled">
+            <VerticalStackLayout Spacing="10" Padding="10">
+                <CollectionView
+                    ItemsSource="{Binding MediaItems}"
+                    Margin="0"
+                    SelectionMode="Single"
+                    SelectionChangedCommand="{Binding MediaSelectedCommand}"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            Orientation="Vertical"
+                            Span="{Binding GridSpan}"
+                            HorizontalItemSpacing="0"
+                            VerticalItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <media:MediaThumbnail>
+                                <media:MediaThumbnail.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding BindingContext.MediaSelectedCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                        CommandParameter="{Binding .}" />
+                                </media:MediaThumbnail.GestureRecognizers>
+                            </media:MediaThumbnail>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -1,13 +1,14 @@
 using CommunityToolkit.Maui.Views;
 using Vued.App.ViewModels;
 using Vued.App.Views.Add;
+using Vued.App.Utilities;
 
 namespace Vued.App.Views;
 
 public partial class MainPage : ContentPage
 {
     private readonly MainPageViewModel _viewModel;
-    IServiceProvider _serviceProvider;
+    private readonly IServiceProvider _serviceProvider;
 
     public MainPage(MainPageViewModel viewModel, IServiceProvider serviceProvider)
     {
@@ -21,8 +22,7 @@ public partial class MainPage : ContentPage
         }
         catch (Exception ex)
         {
-            // Log to Output window
-            System.Diagnostics.Debug.WriteLine($"MainPage constructor failed: {ex.Message}\nStackTrace: {ex.StackTrace}");
+            Logger.Error(GetType(), "Main page constructor failed", ex);
         }
     }
 

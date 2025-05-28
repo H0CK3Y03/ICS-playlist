@@ -6,16 +6,24 @@ using Vued.App.Views.MediaFile;
 using Vued.BL.Facades;
 using Vued.BL.Models;
 using Vued.App.Utilities;
+using Vued.App.Views.Watchlist;
 
 namespace Vued.App.ViewModels;
 
-public record MediaItem : MediaFileModel { /* Primitive Adapter for MediaFileModel */} 
+public record MediaItem : MediaFileModel { /* Primitive Adapter for MediaFileModel */ }
+public record WatchlistItem : WatchlistModel { /* Primitive Adapter for WatchlistModel */ } 
 
 public class MainPageViewModel : BindableObject
 {
     private readonly IServiceProvider _serviceProvider;
     private MediaFileFacade _mediaFileFacade;
+    private WatchlistFacade _watchlistFacade;
+
     private ObservableCollection<MediaItem> _mediaItems;
+    private ObservableCollection<WatchlistItem> _watchlistItems;
+    private List<MediaItem> _allMediaItems = new();
+    private List<WatchlistItem> _allWatchlistItems = new();
+
     private string _searchQuery;
     private int _gridSpan;
 
@@ -25,24 +33,60 @@ public class MainPageViewModel : BindableObject
     private bool _onlyFavourites;
     private bool _isDescending;
 
-    private List<MediaItem> _allMediaItems = new();
 
     public MainPageViewModel(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
         _mediaFileFacade = serviceProvider.GetRequiredService<MediaFileFacade>();
-        MediaItems = new ObservableCollection<MediaItem>();
-        GridSpan = 1;
+        _watchlistFacade = serviceProvider.GetRequiredService<WatchlistFacade>();
 
+        MediaItems = new ObservableCollection<MediaItem>();
+        WatchlistItems = new ObservableCollection<WatchlistItem>();
+
+        GridSpan = 1;
         SearchCommand = new Command(OnSearch);
         FilterCommand = new Command(OnFilterClicked);
         MediaSelectedCommand = new Command<MediaItem>(OnMediaSelected);
+        WatchlistSelectedCommand = new Command<WatchlistItem>(OnWatchlistSelected);
     }
 
     public async Task InitializeAsync()
     {
         await LoadMediaFiles();
+        await LoadWatchlists();
     }
+
+    public async Task LoadWatchlists()
+    {
+        try
+        {
+            var watchList = await _watchlistFacade.GetAllAsync();
+            var newItems = new ObservableCollection<WatchlistItem>();
+
+            WatchlistItems.Clear();
+            foreach (var media in watchList)
+            {
+                newItems.Add(new WatchlistItem 
+                {
+                    Id = media.Id,
+                    Name = media.Name,
+                    Description = media.Description
+                });
+            }
+
+            _allWatchlistItems = newItems.ToList();
+            foreach (var item in newItems)
+            {
+                WatchlistItems.Add(item);
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(GetType(), "Error loading watchlists", ex);
+            await AlertDisplay.ShowAlertAsync("Error", $"Failed to load watchlists: {ex.Message}", "OK");
+        }
+    }
+
     public async Task LoadMediaFiles()
     {
         try
@@ -82,22 +126,22 @@ public class MainPageViewModel : BindableObject
         }
     }
 
-    public string SearchQuery
-    {
-        get => _searchQuery;
-        set
-        {
-            _searchQuery = value;
-            OnPropertyChanged();
-        }
-    }
-
     public ObservableCollection<MediaItem> MediaItems
     {
         get => _mediaItems;
         set
         {
             _mediaItems = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public ObservableCollection<WatchlistItem> WatchlistItems
+    {
+        get => _watchlistItems;
+        set
+        {
+            _watchlistItems = value;
             OnPropertyChanged();
         }
     }
@@ -112,9 +156,20 @@ public class MainPageViewModel : BindableObject
         }
     }
 
+    public string SearchQuery
+    {
+        get => _searchQuery;
+        set
+        {
+            _searchQuery = value;
+            OnPropertyChanged();
+        }
+    }
+
     public ICommand SearchCommand { get; }
     public ICommand FilterCommand { get; }
     public ICommand MediaSelectedCommand { get; }
+    public ICommand WatchlistSelectedCommand { get; }
 
     public void UpdateGridSpan(double windowWidth)
     {
@@ -143,6 +198,14 @@ public class MainPageViewModel : BindableObject
         if (mediaItem == null) return;
         var viewModel = new MediaDetailViewModel(mediaItem, _serviceProvider);
         var detailPage = new MediaDetailPage(viewModel);
+        await Application.Current.MainPage.Navigation.PushAsync(detailPage);
+    }
+
+    private async void OnWatchlistSelected(WatchlistItem watchlistItem)
+    {
+        if (watchlistItem == null) return;
+        var viewModel = new WatchlistDetailViewModel(watchlistItem, _serviceProvider);
+        var detailPage = new WatchlistDetail(viewModel, _serviceProvider);
         await Application.Current.MainPage.Navigation.PushAsync(detailPage);
     }
 
@@ -210,5 +273,3 @@ public class MainPageViewModel : BindableObject
         }
     }
 }
-
-

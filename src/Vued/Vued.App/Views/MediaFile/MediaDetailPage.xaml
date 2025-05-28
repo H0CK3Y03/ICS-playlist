@@ -2,27 +2,35 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="Vued.App.Views.MediaFile.MediaDetailPage"
-    BackgroundColor="{StaticResource ColorBackgroundSecondary}">
+    x:Class="Vued.App.Views.MediaFile.MediaDetailPage">
+
+    <ContentPage.Background>
+        <LinearGradientBrush EndPoint="0,1">
+            <GradientStop Color="#2B2632" Offset="0.0" />
+            <GradientStop Color="#1F1B24" Offset="0.5" />
+            <GradientStop Color="#131019" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
 
     <ScrollView>
         <Grid Padding="20">
-            <!-- Define Grid structure: 4 columns, 8 rows to accommodate new labels -->
+            <!-- Grid Structure -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="20" />
-                <RowDefinition Height="40" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="20" />
-                <RowDefinition Height="20" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="40" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="40" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="60" />
+                <RowDefinition Height="Auto" /> <!-- Image -->
+                <RowDefinition Height="Auto" /> <!-- Title + Rating -->
+                <RowDefinition Height="Auto" /> <!-- Release Date + Length -->
+                <RowDefinition Height="Auto" /> <!-- Director -->
+                <RowDefinition Height="Auto" /> <!-- Genres -->
+                <RowDefinition Height="Auto" /> <!-- Description Title -->
+                <RowDefinition Height="Auto" /> <!-- Description Content -->
+                <RowDefinition Height="Auto" /> <!-- Review Title -->
+                <RowDefinition Height="Auto" /> <!-- Review Content -->
+                <RowDefinition Height="*" />   <!-- Spacer -->
+                <RowDefinition Height="60" />  <!-- Edit Button -->
+                <RowDefinition Height="60" />  <!-- Back Button -->
             </Grid.RowDefinitions>
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="420" />
                 <ColumnDefinition Width="20" />
@@ -30,7 +38,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <!-- Media Image Placeholder -->
+            <!-- Media Image -->
             <BoxView
                 Margin="20, 0, 20, 20"
                 VerticalOptions="Start"
@@ -39,122 +47,137 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 Grid.RowSpan="11"
-                Grid.ColumnSpan="1"
                 BackgroundColor="{StaticResource ColorBackgroundPrimary}" />
 
-            <!-- Media Title -->
-            <Label
-                Grid.Row="1"
-                Grid.Column="2"
-                Text="{Binding Name, StringFormat='{0}'}"
-                FontSize="34"
-                FontFamily="RajdhaniBold"
-                TextColor="{StaticResource ColorAccent}"
-                VerticalOptions="Center"
-                HorizontalOptions="Start" />
+            <!-- Title and Rating -->
+            <Grid Grid.Row="2" Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-            <!-- Rating -->
-            <Label
-                Grid.Row="2"
-                Grid.Column="2"
-                Text="{Binding Rating, StringFormat='{0}'}"
-                FontSize="18"
-                FontFamily="RajdhaniRegular"
-                TextColor="{StaticResource ColorAccent}"
-                VerticalOptions="Center"
-                HorizontalOptions="Start" />
+                <!-- Title -->
+                <Label
+                    Grid.Column="0"
+                    Text="{Binding Name}"
+                    FontSize="36"
+                    FontFamily="RajdhaniBold"
+                    TextColor="{StaticResource ColorTextSecondary}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start" />
 
-            <!-- Release Date -->
-            <Label
-                Grid.Row="3"
-                Grid.Column="2"
-                Text="{Binding ReleaseYear, StringFormat='{0}'}"
-                FontSize="16"
-                FontFamily="RajdhaniRegular"
-                TextColor="{StaticResource ColorAccentDark}"
-                VerticalOptions="Center"
-                HorizontalOptions="Start" />
+                <!-- Rating -->
+                <Label
+                    Grid.Column="1"
+                    Text="{Binding Rating}"
+                    FontSize="24"
+                    FontFamily="RajdhaniRegular"
+                    TextColor="{StaticResource ColorTextSecondary}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    Margin="10,0,0,0" />
+            </Grid>
 
-            <!-- Length/Episode Count -->
+            <!-- Release Date and Length -->
+            <Grid Grid.Row="3" Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Release Date -->
+                <Label
+                    Grid.Column="0"
+                    Text="{Binding ReleaseYear}"
+                    FontSize="16"
+                    FontFamily="RajdhaniRegular"
+                    TextColor="{StaticResource PrimaryDark}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start" 
+                    Margin="0,0,0,15"/>
+
+                <!-- Length -->
+                <Label
+                    Grid.Column="1"
+                    Text="{Binding LengthOrEpisodes}"
+                    FontSize="16"
+                    FontFamily="RajdhaniRegular"
+                    TextColor="{StaticResource PrimaryDark}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    Margin="10,0,0,15" />
+            </Grid>
+
+            <!-- Director -->
             <Label
                 Grid.Row="4"
                 Grid.Column="2"
-                Text="{Binding LengthOrEpisodes, StringFormat='{0}'}"
-                FontSize="16"
+                Text="{Binding Director}"
+                FontSize="18"
                 FontFamily="RajdhaniRegular"
-                TextColor="{StaticResource ColorAccentDark}"
+                TextColor="{StaticResource PrimaryDark}"
                 VerticalOptions="Center"
-                HorizontalOptions="Start" />
-
-            <!-- Director Name -->
-            <Label
-                Grid.Row="5"
-                Grid.Column="2"
-                Text="{Binding Director, StringFormat='{0}'}"
-                FontSize="16"
-                FontFamily="RajdhaniRegular"
-                TextColor="{StaticResource ColorTextMuted}"
-                VerticalOptions="End"
                 HorizontalOptions="Start" />
 
             <!-- Genres -->
             <Label
+                Grid.Row="5"
+                Grid.Column="2"
+                Text="{Binding Genres}"
+                FontSize="18"
+                FontFamily="RajdhaniRegular"
+                TextColor="{StaticResource PrimaryDark}"
+                VerticalOptions="Center"
+                HorizontalOptions="Start" 
+                Padding="0,0,0,15"/>
+
+            <!-- Description Title -->
+            <Label
                 Grid.Row="6"
                 Grid.Column="2"
-                Text="{Binding Genres, StringFormat='{0}'}"
-                FontSize="16"
-                FontFamily="RajdhaniRegular"
-                TextColor="{StaticResource ColorTextMuted}"
-                VerticalOptions="Start"
+                Text="Description"
+                FontSize="26"
+                FontFamily="RajdhaniBold"
+                TextColor="{StaticResource ColorAccentDark}"
+                VerticalOptions="Center"
                 HorizontalOptions="Start" />
 
-            <!-- Description (Title) -->
+            <!-- Description Content -->
             <Label
                 Grid.Row="7"
                 Grid.Column="2"
-                Text="Description"
-                FontSize="24"
-                FontFamily="RajdhaniBold"
-                TextColor="{StaticResource ColorAccentDark}"
-                VerticalOptions="Center"
-                HorizontalOptions="Start" />
-
-            <!-- Description (Content) -->
-            <Label
-                Padding="0,20,20,20"
-                Grid.Row="8"
-                Grid.Column="2"
-                Text="{Binding Description, StringFormat='{0}'}"
-                FontSize="14"
-                FontFamily="RajdhaniRegular"
-                TextColor="{StaticResource ColorTextPrimary}"
-                VerticalOptions="Start"
-                HorizontalOptions="Start" />
-
-            <!-- Review (Title) -->
-            <Label
-                Grid.Row="9"
-                Grid.Column="2"
-                Text="Review"
-                FontSize="24"
-                FontFamily="RajdhaniBold"
-                TextColor="{StaticResource ColorAccentDark}"
-                VerticalOptions="Center"
-                HorizontalOptions="Start" />
-
-            <!-- Review (Text) -->
-            <Label
-                Padding="0,20,20,20"
-                Grid.Row="10"
-                Grid.Column="2"
-                Text="{Binding Review, StringFormat='{0}'}"
+                Padding="0,10,0,20"
+                Text="{Binding Description}"
                 FontSize="16"
                 FontFamily="RajdhaniRegular"
                 TextColor="{StaticResource ColorTextPrimary}"
                 VerticalOptions="Start"
                 HorizontalOptions="Start" />
 
-            <!-- Button Edit -->
+            <!-- Review Title -->
+            <Label
+                Grid.Row="8"
+                Grid.Column="2"
+                Text="Review"
+                FontSize="26"
+                FontFamily="RajdhaniBold"
+                TextColor="{StaticResource ColorAccentDark}"
+                VerticalOptions="Center"
+                HorizontalOptions="Start" />
+
+            <!-- Review Content -->
+            <Label
+                Grid.Row="9"
+                Grid.Column="2"
+                Padding="0,10,0,20"
+                Text="{Binding Review}"
+                FontSize="18"
+                FontFamily="RajdhaniRegular"
+                TextColor="{StaticResource ColorTextPrimary}"
+                VerticalOptions="Start"
+                HorizontalOptions="Start" />
+
+            <!-- Edit Button -->
             <Button
                 Grid.Row="11"
                 Grid.Column="3"
@@ -166,7 +189,7 @@
                 VerticalOptions="End"
                 Margin="0,0,0,15" />
 
-            <!-- Button Back -->
+            <!-- Back Button -->
             <Button
                 Grid.Row="12"
                 Grid.Column="3"
