@@ -98,11 +98,8 @@ public class AddMediaEntryViewModel
         }
         catch (Exception ex)
         {
-            Logger.Debug(GetType(), $"Error creating media: {ex.Message}\nStackTrace: {ex.StackTrace}");
-            if (Application.Current?.MainPage != null)
-            {
-                await AlertDisplay.ShowAlertAsync("Error", $"Failed to create new media: {ex.Message}", "OK");
-            }
+            Logger.Error(GetType(), "Error creating media", ex);
+            await AlertDisplay.ShowAlertAsync("Error", $"Failed to create new media: {ex.Message}", "OK");
         }
     }
 }

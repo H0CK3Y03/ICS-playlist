@@ -36,7 +36,7 @@
                 FontFamily="RajdhaniRegular" />
             <Button
                 Text="Add New Watchlist"
-                Clicked="OnAddWatchlistClicked"
+                Command="{Binding AddWatchlistCommand}"
                 BackgroundColor="{StaticResource ColorButtonPrimary}"
                 TextColor="{StaticResource ColorButtonPrimaryText}"
                 HeightRequest="40"
