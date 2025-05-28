@@ -7,7 +7,7 @@
 namespace Vued.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialSchema : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,7 +26,7 @@ namespace Vued.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MediaFile",
+                name: "MediaFiles",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -40,13 +40,13 @@ namespace Vued.DAL.Migrations
                     Rating = table.Column<string>(type: "TEXT", nullable: true),
                     URL = table.Column<string>(type: "TEXT", nullable: true),
                     Favourite = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Discriminator = table.Column<string>(type: "TEXT", maxLength: 13, nullable: false),
-                    Length = table.Column<int>(type: "INTEGER", nullable: true),
-                    NumberOfEpisodes = table.Column<int>(type: "INTEGER", nullable: true)
+                    Type = table.Column<int>(type: "INTEGER", nullable: false),
+                    Review = table.Column<string>(type: "TEXT", nullable: true),
+                    ImageUrl = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MediaFile", x => x.Id);
+                    table.PrimaryKey("PK_MediaFiles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,9 +80,9 @@ namespace Vued.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GenreMediaFile_MediaFile_MediaFilesId",
+                        name: "FK_GenreMediaFile_MediaFiles_MediaFilesId",
                         column: x => x.MediaFilesId,
-                        principalTable: "MediaFile",
+                        principalTable: "MediaFiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -98,9 +98,9 @@ namespace Vued.DAL.Migrations
                 {
                     table.PrimaryKey("PK_MediaFileWatchlist", x => new { x.MediaFilesId, x.WatchlistsId });
                     table.ForeignKey(
-                        name: "FK_MediaFileWatchlist_MediaFile_MediaFilesId",
+                        name: "FK_MediaFileWatchlist_MediaFiles_MediaFilesId",
                         column: x => x.MediaFilesId,
-                        principalTable: "MediaFile",
+                        principalTable: "MediaFiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -169,31 +169,24 @@ namespace Vued.DAL.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "MediaFile",
-                columns: new[] { "Id", "Description", "Director", "Discriminator", "Duration", "Favourite", "Length", "Name", "Rating", "ReleaseDate", "Status", "URL" },
+                table: "MediaFiles",
+                columns: new[] { "Id", "Description", "Director", "Duration", "Favourite", "ImageUrl", "Name", "Rating", "ReleaseDate", "Review", "Status", "Type", "URL" },
                 values: new object[,]
                 {
-                    { 1, "A computer hacker learns about the true nature of reality and joins a group of rebels to fight a war against powerful controllers.", "Lana Wachowski, Lilly Wachowski", "Movie", 136, true, 0, "The Matrix", "8/10", 1999, 2, "https://www.imdb.com/title/tt0133093/" },
-                    { 2, "The life story of a man with a low IQ who achieves extraordinary feats through his kindness and determination.", "Robert Zemeckis", "Movie", 142, true, 0, "Forrest Gump", "6/10", 1994, 2, "https://www.imdb.com/title/tt0109830/" },
-                    { 3, "A family heads to an isolated hotel for the winter where a sinister presence influences the father into violence.", "Stanley Kubrick", "Movie", 144, false, 0, "The Shining", "7/10", 1980, 2, "https://www.imdb.com/title/tt0081505/" },
-                    { 4, "A skilled thief with the ability to enter dreams must pull off an impossible heist: planting an idea in someone's mind.", "Christopher Nolan", "Movie", 148, true, 0, "Inception", "9/10", 2010, 2, "https://www.imdb.com/title/tt1375666/" },
-                    { 5, "The aging patriarch of an organized crime dynasty transfers control to his reluctant son.", "Francis Ford Coppola", "Movie", 175, true, 0, "The Godfather", "8/10", 1972, 2, "https://www.imdb.com/title/tt0068646/" },
-                    { 6, "A young girl becomes trapped in a strange spirit world and must find a way to free herself and her parents.", "Hayao Miyazaki", "Movie", 125, false, 0, "Spirited Away", "8/10", 2001, 2, "https://www.imdb.com/title/tt0245429/" },
-                    { 7, "In a post-apocalyptic wasteland, a drifter and a rebel leader fight to survive against a tyrannical ruler.", "George Miller", "Movie", 120, true, 0, "Mad Max: Fury Road", "7/10", 2015, 2, "https://www.imdb.com/title/tt1392190/" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "MediaFile",
-                columns: new[] { "Id", "Description", "Director", "Discriminator", "Duration", "Favourite", "Name", "NumberOfEpisodes", "Rating", "ReleaseDate", "Status", "URL" },
-                values: new object[,]
-                {
-                    { 8, "A chemistry teacher turned drug-lord teams up with a former student to build a methamphetamine empire.", "Vince Gilligan", "Series", 62, true, "Breaking Bad", 0, "10/10", 2008, 2, "https://www.imdb.com/title/tt0903747/" },
-                    { 9, "A group of friends in the 1980s uncover supernatural mysteries and government conspiracies in their small town.", "The Duffer Brothers", "Series", 34, true, "Stranger Things", 0, "8/10", 2016, 1, "https://www.imdb.com/title/tt4574334/" },
-                    { 10, "A mockumentary about the daily lives of employees at the Dunder Mifflin paper company.", "Greg Daniels", "Series", 201, true, "The Office (US)", 0, "9/10", 2005, 2, "https://www.imdb.com/title/tt0386676/" },
-                    { 11, "Noble families fight for control of the Iron Throne in a fantasy world filled with dragons and political intrigue.", "David Benioff, D.B. Weiss", "Series", 73, true, "Game of Thrones", 0, "9/10", 2011, 2, "https://www.imdb.com/title/tt0944947/" },
-                    { 12, "A lone bounty hunter navigates the outer reaches of the galaxy, protecting a mysterious baby Yoda.", "Jon Favreau", "Series", 24, false, "The Mandalorian", 0, "6/10", 2019, 1, "https://www.imdb.com/title/tt8111088/" },
-                    { 13, "An anthology series exploring the dark side of technology and human nature in dystopian futures.", "Charlie Brooker", "Series", 27, false, "Black Mirror", 0, "8/10", 2011, 1, "https://www.imdb.com/title/tt2085059/" },
-                    { 14, "A biographical drama chronicling the reign of Queen Elizabeth II and major historical events.", "Peter Morgan", "Series", 60, false, "The Crown", 0, "-", 2016, 0, "https://www.imdb.com/title/tt4786824/" }
+                    { 1, "A computer hacker learns about the true nature of reality and joins a group of rebels to fight a war against powerful controllers.", "Lana Wachowski, Lilly Wachowski", 136, true, "", "The Matrix", "8/10", 1999, "", 2, 0, "https://www.imdb.com/title/tt0133093/" },
+                    { 2, "The life story of a man with a low IQ who achieves extraordinary feats through his kindness and determination.", "Robert Zemeckis", 142, true, "", "Forrest Gump", "6/10", 1994, "", 2, 0, "https://www.imdb.com/title/tt0109830/" },
+                    { 3, "A family heads to an isolated hotel for the winter where a sinister presence influences the father into violence.", "Stanley Kubrick", 144, false, "", "The Shining", "7/10", 1980, "", 2, 0, "https://www.imdb.com/title/tt0081505/" },
+                    { 4, "A skilled thief with the ability to enter dreams must pull off an impossible heist: planting an idea in someone's mind.", "Christopher Nolan", 148, true, "", "Inception", "9/10", 2010, "", 2, 0, "https://www.imdb.com/title/tt1375666/" },
+                    { 5, "The aging patriarch of an organized crime dynasty transfers control to his reluctant son.", "Francis Ford Coppola", 175, true, "", "The Godfather", "8/10", 1972, "", 2, 0, "https://www.imdb.com/title/tt0068646/" },
+                    { 6, "A young girl becomes trapped in a strange spirit world and must find a way to free herself and her parents.", "Hayao Miyazaki", 125, false, "", "Spirited Away", "8/10", 2001, "", 2, 0, "https://www.imdb.com/title/tt0245429/" },
+                    { 7, "In a post-apocalyptic wasteland, a drifter and a rebel leader fight to survive against a tyrannical ruler.", "George Miller", 120, true, "", "Mad Max: Fury Road", "7/10", 2015, "", 2, 0, "https://www.imdb.com/title/tt1392190/" },
+                    { 8, "A chemistry teacher turned drug-lord teams up with a former student to build a methamphetamine empire.", "Vince Gilligan", 62, true, "", "Breaking Bad", "10/10", 2008, "", 2, 1, "https://www.imdb.com/title/tt0903747/" },
+                    { 9, "A group of friends in the 1980s uncover supernatural mysteries and government conspiracies in their small town.", "The Duffer Brothers", 34, true, "", "Stranger Things", "8/10", 2016, "", 1, 1, "https://www.imdb.com/title/tt4574334/" },
+                    { 10, "A mockumentary about the daily lives of employees at the Dunder Mifflin paper company.", "Greg Daniels", 201, true, "", "The Office (US)", "9/10", 2005, "", 2, 1, "https://www.imdb.com/title/tt0386676/" },
+                    { 11, "Noble families fight for control of the Iron Throne in a fantasy world filled with dragons and political intrigue.", "David Benioff, D.B. Weiss", 73, true, "", "Game of Thrones", "9/10", 2011, "", 2, 1, "https://www.imdb.com/title/tt0944947/" },
+                    { 12, "A lone bounty hunter navigates the outer reaches of the galaxy, protecting a mysterious baby Yoda.", "Jon Favreau", 24, false, "", "The Mandalorian", "6/10", 2019, "", 1, 1, "https://www.imdb.com/title/tt8111088/" },
+                    { 13, "An anthology series exploring the dark side of technology and human nature in dystopian futures.", "Charlie Brooker", 27, false, "", "Black Mirror", "8/10", 2011, "", 1, 1, "https://www.imdb.com/title/tt2085059/" },
+                    { 14, "A biographical drama chronicling the reign of Queen Elizabeth II and major historical events.", "Peter Morgan", 60, false, "", "The Crown", "-", 2016, "", 0, 1, "https://www.imdb.com/title/tt4786824/" }
                 });
 
             migrationBuilder.InsertData(
@@ -203,6 +196,41 @@ namespace Vued.DAL.Migrations
                 {
                     { 1, "Top-rated movies and series", "My Favorites" },
                     { 2, "Movies and series to watch later", "Watch Later" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "GenreMediaFile",
+                columns: new[] { "GenresId", "MediaFilesId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 1, 7 },
+                    { 1, 12 },
+                    { 3, 2 },
+                    { 3, 5 },
+                    { 3, 8 },
+                    { 3, 10 },
+                    { 4, 3 },
+                    { 5, 1 },
+                    { 5, 4 },
+                    { 5, 8 },
+                    { 5, 13 },
+                    { 6, 6 },
+                    { 6, 13 },
+                    { 8, 2 },
+                    { 8, 9 },
+                    { 9, 3 },
+                    { 9, 4 },
+                    { 9, 11 },
+                    { 11, 5 },
+                    { 13, 12 },
+                    { 14, 14 },
+                    { 16, 14 },
+                    { 18, 6 },
+                    { 23, 11 },
+                    { 25, 10 },
+                    { 26, 7 },
+                    { 47, 9 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -229,7 +257,7 @@ namespace Vued.DAL.Migrations
                 name: "Genres");
 
             migrationBuilder.DropTable(
-                name: "MediaFile");
+                name: "MediaFiles");
 
             migrationBuilder.DropTable(
                 name: "Watchlists");

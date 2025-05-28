@@ -1,5 +1,6 @@
 using Vued.BL.Models;
 using Vued.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Vued.BL.Mappers;
 
@@ -12,7 +13,7 @@ public class WatchlistModelMapper : ModelMapperBase<Watchlist, WatchlistModel>
             Id = entity.Id,
             Name = entity.Name,
             Description = entity.Description,
-            MediaFileTitles = entity.MediaFiles.Select(m => m.Name).ToList()
+            MediaFileIds = entity.MediaFiles.Select(m => m.Id).ToList()
         };
 
     public override Watchlist MapToEntity(WatchlistModel model) => new()
@@ -20,6 +21,6 @@ public class WatchlistModelMapper : ModelMapperBase<Watchlist, WatchlistModel>
         Id = model.Id,
         Name = model.Name,
         Description = model.Description,
-        MediaFiles = new List<MediaFile>()
+        MediaFiles = new List<MediaFile>() // Note: MediaFiles will be populated in the facade
     };
 }

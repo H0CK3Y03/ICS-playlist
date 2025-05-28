@@ -45,13 +45,21 @@ public class WatchlistFacade
 
         if (entity is null)
         {
-            var newEntity = _mapper.MapToEntity(model);
-            _dbContext.Watchlists.Add(newEntity);
+            entity = _mapper.MapToEntity(model);
+            // Fetch MediaFiles based on MediaFileIds
+            entity.MediaFiles = await _dbContext.MediaFiles
+                .Where(m => model.MediaFileIds.Contains(m.Id))
+                .ToListAsync();
+            _dbContext.Watchlists.Add(entity);
         }
         else
         {
             entity.Name = model.Name;
             entity.Description = model.Description;
+            // Update MediaFiles based on MediaFileIds
+            entity.MediaFiles = await _dbContext.MediaFiles
+                .Where(m => model.MediaFileIds.Contains(m.Id))
+                .ToListAsync();
         }
 
         await _dbContext.SaveChangesAsync();
