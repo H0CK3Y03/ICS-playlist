@@ -101,13 +101,13 @@ public class MediaEditViewModel : BindableObject
 
             await _mediaFileFacade.SaveAsync(currentMediaModel);
 
-            await AlertDisplay.ShowAlertAsync("Success", "Media item updated successfully.", "OK");
+            await AlertDisplay.ShowAlertAsync("Success", "Media updated successfully.", "OK");
             await Shell.Current.GoToAsync("..");
         }
         catch (Exception ex)
         {
             Logger.Error(GetType(), "Error updating media", ex);
-            await AlertDisplay.ShowAlertAsync("Error", $"Failed  to udated media: {ex.Message}", "OK");
+            await AlertDisplay.ShowAlertAsync("Error", $"Failed to udated media: {ex.Message}", "OK");
         }
     }
 
@@ -124,7 +124,6 @@ public class MediaEditViewModel : BindableObject
         }
         catch (Exception ex)
         {
-            
             Logger.Error(GetType(), "Error deleting media", ex);
             await AlertDisplay.ShowAlertAsync("Error", $"Failed to delete media: {ex.Message}", "OK");
         }

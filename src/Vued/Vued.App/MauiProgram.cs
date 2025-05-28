@@ -65,16 +65,28 @@ public static class MauiProgram
         // Views and view-models
         builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<MainPageViewModel>();
+
+        // Filters
         builder.Services.AddTransient<FilterPopup>();
         builder.Services.AddTransient<FilterPopupViewModel>();
-        builder.Services.AddTransient<MediaDetailPage>();
-        builder.Services.AddTransient<MediaDetailViewModel>();
-        builder.Services.AddTransient<MediaEditPopup>();
-        builder.Services.AddTransient<MediaEditViewModel>();
+
+        // Add
         builder.Services.AddTransient<AddPopupViewModel>();
         builder.Services.AddTransient<AddMediaEntryViewModel>();
+        builder.Services.AddTransient<AddWatchlistViewModel>();
+
+        // Media Files
+        builder.Services.AddTransient<MediaDetailPage>();
+        builder.Services.AddTransient<MediaDetailViewModel>();
+
+        builder.Services.AddTransient<MediaEditPopup>();
+        builder.Services.AddTransient<MediaEditViewModel>();
+
+        // Watchlists
         builder.Services.AddTransient<WatchlistDetail>();
         builder.Services.AddTransient<WatchlistDetailViewModel>();
+        builder.Services.AddTransient<WatchlistEditPopup>();
+        builder.Services.AddTransient<WatchlistEditViewModel>();
 
         var app = builder.Build();
 

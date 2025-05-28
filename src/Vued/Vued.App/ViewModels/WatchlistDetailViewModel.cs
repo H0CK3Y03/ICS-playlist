@@ -4,6 +4,8 @@ using Vued.BL.Facades;
 using Vued.App.Utilities;
 using Vued.App.Views.MediaFile;
 using System.Runtime.CompilerServices;
+using Vued.App.Views.Watchlist;
+using CommunityToolkit.Maui.Views;
 
 namespace Vued.App.ViewModels;
 
@@ -146,7 +148,18 @@ public class WatchlistDetailViewModel : BindableObject
     {
         if (Application.Current?.MainPage != null)
         {
-            await Shell.Current.Navigation.PopAsync();
+            var viewModel = new WatchlistEditViewModel(_watchlistItem, _serviceProvider);
+            var popup = new WatchlistEditPopup(viewModel);
+            var result = await Application.Current.MainPage.ShowPopupAsync(popup);
+            if (result != null)
+            {
+                var updatedWatchlist = (dynamic)result;
+
+                WatchlistName = updatedWatchlist.Name;
+                WatchlistDescription = updatedWatchlist.Description;
+
+                Logger.Debug(GetType(), $"Updated watchlist: {WatchlistName}");
+            }
         }
     }
 }

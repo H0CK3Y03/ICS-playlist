@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ct:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
+    x:Class="Vued.App.Views.Watchlist.WatchlistEditPopup"
+    Size="700,500"
+    Color="{StaticResource ColorBackgroundSecondary}">
+
+    <VerticalStackLayout
+        Padding="20"
+        Spacing="15">
+
+        <!-- Title -->
+        <Label
+            Text="Title"
+            FontSize="14"
+            FontFamily="RajdhaniBold"
+            TextColor="{StaticResource ColorAccent}" />
+
+        <Entry
+            Text="{Binding Name}"
+            FontSize="14"
+            FontFamily="RajdhaniRegular"
+            TextColor="{StaticResource ColorTextPrimary}"
+            BackgroundColor="{StaticResource ColorInputBackground}"
+            HeightRequest="32"
+            HorizontalOptions="Fill" />
+
+        <!-- Description -->
+        <Label
+            Text="Description"
+            FontSize="14"
+            FontFamily="RajdhaniBold"
+            TextColor="{StaticResource ColorAccent}" />
+
+        <Editor
+            Text="{Binding Description}"
+            FontSize="14"
+            FontFamily="RajdhaniRegular"
+            TextColor="{StaticResource ColorTextPrimary}"
+            BackgroundColor="{StaticResource ColorInputBackground}"
+            HeightRequest="100"
+            HorizontalOptions="Fill" />
+
+        <!-- Media Picker -->
+        <Label
+            Text="Media"
+            FontSize="14"
+            FontFamily="RajdhaniBold"
+            TextColor="{StaticResource ColorAccent}" />
+
+        <!-- Replace with your custom multi-select control if needed -->
+        <CollectionView
+            ItemsSource="{Binding MediaList}"
+            SelectionMode="Multiple"
+            SelectedItems="{Binding SelectedMedia}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="5">
+                        <Label
+                            Text="{Binding Title}"
+                            FontSize="13"
+                            FontFamily="RajdhaniRegular"
+                            TextColor="{StaticResource ColorTextPrimary}" />
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Action Buttons -->
+        <HorizontalStackLayout
+            Spacing="10"
+            HorizontalOptions="End"
+            Margin="0,20,0,0">
+            <Button
+                Text="Cancel"
+                Clicked="OnCancelClicked"
+                BackgroundColor="{StaticResource ColorButtonSecondary}"
+                TextColor="{StaticResource ColorButtonSecondaryText}"
+                HeightRequest="36"
+                WidthRequest="90"
+                CornerRadius="4"
+                FontSize="14" />
+            <Button
+                Text="Delete"
+                Command="{Binding DeleteCommand}"
+                Clicked="OnCancelClicked"
+                BackgroundColor="{StaticResource ColorError}"
+                TextColor="{StaticResource ColorButtonSecondaryText}"
+                HeightRequest="36"
+                WidthRequest="90"
+                CornerRadius="4"
+                FontSize="14" />
+            <Button
+                Text="Apply"
+                Command="{Binding EditCommand}"
+                Clicked="OnCancelClicked"
+                BackgroundColor="{StaticResource ColorButtonPrimary}"
+                TextColor="{StaticResource ColorButtonPrimaryText}"
+                HeightRequest="36"
+                WidthRequest="90"
+                CornerRadius="4"
+                FontSize="14" />
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ct:Popup>
