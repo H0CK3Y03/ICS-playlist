@@ -20,13 +20,15 @@
         </Grid.RowDefinitions>
 
         <!-- Watchlist Details -->
-        <Grid Grid.Row="0" Padding="20">
+        <Grid x:Name="DetailsGrid" Grid.Row="0" Padding="20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <BoxView
+                x:Name="PlaceholderBoxView"
                 Grid.Column="0"
                 Margin="0,0,20,0"
                 VerticalOptions="Start"
@@ -47,15 +49,34 @@
                     Text="{Binding WatchlistDescription}"
                     FontSize="16"
                     FontFamily="RajdhaniRegular"
-                    TextColor="{StaticResource PrimaryDark}"
+                    TextColor="{StaticResource ColorTextPrimary}"
                     LineBreakMode="WordWrap"
                     MaxLines="4"
                     HorizontalOptions="FillAndExpand" />
             </VerticalStackLayout>
+
+            <VerticalStackLayout
+                Grid.Column="2"
+                Spacing="10"
+                Padding="35,0,10,0"
+                VerticalOptions="Start">
+                <Button
+                    Text="Edit"
+                    Command="{Binding EditCommand}"
+                    BackgroundColor="{StaticResource ColorButtonPrimary}"
+                    TextColor="{StaticResource ColorButtonPrimaryText}"
+                    Margin="0,0,0,0" />
+                <Button
+                    Text="Back"
+                    Command="{Binding GoBackCommand}"
+                    BackgroundColor="{StaticResource ColorButtonSecondary}"
+                    TextColor="{StaticResource ColorButtonSecondaryText}"
+                    Margin="0,0,0,0" />
+            </VerticalStackLayout>
         </Grid>
 
         <!-- Scrollable Content -->
-        <ScrollView Grid.Row="1" Grid.ColumnSpan="2" VerticalOptions="FillAndExpand">
+        <ScrollView Grid.Row="1" Grid.ColumnSpan="2" VerticalOptions="FillAndExpand" Scrolled="OnScrollViewScrolled">
             <VerticalStackLayout Spacing="10" Padding="10">
                 <CollectionView
                     ItemsSource="{Binding MediaItems}"
@@ -85,6 +106,5 @@
                 </CollectionView>
             </VerticalStackLayout>
         </ScrollView>
-
     </Grid>
 </ContentPage>

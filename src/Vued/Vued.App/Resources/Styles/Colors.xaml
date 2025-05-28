@@ -29,7 +29,7 @@
     <Color x:Key="ColorOverlay">#66000000</Color>
 
     <!-- Buttons -->
-    <Color x:Key="ColorButtonPrimary">#BB86FC</Color>
+    <Color x:Key="ColorButtonPrimary">#FFBB86FC</Color>
     <Color x:Key="ColorButtonPrimaryText">Black</Color>
     <Color x:Key="ColorButtonSecondary">#2E2E2E</Color>
     <Color x:Key="ColorButtonSecondaryText">#FFFFFF</Color>

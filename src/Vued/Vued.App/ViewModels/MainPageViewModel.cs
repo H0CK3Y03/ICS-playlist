@@ -204,10 +204,9 @@ public class MainPageViewModel : BindableObject
     private async void OnWatchlistSelected(WatchlistItem watchlistItem)
     {
         if (watchlistItem == null) return;
-        var viewModel = new WatchlistDetailViewModel(_serviceProvider, "1");
+        var viewModel = new WatchlistDetailViewModel(watchlistItem, _serviceProvider);
         var detailPage = new WatchlistDetail(viewModel, _serviceProvider);
         await Application.Current.MainPage.Navigation.PushAsync(detailPage);
-
     }
 
     private async void OnFilterClicked()

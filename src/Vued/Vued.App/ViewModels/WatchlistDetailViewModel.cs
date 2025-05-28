@@ -3,33 +3,34 @@ using System.Windows.Input;
 using Vued.BL.Facades;
 using Vued.App.Utilities;
 using Vued.App.Views.MediaFile;
+using System.Runtime.CompilerServices;
 
 namespace Vued.App.ViewModels;
 
 public class WatchlistDetailViewModel : BindableObject
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly WatchlistFacade _watchlistFacade;
     private readonly MediaFileFacade _mediaFileFacade;
+    private readonly WatchlistItem _watchlistItem;
 
-    private readonly string _watchlistId;
     private ObservableCollection<MediaItem> _mediaItems;
     private int _gridSpan;
     private string _watchlistName;
     private string _watchlistDescription;
 
-    public WatchlistDetailViewModel(IServiceProvider serviceProvider, string watchlistId)
+    public WatchlistDetailViewModel(WatchlistItem watchlistItem, IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
-        _watchlistFacade = serviceProvider.GetRequiredService<WatchlistFacade>();
         _mediaFileFacade = serviceProvider.GetRequiredService<MediaFileFacade>();
-        _watchlistId = watchlistId;
+        _watchlistItem = watchlistItem;
 
         MediaItems = new ObservableCollection<MediaItem>();
         GridSpan = 1;
-        WatchlistName = "Watchlist Name...";
-        WatchlistDescription = "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum ";
+        WatchlistName = watchlistItem.Name;
+        WatchlistDescription = watchlistItem.Description;
 
+        GoBackCommand = new Command(OnGoBack);
+        EditCommand = new Command(OnEdit);
         MediaSelectedCommand = new Command<MediaItem>(OnMediaSelected);
     }
 
@@ -131,5 +132,21 @@ public class WatchlistDetailViewModel : BindableObject
         var viewModel = new MediaDetailViewModel(mediaItem, _serviceProvider);
         var detailPage = new MediaDetailPage(viewModel);
         await Application.Current.MainPage.Navigation.PushAsync(detailPage);
+    }
+
+    public ICommand GoBackCommand { get; }
+    public ICommand EditCommand { get; }
+
+    private async void OnGoBack()
+    {
+        await Shell.Current.Navigation.PopAsync();
+    }
+
+    private async void OnEdit()
+    {
+        if (Application.Current?.MainPage != null)
+        {
+            await Shell.Current.Navigation.PopAsync();
+        }
     }
 }
