@@ -204,7 +204,8 @@ public class MainPageViewModel : BindableObject
     private async void OnWatchlistSelected(WatchlistItem watchlistItem)
     {
         if (watchlistItem == null) return;
-        var detailPage = new WatchlistDetail();
+        var viewModel = new WatchlistDetailViewModel(_serviceProvider, "1");
+        var detailPage = new WatchlistDetail(viewModel, _serviceProvider);
         await Application.Current.MainPage.Navigation.PushAsync(detailPage);
 
     }
@@ -273,5 +274,3 @@ public class MainPageViewModel : BindableObject
         }
     }
 }
-
-

@@ -8,7 +8,7 @@ namespace Vued.App.Views;
 public partial class MainPage : ContentPage
 {
     private readonly MainPageViewModel _viewModel;
-    IServiceProvider _serviceProvider;
+    private readonly IServiceProvider _serviceProvider;
 
     public MainPage(MainPageViewModel viewModel, IServiceProvider serviceProvider)
     {

@@ -26,12 +26,12 @@
             Padding="30,8,0,10"
             HeightRequest="65"
             ColumnSpacing="10">
-            <ContentPage.Background>
+            <Grid.Background>
                 <LinearGradientBrush EndPoint="0,1">
                     <GradientStop Color="#D016131D" Offset="0.0" />
                     <GradientStop Color="#95292431" Offset="1.0" />
                 </LinearGradientBrush>
-            </ContentPage.Background>
+            </Grid.Background>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" /> <!-- App name -->
                 <ColumnDefinition Width="Auto" /> <!-- Search + Filter -->
