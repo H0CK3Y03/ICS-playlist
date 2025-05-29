@@ -3,29 +3,33 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Vued.App.Views.MediaFile.MediaThumbnail"
-    HeightRequest="190"
+    HeightRequest="210"
     WidthRequest="140">
 
-    <Frame
-        BackgroundColor="{StaticResource ColorBackgroundPrimary}"
-        CornerRadius="0"
-        Padding="0"
-        HasShadow="True"
+    <VerticalStackLayout
+        Spacing="8"
         Margin="4">
-        <Grid>
-            <!-- Placeholder for media thumbnail -->
-            <BoxView
-                Color="{StaticResource ColorBackgroundPrimary}"
-                CornerRadius="8" />
-            <!-- Optional overlay for title or placeholder text -->
-            <Label
-                Text="{Binding Name}"
-                FontSize="15"
-                FontFamily="RajdhaniRegular"
-                TextColor="White"
-                VerticalOptions="End"
-                HorizontalOptions="Center"
-                Margin="4" />
-        </Grid>
-    </Frame>
+        <!-- Image in a rounded Frame -->
+        <Frame
+            BackgroundColor="{StaticResource ColorBackgroundPrimary}"
+            CornerRadius="8"
+            Padding="0"
+            HasShadow="True"
+            HeightRequest="160">
+            <Image
+                Source="{Binding ImageUrl, FallbackValue='placeholder.png'}"
+                Aspect="AspectFill"
+                HeightRequest="160" />
+        </Frame>
+        <!-- Series Name -->
+        <Label
+            Text="{Binding Name}"
+            FontSize="14"
+            FontFamily="RajdhaniRegular"
+            Padding="0,8,0,0"
+            TextColor="{StaticResource ColorTextPrimary}"
+            HorizontalOptions="Center"
+            LineBreakMode="WordWrap"
+            MaxLines="2" />
+    </VerticalStackLayout>
 </ContentView>

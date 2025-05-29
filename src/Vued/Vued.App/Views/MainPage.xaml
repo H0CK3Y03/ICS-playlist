@@ -94,8 +94,8 @@
                         <GridItemsLayout
                             Orientation="Vertical"
                             Span="{Binding GridSpan}"
-                            HorizontalItemSpacing="0"
-                            VerticalItemSpacing="10" />
+                            HorizontalItemSpacing="4"
+                            VerticalItemSpacing="4" />
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>

@@ -15,6 +15,7 @@ public class MediaEditViewModel : BindableObject
 
     private string _name;
     private string _url;
+    private string _imageUrl;
     private bool _favourite;
     private MediaStatus _status;
     private MediaType _mediaType;
@@ -51,6 +52,7 @@ public class MediaEditViewModel : BindableObject
         Description = _mediaItem.Description ?? "No description available";
         Review = "TODO";
         URL = _mediaItem.URL ?? string.Empty;
+        ImageUrl = _mediaItem.URL ?? string.Empty; // change later
         Favourite = _mediaItem.Favourite;
         Status = _mediaItem.Status;
         MediaType = _mediaItem.MediaType;
@@ -75,7 +77,7 @@ public class MediaEditViewModel : BindableObject
                 Director = Director,
                 GenreNames = Genres.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries).ToList(),
                 Description = Description,
-                URL = URL,
+                URL = ImageUrl,
                 Favourite = Favourite,
                 Status = Status,
                 MediaType = MediaType
@@ -262,6 +264,16 @@ public class MediaEditViewModel : BindableObject
         set
         {
             _rating = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string ImageUrl
+    {
+        get => _imageUrl;
+        set
+        {
+            _imageUrl = value;
             OnPropertyChanged();
         }
     }

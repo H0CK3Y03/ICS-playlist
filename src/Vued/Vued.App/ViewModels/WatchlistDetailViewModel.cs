@@ -6,6 +6,7 @@ using Vued.App.Views.MediaFile;
 using System.Runtime.CompilerServices;
 using Vued.App.Views.Watchlist;
 using CommunityToolkit.Maui.Views;
+using Windows.UI.Popups;
 
 namespace Vued.App.ViewModels;
 
@@ -61,7 +62,9 @@ public class WatchlistDetailViewModel : BindableObject
                     Rating = media.Rating,
                     Favourite = media.Favourite,
                     MediaType = media.MediaType,
-                    GenreNames = media.GenreNames
+                    GenreNames = media.GenreNames,
+                    URL = media.URL,
+                    ImageUrl = media.URL
                 });
             }
         }

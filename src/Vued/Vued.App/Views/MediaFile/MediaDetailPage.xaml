@@ -39,15 +39,15 @@
             </Grid.ColumnDefinitions>
 
             <!-- Media Image -->
-            <BoxView
-                Margin="20, 0, 20, 20"
+            <Image
+                Margin="0, 0, 20, 20"
                 VerticalOptions="Start"
-                WidthRequest="300"
-                HeightRequest="400"
                 Grid.Row="1"
                 Grid.Column="0"
                 Grid.RowSpan="11"
-                BackgroundColor="{StaticResource ColorBackgroundPrimary}" />
+                WidthRequest="300"
+                HeightRequest="400"
+                Source="{Binding ImageUrl, FallbackValue='placeholder.png'}" />
 
             <!-- Title and Rating -->
             <Grid Grid.Row="2" Grid.Column="2">

@@ -153,6 +153,16 @@ public class MediaDetailViewModel : BindableObject
         }
     }
 
+    public string ImageUrl
+    {
+        get => _url;
+        set
+        {
+            _url = value;
+            OnPropertyChanged();
+        }
+    }
+
     public ICommand GoBackCommand { get; }
     public ICommand EditCommand { get; }
 

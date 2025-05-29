@@ -10,7 +10,11 @@ using Vued.App.Views.Watchlist;
 
 namespace Vued.App.ViewModels;
 
-public record MediaItem : MediaFileModel { /* Primitive Adapter for MediaFileModel */ }
+public record MediaItem : MediaFileModel
+{
+    /* Primitive Adapter for MediaFileModel */
+    public string? ImageUrl { get; set;}
+}
 public record WatchlistItem : WatchlistModel { /* Primitive Adapter for WatchlistModel */ } 
 
 public class MainPageViewModel : BindableObject
@@ -109,7 +113,9 @@ public class MainPageViewModel : BindableObject
                     Rating = media.Rating,
                     Favourite = media.Favourite,
                     MediaType = media.MediaType,
-                    GenreNames = media.GenreNames
+                    GenreNames = media.GenreNames,
+                    URL = media.URL,
+                    ImageUrl = media.URL
                 });
             }
 
