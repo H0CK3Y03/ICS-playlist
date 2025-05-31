@@ -22,7 +22,7 @@
                 Text="Add New Item"
                 FontSize="18"
                 FontFamily="RajdhaniBold"
-                TextColor="{StaticResource ColorAccent}"
+                TextColor="{StaticResource ColorTextPrimary}"
                 HorizontalOptions="Center" />
             <Button
                 Text="Add New Media Entry"
