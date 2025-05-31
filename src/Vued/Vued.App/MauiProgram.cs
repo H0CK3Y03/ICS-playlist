@@ -12,6 +12,7 @@ using Vued.BL.Mappers;
 using Vued.BL.Models;
 using Vued.DAL;
 using Vued.DAL.Entities;
+using FFImageLoading.Maui;
 
 namespace Vued.App;
 
@@ -24,6 +25,7 @@ public static class MauiProgram
         builder
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
+            .UseFFImageLoading()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("materialicons.ttf", "MaterialIcons");

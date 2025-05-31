@@ -15,7 +15,10 @@ public record MediaItem : MediaFileModel
     /* Primitive Adapter for MediaFileModel */
     public string? ImageUrl { get; set;}
 }
-public record WatchlistItem : WatchlistModel { /* Primitive Adapter for WatchlistModel */ } 
+public record WatchlistItem : WatchlistModel
+{
+    /* Primitive Adapter for WatchlistModel */
+} 
 
 public class MainPageViewModel : BindableObject
 {

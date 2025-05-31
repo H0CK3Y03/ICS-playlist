@@ -2,8 +2,9 @@
 <ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
     x:Class="Vued.App.Views.MediaFile.MediaThumbnail"
-    HeightRequest="210"
+    HeightRequest="240"
     WidthRequest="140">
 
     <VerticalStackLayout
@@ -15,11 +16,15 @@
             CornerRadius="8"
             Padding="0"
             HasShadow="True"
-            HeightRequest="160">
-            <Image
-                Source="{Binding ImageUrl, FallbackValue='placeholder.png'}"
-                Aspect="AspectFill"
-                HeightRequest="160" />
+            HeightRequest="180">
+            <ffimageloading:CachedImage Source="{Binding ImageUrl}"
+                                        LoadingPlaceholder="placeholder.png"
+                                        ErrorPlaceholder="error.png"
+                                        CacheType="All"
+                                        CacheDuration="30"
+                                        DownsampleToViewSize="True"
+                                        Aspect="AspectFill"
+                                        HeightRequest="180" />
         </Frame>
         <!-- Series Name -->
         <Label
