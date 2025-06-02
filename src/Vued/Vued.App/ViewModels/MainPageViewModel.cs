@@ -207,7 +207,8 @@ public class MainPageViewModel : BindableObject
         if (mediaItem == null) return;
         var viewModel = new MediaDetailViewModel(mediaItem, _serviceProvider);
         var detailPage = new MediaDetailPage(viewModel);
-        await Application.Current.MainPage.Navigation.PushAsync(detailPage);
+        if (Application.Current != null && Application.Current.MainPage != null)
+            await Application.Current.MainPage.Navigation.PushAsync(detailPage);
     }
 
     private async void OnWatchlistSelected(WatchlistItem watchlistItem)
@@ -215,24 +216,28 @@ public class MainPageViewModel : BindableObject
         if (watchlistItem == null) return;
         var viewModel = new WatchlistDetailViewModel(watchlistItem, _serviceProvider);
         var detailPage = new WatchlistDetail(viewModel, _serviceProvider);
-        await Application.Current.MainPage.Navigation.PushAsync(detailPage);
+        if (Application.Current != null && Application.Current.MainPage != null)
+            await Application.Current.MainPage.Navigation.PushAsync(detailPage);
     }
 
     private async void OnFilterClicked()
     {
         var popup = _serviceProvider.GetService<FilterPopup>();
-        var result = await Application.Current.MainPage.ShowPopupAsync(popup);
-        if (result != null)
+        if (Application.Current != null && Application.Current.MainPage != null && popup != null)
         {
-            var filters = (dynamic)result;
+            var result = await Application.Current.MainPage.ShowPopupAsync(popup);
+            if (result != null)
+            {
+                var filters = (dynamic)result;
 
-            _selectedCategory = filters.Category;
-            _selectedSortOption = filters.SortOption;
-            _minReleaseYear = filters.MinReleaseYear;
-            _onlyFavourites = filters.OnlyFavourites;
-            _isDescending = filters.IsDescending;
+                _selectedCategory = filters.Category;
+                _selectedSortOption = filters.SortOption;
+                _minReleaseYear = filters.MinReleaseYear;
+                _onlyFavourites = filters.OnlyFavourites;
+                _isDescending = filters.IsDescending;
 
-            ApplyFilters();
+                ApplyFilters();
+            }
         }
     }
 
