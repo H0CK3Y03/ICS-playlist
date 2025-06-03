@@ -16,6 +16,7 @@ public record SeriesModel : ModelBase
     public required string Rating { get; set; }
     public string? URL { get; set; }
     public bool Favourite { get; set; }
+    public string Review { get; set; } = string.Empty;
 
     public int NumberOfEpisodes { get; set; }
 
@@ -34,6 +35,7 @@ public record SeriesModel : ModelBase
         URL = null,
         Favourite = default,
         NumberOfEpisodes = default,
+        Review = string.Empty,
         GenreNames = new()
     };
 }

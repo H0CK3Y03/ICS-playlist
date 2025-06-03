@@ -88,6 +88,7 @@ public class MediaFileFacade
             entity.Rating = model.Rating;
             entity.URL = model.URL;
             entity.Favourite = model.Favourite;
+            entity.Review = model.Review;
         }
 
         await _dbContext.SaveChangesAsync();

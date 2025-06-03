@@ -218,7 +218,7 @@ public class MediaDetailViewModel : BindableObject
                 ? string.Join(", ", _mediaItem.GenreNames)
                 : string.Empty;
             Description = _mediaItem.Description ?? "No description available";
-            Review = "TODO";
+            Review = _mediaItem.Review ?? "No review yet.";
             URL = _mediaItem.URL ?? string.Empty;
             Favourite = _mediaItem.Favourite;
             Status = _mediaItem.Status;

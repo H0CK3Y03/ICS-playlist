@@ -106,6 +106,7 @@ public class SeriesFacade
             entity.URL = model.URL;
             entity.Favourite = model.Favourite;
             entity.NumberOfEpisodes = model.NumberOfEpisodes;
+            entity.Review = model.Review;
         }
 
         await _dbContext.SaveChangesAsync();

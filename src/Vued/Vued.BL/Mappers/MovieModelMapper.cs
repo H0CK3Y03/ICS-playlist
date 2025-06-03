@@ -20,6 +20,7 @@ public class MovieModelMapper : ModelMapperBase<Movie, MovieModel>
             URL = entity.URL,
             Favourite = entity.Favourite,
             Length = entity.Length,
+            Review = entity.Review,
             GenreNames = entity.Genres.Select(g => g.Name).ToList()
         };
 
@@ -37,6 +38,7 @@ public class MovieModelMapper : ModelMapperBase<Movie, MovieModel>
         URL = model.URL,
         Favourite = model.Favourite,
         Length = model.Length,
+        Review = model.Review,
         //Genres = model.GenreNames.Select(name => new Genre { Id = 3, Name = name }).ToList() // TODO: Replace with actual genre IDs
     };
 }

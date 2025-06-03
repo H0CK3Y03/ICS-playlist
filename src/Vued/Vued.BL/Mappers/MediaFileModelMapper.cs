@@ -23,6 +23,7 @@ public class MediaFileModelMapper : ModelMapperBase<MediaFile, MediaFileModel>
             Rating = entity.Rating,
             URL = entity.URL,
             Favourite = entity.Favourite,
+            Review = entity.Review,
             MediaType = entity is Movie ? MediaType.Movie : MediaType.Series,
             GenreNames = entity.Genres.Select(g => g.Name).ToList()
         };
@@ -43,6 +44,7 @@ public class MediaFileModelMapper : ModelMapperBase<MediaFile, MediaFileModel>
                 Rating = model.Rating,
                 URL = model.URL,
                 Favourite = model.Favourite,
+                Review = model.Review,
                 //Genres = model.GenreNames.Select(name => new Genre { Id = 2, Name = name }).ToList() // TODO: Replace with actual genre IDs
             },
             MediaType.Series => new Series
@@ -57,6 +59,7 @@ public class MediaFileModelMapper : ModelMapperBase<MediaFile, MediaFileModel>
                 Rating = model.Rating,
                 URL = model.URL,
                 Favourite = model.Favourite,
+                Review = model.Review,
                 //Genres = model.GenreNames.Select(name => new Genre { Id = 1, Name = name }).ToList() // TODO: Replace with actual genre IDs
             },
 

@@ -20,7 +20,8 @@ public static class MovieSeed
                 Rating = "8/10",
                 URL = "https://www.imdb.com/title/tt0133093/",
                 Favourite = true,
-                Duration = 136
+                Duration = 136,
+                Review = "Nice"
             },
             new Movie
             {
@@ -33,7 +34,8 @@ public static class MovieSeed
                 Rating = "6/10", // Jane is a bitch (pretend you did not see this)
                 URL = "https://www.imdb.com/title/tt0109830/",
                 Favourite = true,
-                Duration = 142
+                Duration = 142,
+                Review = "Cool"
             },
             new Movie
             {
@@ -46,7 +48,8 @@ public static class MovieSeed
                 Rating = "7/10",
                 URL = "https://www.imdb.com/title/tt0081505/",
                 Favourite = false,
-                Duration = 144
+                Duration = 144,
+                Review = "Idk"
             },
             new Movie
             {
@@ -59,7 +62,8 @@ public static class MovieSeed
                 Rating = "9/10",
                 URL = "https://www.imdb.com/title/tt1375666/",
                 Favourite = true,
-                Duration = 148
+                Duration = 148,
+                Review = "Perfect"
             },
             new Movie
             {
@@ -72,7 +76,8 @@ public static class MovieSeed
                 Rating = "8/10",
                 URL = "https://www.imdb.com/title/tt0068646/",
                 Favourite = true,
-                Duration = 175
+                Duration = 175,
+                Review = "Nice"
             },
             new Movie
             {
@@ -85,7 +90,8 @@ public static class MovieSeed
                 Rating = "8/10",
                 URL = "https://www.imdb.com/title/tt0245429/",
                 Favourite = false,
-                Duration = 125
+                Duration = 125,
+                Review = "Nice"
             },
             new Movie
             {
@@ -98,7 +104,8 @@ public static class MovieSeed
                 Rating = "7/10",
                 URL = "https://www.imdb.com/title/tt1392190/",
                 Favourite = true,
-                Duration = 120
+                Duration = 120,
+                Review = "Nice"
             }
         );
     }

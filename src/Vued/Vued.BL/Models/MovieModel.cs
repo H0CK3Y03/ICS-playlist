@@ -18,7 +18,7 @@ public record MovieModel : ModelBase
     public bool Favourite { get; set; }
 
     public int Length { get; set; }
-
+    public string Review { get; set; } = string.Empty;
     public List<string> GenreNames { get; set; } = new();
 
     public static MovieModel Empty => new()
@@ -34,6 +34,7 @@ public record MovieModel : ModelBase
         URL = null,
         Favourite = default,
         Length = default,
+        Review = string.Empty,
         GenreNames = new()
     };
 }

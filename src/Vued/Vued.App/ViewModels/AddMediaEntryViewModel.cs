@@ -85,6 +85,7 @@ public class AddMediaEntryViewModel
                 URL = MediaUrl,
                 Favourite = Favourite,
                 Status = MediaStatus.Watching,
+                Review = Review,
                 MediaType = SelectedMediaType == "Movie" ? MediaType.Movie : MediaType.Series
             };
 

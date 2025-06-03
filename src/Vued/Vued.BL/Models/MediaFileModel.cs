@@ -19,6 +19,7 @@ public record MediaFileModel : ModelBase
     public required string Rating { get; set; }
     public string? URL { get; set; }
     public bool Favourite { get; set; }
+    public string Review { get; set; }
     public MediaType MediaType { get; set; }
 
     public List<string> GenreNames { get; set; } = new();
@@ -35,6 +36,7 @@ public record MediaFileModel : ModelBase
         Rating = string.Empty,
         URL = null,
         Favourite = false,
+        Review = string.Empty,
         GenreNames = new()
     };
 }
