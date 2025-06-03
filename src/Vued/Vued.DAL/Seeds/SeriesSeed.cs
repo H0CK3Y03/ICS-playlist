@@ -21,6 +21,7 @@ public static class SeriesSeed
                 URL = "https://www.imdb.com/title/tt0903747/",
                 Favourite = true,
                 Duration = 62,
+                Review = "Nice"
             },
             new Series
             {
@@ -34,6 +35,7 @@ public static class SeriesSeed
                 URL = "https://www.imdb.com/title/tt4574334/",
                 Favourite = true,
                 Duration = 34,
+                Review = "Nice"
             },
             new Series
             {
@@ -47,6 +49,7 @@ public static class SeriesSeed
                 URL = "https://www.imdb.com/title/tt0386676/",
                 Favourite = true,
                 Duration = 201,
+                Review = "Nice"
             },
             new Series
             {
@@ -60,6 +63,7 @@ public static class SeriesSeed
                 URL = "https://www.imdb.com/title/tt0944947/",
                 Favourite = true,
                 Duration = 73,
+                Review = "Nice"
             },
             new Series
             {
@@ -73,6 +77,7 @@ public static class SeriesSeed
                 URL = "https://www.imdb.com/title/tt8111088/",
                 Favourite = false,
                 Duration = 24,
+                Review = "Nice"
             },
             new Series
             {
@@ -86,6 +91,7 @@ public static class SeriesSeed
                 URL = "https://www.imdb.com/title/tt2085059/",
                 Favourite = false,
                 Duration = 27,
+                Review = "Nice"
             },
             new Series
             {
@@ -99,6 +105,7 @@ public static class SeriesSeed
                 URL = "https://www.imdb.com/title/tt4786824/",
                 Favourite = false,
                 Duration = 60,
+                Review = "Nice"
             }
         );
     }

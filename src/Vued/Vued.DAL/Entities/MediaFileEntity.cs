@@ -21,7 +21,7 @@ public abstract class MediaFile : IEntity
     public string Rating { get; set; } = string.Empty;
     public string URL { get; set; } = string.Empty;
     public bool Favourite { get; set; } = false;
-
+    public string Review { get; set; } = string.Empty;
     public ICollection<Watchlist> Watchlists { get; set; } = new List<Watchlist>();
     public ICollection<Genre> Genres { get; set; } = new List<Genre>();
 }

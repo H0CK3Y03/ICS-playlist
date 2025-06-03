@@ -118,6 +118,7 @@ public class MainPageViewModel : BindableObject
                     MediaType = media.MediaType,
                     GenreNames = media.GenreNames,
                     URL = media.URL,
+                    Review = media.Review,
                     ImageUrl = media.URL
                 });
             }

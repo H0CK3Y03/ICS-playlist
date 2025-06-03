@@ -50,7 +50,7 @@ public class MediaEditViewModel : BindableObject
             ? string.Join(", ", _mediaItem.GenreNames)
             : string.Empty;
         Description = _mediaItem.Description ?? "No description available";
-        Review = "TODO";
+        Review = _mediaItem.Review;
         URL = _mediaItem.URL ?? string.Empty;
         ImageUrl = _mediaItem.URL ?? string.Empty; // change later
         Favourite = _mediaItem.Favourite;
@@ -80,7 +80,8 @@ public class MediaEditViewModel : BindableObject
                 URL = ImageUrl,
                 Favourite = Favourite,
                 Status = Status,
-                MediaType = MediaType
+                MediaType = MediaType,
+                Review = Review 
             };
 
             var currentMediaModel = await _mediaFileFacade.GetByIdAsync(_mediaItem.Id);
@@ -100,6 +101,7 @@ public class MediaEditViewModel : BindableObject
             currentMediaModel.Favourite = updatedMediaItem.Favourite;
             currentMediaModel.MediaType = updatedMediaItem.MediaType;
             currentMediaModel.GenreNames = updatedMediaItem.GenreNames;
+            currentMediaModel.Review = updatedMediaItem.Review;
 
             await _mediaFileFacade.SaveAsync(currentMediaModel);
 
