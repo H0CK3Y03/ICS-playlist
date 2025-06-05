@@ -1,3 +1,20 @@
+# TODO
+- [ ] DAL
+    - [x] Remove Media, Series entities
+    - [x] Create connection with Watchlists-Media
+    - [x] Create connection with Media-Genre
+    - [x] Generate db with new data
+    - [ ] Test it?
+- [ ] BL
+    - [ ]  Fix mappers to match new db
+    - [ ]  Fix facades to match new db
+    - [ ]  Fix/add function for fetching ids for genres and watchlists (need for ui)
+    - [ ]  Test it with app? (should work if the names of the functions, return data types and parameters are the same)
+- [ ] APP
+    - [ ] Fix media fetching from watchlists (need the function for fetching all movie id's to load them)
+    - [ ] Add search bar (probably done)
+    - [ ] Add function for adding movies to playlists
+
 # Vued — Movie & Series Tracker
 
 **Vued** is a cross-platform application for tracking and managing your movies and series. With Vued, you can create personalized playlists, rate watched content, apply filters for easy navigation, and add custom descriptions to entries.
