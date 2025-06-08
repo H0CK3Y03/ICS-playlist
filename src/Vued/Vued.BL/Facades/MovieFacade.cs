@@ -109,6 +109,7 @@ public class MovieFacade
             entity.URL = model.URL;
             entity.Favourite = model.Favourite;
             entity.Length = model.Length;
+            entity.Review = model.Review;
         }
 
         await _dbContext.SaveChangesAsync();

@@ -20,6 +20,7 @@ public class SeriesModelMapper : ModelMapperBase<Series, SeriesModel>
             URL = entity.URL,
             Favourite = entity.Favourite,
             NumberOfEpisodes = entity.NumberOfEpisodes,
+            Review = entity.Review,
             GenreNames = entity.Genres.Select(g => g.Name).ToList()
         };
 
@@ -36,6 +37,7 @@ public class SeriesModelMapper : ModelMapperBase<Series, SeriesModel>
         URL = model.URL ?? string.Empty,
         Favourite = model.Favourite,
         NumberOfEpisodes = model.NumberOfEpisodes,
+        Review = model.Review,
         Genres = new List<Genre>()
     };
 }
