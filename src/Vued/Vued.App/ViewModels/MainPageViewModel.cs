@@ -7,6 +7,7 @@ using Vued.BL.Facades;
 using Vued.BL.Models;
 using Vued.App.Utilities;
 using Vued.App.Views.Watchlist;
+using System.Threading.Tasks;
 
 namespace Vued.App.ViewModels;
 
@@ -51,7 +52,7 @@ public class MainPageViewModel : BindableObject
         WatchlistItems = new ObservableCollection<WatchlistItem>();
 
         GridSpan = 1;
-        SearchCommand = new Command(OnSearch);
+        SearchCommand = new Command(async () => await OnSearch());
         FilterCommand = new Command(OnFilterClicked);
         MediaSelectedCommand = new Command<MediaItem>(OnMediaSelected);
         WatchlistSelectedCommand = new Command<WatchlistItem>(OnWatchlistSelected);
@@ -136,6 +137,53 @@ public class MainPageViewModel : BindableObject
         }
     }
 
+    private async Task ApplyFiltersAsync(string? searchQuery = null)
+    {
+        var filter = new MovieFilterModel
+        {
+            Genre = _selectedCategory != "All" ? _selectedCategory : null,
+            Favourite = _onlyFavourites ? true : null,
+            ReleaseYear = _minReleaseYear > 1000 ? (int?)_minReleaseYear : null,
+            SortBy = _selectedSortOption switch
+            {
+                "Alphabetical" => "Alphabetical",
+                "Favourites" => "Favourites",
+                "Ranking" => "Ranking",
+                _ => "Alphabetical"
+            },
+            SortOrder = _isDescending ? "desc" : "asc"
+        };
+
+        if (!string.IsNullOrWhiteSpace(searchQuery))
+        {
+            filter.TitleContains = searchQuery;
+            filter.DirectorContains = searchQuery;
+        }
+
+        var filtered = await _mediaFileFacade.FilterAsync(filter);
+
+        MediaItems.Clear();
+        foreach (var item in filtered.Select(m => new MediaItem
+        {
+            Id = m.Id,
+            Name = m.Name,
+            Status = m.Status,
+            Description = m.Description,
+            Duration = m.Duration,
+            Director = m.Director,
+            ReleaseDate = m.ReleaseDate,
+            Rating = m.Rating,
+            Favourite = m.Favourite,
+            MediaType = m.MediaType,
+            GenreNames = m.GenreNames,
+            URL = m.URL,
+            ImageUrl = m.URL
+        }))
+        {
+            MediaItems.Add(item);
+        }
+    }
+
     public ObservableCollection<MediaItem> MediaItems
     {
         get => _mediaItems;
@@ -195,12 +243,9 @@ public class MainPageViewModel : BindableObject
         GridSpan = Math.Clamp(calculatedSpan, minSpan, maxSpan);
     }
 
-    private void OnSearch()
+    private async Task OnSearch()
     {
-        if (!string.IsNullOrEmpty(SearchQuery))
-        {
-            System.Diagnostics.Debug.WriteLine($"Search query: {SearchQuery}");
-        }
+        await ApplyFiltersAsync(SearchQuery);
     }
 
     private async void OnMediaSelected(MediaItem mediaItem)
@@ -237,54 +282,8 @@ public class MainPageViewModel : BindableObject
                 _onlyFavourites = filters.OnlyFavourites;
                 _isDescending = filters.IsDescending;
 
-                ApplyFilters();
+                await ApplyFiltersAsync();
             }
-        }
-    }
-
-    // MOVE THIS TO BL AFTER SIMPLIFYING ARCHITECTURE
-    private void ApplyFilters()
-    {
-        var filtered = _allMediaItems.AsEnumerable();
-
-        if (!string.IsNullOrEmpty(_selectedCategory) && _selectedCategory != "All")
-        {
-            filtered = filtered.Where(item => item.GenreNames.Contains(_selectedCategory));
-        }
-
-        if (_onlyFavourites)
-        {
-            filtered = filtered.Where(item => item.Favourite);
-        }
-
-        if (_minReleaseYear > 1000)
-        {
-            filtered = filtered.Where(item => item.ReleaseDate >= _minReleaseYear);
-        }
-
-        switch (_selectedSortOption)
-        {
-            case "Alphabetical":
-                filtered = _isDescending
-                    ? filtered.OrderByDescending(item => item.Name)
-                    : filtered.OrderBy(item => item.Name);
-                break;
-            case "Favourites":
-                filtered = _isDescending
-                    ? filtered.OrderByDescending(item => item.Favourite)
-                    : filtered.OrderBy(item => item.Favourite);
-                break;
-            case "Ranking":
-                filtered = _isDescending
-                    ? filtered.OrderByDescending(item => item.Rating)
-                    : filtered.OrderBy(item => item.Rating);
-                break;
-        }
-
-        MediaItems.Clear();
-        foreach (var item in filtered)
-        {
-            MediaItems.Add(item);
         }
     }
 }

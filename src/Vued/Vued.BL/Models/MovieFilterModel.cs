@@ -17,7 +17,7 @@ namespace Vued.BL.Models
         public int? LengthMax { get; set; }
         public MediaStatus? Status { get; set; }
 
-        public string? SortBy { get; set; } = "title";
+        public string? SortBy { get; set; } = "Alphabetical";
         public string? SortOrder { get; set; } = "asc";
     }
 }

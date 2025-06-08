@@ -118,4 +118,68 @@ public class MediaFileFacade
 
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<List<MediaFileModel>> FilterAsync(MovieFilterModel filter)
+    {
+        var movieQuery = _dbContext.Movies.Include(m => m.Genres).AsQueryable();
+        var seriesQuery = _dbContext.Series.Include(s => s.Genres).AsQueryable();
+
+        if (!string.IsNullOrEmpty(filter.Genre) && filter.Genre != "All")
+        {
+            movieQuery = movieQuery.Where(m => m.Genres.Any(g => g.Name == filter.Genre));
+            seriesQuery = seriesQuery.Where(s => s.Genres.Any(g => g.Name == filter.Genre));
+        }
+
+        if (filter.Favourite == true)
+        {
+            movieQuery = movieQuery.Where(m => m.Favourite);
+            seriesQuery = seriesQuery.Where(s => s.Favourite);
+        }
+
+        if (filter.ReleaseYear.HasValue)
+        {
+            movieQuery = movieQuery.Where(m => m.ReleaseDate >= filter.ReleaseYear.Value);
+            seriesQuery = seriesQuery.Where(s => s.ReleaseDate >= filter.ReleaseYear.Value);
+        }
+
+        if (!string.IsNullOrWhiteSpace(filter.TitleContains) || !string.IsNullOrWhiteSpace(filter.DirectorContains))
+        {
+            var title = filter.TitleContains?.ToLower() ?? string.Empty;
+            var director = filter.DirectorContains?.ToLower() ?? string.Empty;
+
+            movieQuery = movieQuery.Where(m =>
+                (!string.IsNullOrEmpty(title) && m.Name.ToLower().Contains(title)) ||
+                (!string.IsNullOrEmpty(director) && m.Director.ToLower().Contains(director)));
+
+            seriesQuery = seriesQuery.Where(s =>
+                (!string.IsNullOrEmpty(title) && s.Name.ToLower().Contains(title)) ||
+                (!string.IsNullOrEmpty(director) && s.Director.ToLower().Contains(director)));
+        }
+
+        var movies = await movieQuery.ToListAsync();
+        var series = await seriesQuery.ToListAsync();
+
+        var entities = new List<MediaFile>();
+        entities.AddRange(movies);
+        entities.AddRange(series);
+
+        entities = filter.SortBy switch
+        {
+            "Alphabetical" => filter.SortOrder == "desc"
+                ? entities.OrderByDescending(m => m.Name).ToList()
+                : entities.OrderBy(m => m.Name).ToList(),
+
+            "Favourites" => filter.SortOrder == "desc"
+                ? entities.OrderByDescending(m => m.Favourite).ToList()
+                : entities.OrderBy(m => m.Favourite).ToList(),
+
+            "Ranking" => filter.SortOrder == "desc"
+                ? entities.OrderByDescending(m => m.Rating).ToList()
+                : entities.OrderBy(m => m.Rating).ToList(),
+
+            _ => entities.OrderBy(m => m.Name).ToList()
+        };
+
+        return entities.Select(_mapper.MapToModel).ToList();
+    }
 }
