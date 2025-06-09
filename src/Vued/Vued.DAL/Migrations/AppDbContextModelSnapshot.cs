@@ -191,7 +191,7 @@ namespace Vued.DAL.Migrations
                         new
                         {
                             MediaFilesId = 1,
-                            WatchlistsId = 1
+                            WatchlistsId = 3
                         },
                         new
                         {
@@ -200,8 +200,8 @@ namespace Vued.DAL.Migrations
                         },
                         new
                         {
-                            MediaFilesId = 8,
-                            WatchlistsId = 1
+                            MediaFilesId = 3,
+                            WatchlistsId = 3
                         });
                 });
 
@@ -549,6 +549,12 @@ namespace Vued.DAL.Migrations
                             Id = 2,
                             Description = "Movies and series to watch later",
                             Name = "Watch Later"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Series I always want to watch",
+                            Name = "Old Series"
                         });
                 });
 

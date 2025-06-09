@@ -10,8 +10,8 @@ using Vued.DAL;
 namespace Vued.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250609220829_WatchlistMediaSeeded")]
-    partial class WatchlistMediaSeeded
+    [Migration("20250609234951_FixWatchlistSeed")]
+    partial class FixWatchlistSeed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -194,7 +194,7 @@ namespace Vued.DAL.Migrations
                         new
                         {
                             MediaFilesId = 1,
-                            WatchlistsId = 1
+                            WatchlistsId = 3
                         },
                         new
                         {
@@ -203,8 +203,8 @@ namespace Vued.DAL.Migrations
                         },
                         new
                         {
-                            MediaFilesId = 8,
-                            WatchlistsId = 1
+                            MediaFilesId = 3,
+                            WatchlistsId = 3
                         });
                 });
 
@@ -552,6 +552,12 @@ namespace Vued.DAL.Migrations
                             Id = 2,
                             Description = "Movies and series to watch later",
                             Name = "Watch Later"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Series I always want to watch",
+                            Name = "Old Series"
                         });
                 });
 
