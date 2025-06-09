@@ -9,7 +9,8 @@ public static class WatchlistSeed
     {
         modelBuilder.Entity<Watchlist>().HasData(
             new Watchlist { Id = 1, Name = "My Favorites", Description = "Top-rated movies and series" },
-            new Watchlist { Id = 2, Name = "Watch Later", Description = "Movies and series to watch later" }
-        );
+            new Watchlist { Id = 2, Name = "Watch Later", Description = "Movies and series to watch later" },
+            new Watchlist { Id = 3, Name = "Old Series", Description = "Series I always want to watch"}
+            );
     }
 }

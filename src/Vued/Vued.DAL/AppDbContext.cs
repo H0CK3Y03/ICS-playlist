@@ -35,6 +35,8 @@ namespace Vued.DAL
             MovieSeed.Seed(modelBuilder);
             SeriesSeed.Seed(modelBuilder);
             WatchlistSeed.Seed(modelBuilder);
+            WatchlistMediaSeed.Seed(modelBuilder);
+
         }
     }
 }
