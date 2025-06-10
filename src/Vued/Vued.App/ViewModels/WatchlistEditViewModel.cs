@@ -25,7 +25,6 @@ public class MediaCheckbox : BindableObject
 
 public class WatchlistEditViewModel : BindableObject
 {
-
     private string _name;
     private string _description;
     private WatchlistItem _watchlistItem;
@@ -52,6 +51,7 @@ public class WatchlistEditViewModel : BindableObject
     {
         try
         {
+            // Update watchlist details
             var updatedWatchlistItem = new WatchlistItem
             {
                 Id = _watchlistItem.Id,
@@ -70,13 +70,29 @@ public class WatchlistEditViewModel : BindableObject
 
             await _watchlistFacade.SaveAsync(currentWatchlistModel);
 
+            // Update media items in the watchlist
+            var currentMediaIds = await _watchlistFacade.GetMediaIdsForWatchlistAsync(_watchlistItem.Id);
+            foreach (var media in MediaList)
+            {
+                if (media.IsChecked && !currentMediaIds.Contains(media.Id))
+                {
+                    // Add media to watchlist if checked and not already in it
+                    await _watchlistFacade.AddMediaToWatchlistAsync(_watchlistItem.Id, media.Id);
+                }
+                else if (!media.IsChecked && currentMediaIds.Contains(media.Id))
+                {
+                    // Remove media from watchlist if unchecked and currently in it
+                    await _watchlistFacade.RemoveMediaFromWatchlistAsync(_watchlistItem.Id, media.Id);
+                }
+            }
+
             await AlertDisplay.ShowAlertAsync("Success", "Watchlist updated successfully.", "OK");
             await Shell.Current.GoToAsync("..");
         }
         catch (Exception ex)
         {
             Logger.Error(GetType(), "Error updating watchlist", ex);
-            await AlertDisplay.ShowAlertAsync("Error", $"Failed to updated watchlist: {ex.Message}", "OK");
+            await AlertDisplay.ShowAlertAsync("Error", $"Failed to update watchlist: {ex.Message}", "OK");
         }
     }
 
@@ -130,13 +146,23 @@ public class WatchlistEditViewModel : BindableObject
 
     private async Task LoadMediaAsync()
     {
-        var allMedia = await _mediaFileFacade.GetAllAsync();
+        try
+        {
+            var allMedia = await _mediaFileFacade.GetAllAsync();
+            var watchlistMediaIds = await _watchlistFacade.GetMediaIdsForWatchlistAsync(_watchlistItem.Id);
 
-        MediaList = new ObservableCollection<MediaCheckbox>(
-            allMedia.Select(m => new MediaCheckbox
-            {
-                Id = m.Id,
-                Name = m.Name,
-            }));
+            MediaList = new ObservableCollection<MediaCheckbox>(
+                allMedia.Select(m => new MediaCheckbox
+                {
+                    Id = m.Id,
+                    Name = m.Name,
+                    IsChecked = watchlistMediaIds.Contains(m.Id)
+                }));
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(GetType(), "Error loading media", ex);
+            await AlertDisplay.ShowAlertAsync("Error", $"Failed to load media: {ex.Message}", "OK");
+        }
     }
 }
