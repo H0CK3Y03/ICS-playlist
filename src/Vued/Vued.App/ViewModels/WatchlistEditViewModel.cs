@@ -1,8 +1,27 @@
 using System.Windows.Input;
 using Vued.BL.Facades;
 using Vued.App.Utilities;
+using System.Collections.ObjectModel;
 
 namespace Vued.App.ViewModels;
+
+public class MediaCheckbox : BindableObject
+{
+    private bool _isChecked;
+
+    public int Id { get; set; }
+    public string Name { get; set; }
+
+    public bool IsChecked
+    {
+        get => _isChecked;
+        set
+        {
+            _isChecked = value;
+            OnPropertyChanged();
+        }
+    }
+}
 
 public class WatchlistEditViewModel : BindableObject
 {
@@ -11,16 +30,20 @@ public class WatchlistEditViewModel : BindableObject
     private string _description;
     private WatchlistItem _watchlistItem;
     private readonly WatchlistFacade _watchlistFacade;
+    private readonly MediaFileFacade _mediaFileFacade;
+    private ObservableCollection<MediaCheckbox> _mediaList;
 
     public WatchlistEditViewModel(WatchlistItem watchlistItem, IServiceProvider serviceProvider)
     {
         _watchlistItem = watchlistItem;
         _watchlistFacade = serviceProvider.GetRequiredService<WatchlistFacade>();
+        _mediaFileFacade = serviceProvider.GetRequiredService<MediaFileFacade>();
         _name = watchlistItem.Name;
         _description = watchlistItem.Description;
 
         EditCommand = new Command(async () => await OnEdit());
         DeleteCommand = new Command(async () => await OnDelete());
+        LoadMediaAsync();
     }
 
     public ICommand EditCommand { get; }
@@ -93,5 +116,27 @@ public class WatchlistEditViewModel : BindableObject
             _description = value;
             OnPropertyChanged();
         }
+    }
+
+    public ObservableCollection<MediaCheckbox> MediaList
+    {
+        get => _mediaList;
+        set
+        {
+            _mediaList = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private async Task LoadMediaAsync()
+    {
+        var allMedia = await _mediaFileFacade.GetAllAsync();
+
+        MediaList = new ObservableCollection<MediaCheckbox>(
+            allMedia.Select(m => new MediaCheckbox
+            {
+                Id = m.Id,
+                Name = m.Name,
+            }));
     }
 }
