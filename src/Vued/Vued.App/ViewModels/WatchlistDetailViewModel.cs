@@ -46,26 +46,59 @@ public class WatchlistDetailViewModel : BindableObject
     {
         try
         {
-            var mediaList = await _mediaFileFacade.GetAllAsync(); // Assuming facade method exists
+            var mediaList = await _mediaFileFacade.GetAllAsync();
+
             MediaItems.Clear();
-            foreach (var media in mediaList)
+
+            if (_watchlistItem.Id == 1) 
             {
-                MediaItems.Add(new MediaItem
+                foreach (var media in mediaList.Where(m => m.Favourite))
                 {
-                    Id = media.Id,
-                    Name = media.Name,
-                    Status = media.Status,
-                    Description = media.Description,
-                    Duration = media.Duration,
-                    Director = media.Director,
-                    ReleaseDate = media.ReleaseDate,
-                    Rating = media.Rating,
-                    Favourite = media.Favourite,
-                    MediaType = media.MediaType,
-                    GenreNames = media.GenreNames,
-                    URL = media.URL,
-                    ImageUrl = media.URL
-                });
+                    MediaItems.Add(new MediaItem
+                    {
+                        Id = media.Id,
+                        Name = media.Name,
+                        Status = media.Status,
+                        Description = media.Description,
+                        Duration = media.Duration,
+                        Director = media.Director,
+                        ReleaseDate = media.ReleaseDate,
+                        Rating = media.Rating,
+                        Favourite = media.Favourite,
+                        MediaType = media.MediaType,
+                        GenreNames = media.GenreNames,
+                        URL = media.URL,
+                        ImageUrl = media.URL,
+                        Review = media.Review
+                    });
+                }
+            }
+            else
+            {
+                var selectedIds = await _serviceProvider
+                    .GetRequiredService<WatchlistFacade>()
+                    .GetMediaIdsForWatchlistAsync(_watchlistItem.Id);
+
+                foreach (var media in mediaList.Where(m => selectedIds.Contains(m.Id)))
+                {
+                    MediaItems.Add(new MediaItem
+                    {
+                        Id = media.Id,
+                        Name = media.Name,
+                        Status = media.Status,
+                        Description = media.Description,
+                        Duration = media.Duration,
+                        Director = media.Director,
+                        ReleaseDate = media.ReleaseDate,
+                        Rating = media.Rating,
+                        Favourite = media.Favourite,
+                        MediaType = media.MediaType,
+                        GenreNames = media.GenreNames,
+                        URL = media.URL,
+                        ImageUrl = media.URL,
+                        Review = media.Review
+                    });
+                }
             }
         }
         catch (Exception ex)
@@ -74,6 +107,7 @@ public class WatchlistDetailViewModel : BindableObject
             await AlertDisplay.ShowAlertAsync("Error", $"Failed to load media: {ex.Message}", "OK");
         }
     }
+
 
     public ObservableCollection<MediaItem> MediaItems
     {

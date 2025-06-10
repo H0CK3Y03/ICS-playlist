@@ -68,4 +68,45 @@ public class WatchlistFacade
             await _dbContext.SaveChangesAsync();
         }
     }
+
+    //  Methods for connecting media to watchlists
+    public async Task AddMediaToWatchlistAsync(int watchlistId, int mediaFileId)
+    {
+        var watchlist = await _dbContext.Watchlists
+            .Include(w => w.MediaFiles)
+            .FirstOrDefaultAsync(w => w.Id == watchlistId);
+
+        var media = await _dbContext.Set<MediaFile>().FindAsync(mediaFileId);
+
+        if (watchlist != null && media != null && !watchlist.MediaFiles.Contains(media))
+        {
+            watchlist.MediaFiles.Add(media);
+            await _dbContext.SaveChangesAsync();
+        }
+    }
+
+    public async Task RemoveMediaFromWatchlistAsync(int watchlistId, int mediaFileId)
+    {
+        var watchlist = await _dbContext.Watchlists
+            .Include(w => w.MediaFiles)
+            .FirstOrDefaultAsync(w => w.Id == watchlistId);
+
+        var media = await _dbContext.Set<MediaFile>().FindAsync(mediaFileId);
+
+        if (watchlist != null && media != null && watchlist.MediaFiles.Contains(media))
+        {
+            watchlist.MediaFiles.Remove(media);
+            await _dbContext.SaveChangesAsync();
+        }
+    }
+    public async Task<List<int>> GetMediaIdsForWatchlistAsync(int watchlistId)
+    {
+        var mediaIds = await _dbContext.Watchlists
+            .Where(w => w.Id == watchlistId)
+            .SelectMany(w => w.MediaFiles.Select(m => m.Id))
+            .ToListAsync();
+
+        return mediaIds;
+    }
+
 }
