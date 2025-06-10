@@ -18,6 +18,7 @@ public class SeriesModelMapper : ModelMapperBase<Series, SeriesModel>
             ReleaseDate = entity.ReleaseDate,
             Rating = entity.Rating,
             URL = entity.URL,
+            ImageURL = entity.ImageURL,
             Favourite = entity.Favourite,
             NumberOfEpisodes = entity.NumberOfEpisodes,
             Review = entity.Review,

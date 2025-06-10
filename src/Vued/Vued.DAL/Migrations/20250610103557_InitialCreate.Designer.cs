@@ -10,8 +10,8 @@ using Vued.DAL;
 namespace Vued.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250609234951_FixWatchlistSeed")]
-    partial class FixWatchlistSeed
+    [Migration("20250610103557_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -497,6 +497,9 @@ namespace Vued.DAL.Migrations
                     b.Property<bool>("Favourite")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("ImageURL")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
@@ -578,6 +581,7 @@ namespace Vued.DAL.Migrations
                             Director = "Lana Wachowski, Lilly Wachowski",
                             Duration = 136,
                             Favourite = true,
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BN2NmN2VhMTQtMDNiOS00NDlhLTliMjgtODE2ZTY0ODQyNDRhXkEyXkFqcGc@._V1_.jpg",
                             Name = "The Matrix",
                             Rating = "8/10",
                             ReleaseDate = 1999,
@@ -593,6 +597,7 @@ namespace Vued.DAL.Migrations
                             Director = "Robert Zemeckis",
                             Duration = 142,
                             Favourite = true,
+                            ImageURL = "https://storage.googleapis.com/pod_public/1300/266241.jpg",
                             Name = "Forrest Gump",
                             Rating = "6/10",
                             ReleaseDate = 1994,
@@ -608,6 +613,7 @@ namespace Vued.DAL.Migrations
                             Director = "Stanley Kubrick",
                             Duration = 144,
                             Favourite = false,
+                            ImageURL = "https://storage.googleapis.com/pod_public/1300/262806.jpg",
                             Name = "The Shining",
                             Rating = "7/10",
                             ReleaseDate = 1980,
@@ -623,6 +629,7 @@ namespace Vued.DAL.Migrations
                             Director = "Christopher Nolan",
                             Duration = 148,
                             Favourite = true,
+                            ImageURL = "https://www.vasefotka.cz/fotky22340/fotos/_vyr_271602026-Inception-Pocatek.jpg",
                             Name = "Inception",
                             Rating = "9/10",
                             ReleaseDate = 2010,
@@ -638,6 +645,7 @@ namespace Vued.DAL.Migrations
                             Director = "Francis Ford Coppola",
                             Duration = 175,
                             Favourite = true,
+                            ImageURL = "https://i5.walmartimages.com/seo/The-Godfather-Original-Movie-Poster-poster-Frameless-Gift-12-x-18-inch-30cm-x-46cm_c6df3fd5-1e9c-49ca-8cb6-1af6078df4c2.b21fd8bc877c5645b9340a53580833a2.jpeg",
                             Name = "The Godfather",
                             Rating = "8/10",
                             ReleaseDate = 1972,
@@ -653,6 +661,7 @@ namespace Vued.DAL.Migrations
                             Director = "Hayao Miyazaki",
                             Duration = 125,
                             Favourite = false,
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BNTEyNmEwOWUtYzkyOC00ZTQ4LTllZmUtMjk0Y2YwOGUzYjRiXkEyXkFqcGc@._V1_.jpg",
                             Name = "Spirited Away",
                             Rating = "8/10",
                             ReleaseDate = 2001,
@@ -668,12 +677,29 @@ namespace Vued.DAL.Migrations
                             Director = "George Miller",
                             Duration = 120,
                             Favourite = true,
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BZDRkODJhOTgtOTc1OC00NTgzLTk4NjItNDgxZDY4YjlmNDY2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
                             Name = "Mad Max: Fury Road",
                             Rating = "7/10",
                             ReleaseDate = 2015,
                             Review = "Nice",
                             Status = 2,
                             URL = "https://www.imdb.com/title/tt1392190/",
+                            Length = 0
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Description = "Two teenagers share a profound, magical connection upon discovering they are swapping bodies. Things manage to become even more complicated when the boy and girl decide to meet in person.",
+                            Director = "Makoto Shinkai",
+                            Duration = 116,
+                            Favourite = true,
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BMTIyNzFjNzItZmQ1MC00NzhjLThmMzYtZjRhN2Y3MmM2OGQyXkEyXkFqcGc@._V1_.jpg",
+                            Name = "Your Name",
+                            Rating = "10/10",
+                            ReleaseDate = 2016,
+                            Review = "Peak",
+                            Status = 2,
+                            URL = "https://www.imdb.com/title/tt5311514/",
                             Length = 0
                         });
                 });
@@ -690,11 +716,12 @@ namespace Vued.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 8,
+                            Id = 9,
                             Description = "A chemistry teacher turned drug-lord teams up with a former student to build a methamphetamine empire.",
                             Director = "Vince Gilligan",
                             Duration = 62,
                             Favourite = true,
+                            ImageURL = "https://m.media-amazon.com/images/I/91+GrGr5TWL._AC_UF894,1000_QL80_.jpg",
                             Name = "Breaking Bad",
                             Rating = "10/10",
                             ReleaseDate = 2008,
@@ -705,11 +732,12 @@ namespace Vued.DAL.Migrations
                         },
                         new
                         {
-                            Id = 9,
+                            Id = 10,
                             Description = "A group of friends in the 1980s uncover supernatural mysteries and government conspiracies in their small town.",
                             Director = "The Duffer Brothers",
                             Duration = 34,
                             Favourite = true,
+                            ImageURL = "https://static.posters.cz/image/1300/132239.jpg",
                             Name = "Stranger Things",
                             Rating = "8/10",
                             ReleaseDate = 2016,
@@ -720,11 +748,12 @@ namespace Vued.DAL.Migrations
                         },
                         new
                         {
-                            Id = 10,
+                            Id = 11,
                             Description = "A mockumentary about the daily lives of employees at the Dunder Mifflin paper company.",
                             Director = "Greg Daniels",
                             Duration = 201,
                             Favourite = true,
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BZjQwYzBlYzUtZjhhOS00ZDQ0LWE0NzAtYTk4MjgzZTNkZWEzXkEyXkFqcGc@._V1_.jpg",
                             Name = "The Office (US)",
                             Rating = "9/10",
                             ReleaseDate = 2005,
@@ -735,11 +764,12 @@ namespace Vued.DAL.Migrations
                         },
                         new
                         {
-                            Id = 11,
+                            Id = 12,
                             Description = "Noble families fight for control of the Iron Throne in a fantasy world filled with dragons and political intrigue.",
                             Director = "David Benioff, D.B. Weiss",
                             Duration = 73,
                             Favourite = true,
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BZjQwYzBlYzUtZjhhOS00ZDQ0LWE0NzAtYTk4MjgzZTNkZWEzXkEyXkFqcGc@._V1_.jpg",
                             Name = "Game of Thrones",
                             Rating = "9/10",
                             ReleaseDate = 2011,
@@ -750,11 +780,12 @@ namespace Vued.DAL.Migrations
                         },
                         new
                         {
-                            Id = 12,
+                            Id = 13,
                             Description = "A lone bounty hunter navigates the outer reaches of the galaxy, protecting a mysterious baby Yoda.",
                             Director = "Jon Favreau",
                             Duration = 24,
                             Favourite = false,
+                            ImageURL = "https://static.posters.cz/image/750/103406.jpg",
                             Name = "The Mandalorian",
                             Rating = "6/10",
                             ReleaseDate = 2019,
@@ -765,11 +796,12 @@ namespace Vued.DAL.Migrations
                         },
                         new
                         {
-                            Id = 13,
+                            Id = 14,
                             Description = "An anthology series exploring the dark side of technology and human nature in dystopian futures.",
                             Director = "Charlie Brooker",
                             Duration = 27,
                             Favourite = false,
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BODcxMWI2NDMtYTc3NC00OTZjLWFmNmUtM2NmY2I1ODkxYzczXkEyXkFqcGc@._V1_.jpg",
                             Name = "Black Mirror",
                             Rating = "8/10",
                             ReleaseDate = 2011,
@@ -780,17 +812,50 @@ namespace Vued.DAL.Migrations
                         },
                         new
                         {
-                            Id = 14,
+                            Id = 15,
                             Description = "A biographical drama chronicling the reign of Queen Elizabeth II and major historical events.",
                             Director = "Peter Morgan",
                             Duration = 60,
                             Favourite = false,
+                            ImageURL = "https://image.tmdb.org/t/p/original/1M876KPjulVwppEpldhdc8V4o68.jpg",
                             Name = "The Crown",
                             Rating = "-",
                             ReleaseDate = 2016,
                             Review = "Nice",
                             Status = 0,
                             URL = "https://www.imdb.com/title/tt4786824/",
+                            NumberOfEpisodes = 0
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Description = "The trials and tribulations of criminal lawyer Jimmy McGill in the years leading up to his fateful run-in with Walter White and Jesse Pinkman.",
+                            Director = "Peter Gould",
+                            Duration = 63,
+                            Favourite = true,
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BNDdjNTEzMjMtYjM3Mi00NzQ3LWFlNWMtZjdmYWU3ZDkzMjk1XkEyXkFqcGc@._V1_.jpg",
+                            Name = "Better Call Saul",
+                            Rating = "9/10",
+                            ReleaseDate = 2015,
+                            Review = "Nice",
+                            Status = 2,
+                            URL = "https://www.imdb.com/title/tt3032476/",
+                            NumberOfEpisodes = 0
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Description = "An internal succession war within House Targaryen at the height of its power, 172 years before the birth of Daenerys Targaryen.",
+                            Director = "Ryan J. Condal",
+                            Duration = 60,
+                            Favourite = true,
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BYjBhMTU2N2EtYjVkYS00ODBiLTk3MDUtYWFmZTM2M2JkNzcwXkEyXkFqcGc@._V1_.jpg",
+                            Name = "The House of the Dragon",
+                            Rating = "9/10",
+                            ReleaseDate = 2021,
+                            Review = "Nice",
+                            Status = 2,
+                            URL = "https://www.imdb.com/title/tt11198330/",
                             NumberOfEpisodes = 0
                         });
                 });

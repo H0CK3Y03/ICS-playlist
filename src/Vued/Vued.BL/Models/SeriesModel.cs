@@ -15,6 +15,7 @@ public record SeriesModel : ModelBase
     public required int ReleaseDate { get; set; }
     public required string Rating { get; set; }
     public string? URL { get; set; }
+    public string? ImageURL { get; set; }
     public bool Favourite { get; set; }
     public string Review { get; set; } = string.Empty;
 

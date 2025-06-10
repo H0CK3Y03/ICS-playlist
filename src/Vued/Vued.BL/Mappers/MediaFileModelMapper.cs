@@ -22,6 +22,7 @@ public class MediaFileModelMapper : ModelMapperBase<MediaFile, MediaFileModel>
             Status = entity.Status,
             Rating = entity.Rating,
             URL = entity.URL,
+            ImageURL = entity.ImageURL,
             Favourite = entity.Favourite,
             Review = entity.Review,
             MediaType = entity is Movie ? MediaType.Movie : MediaType.Series,

@@ -20,6 +20,7 @@ public class MediaDetailViewModel : BindableObject
     private string _description;
     private string _review;
     private string _url;
+    private string _imageUrl;
     private bool _favourite;
     private MediaStatus _status;
     private MediaType _mediaType;
@@ -153,12 +154,12 @@ public class MediaDetailViewModel : BindableObject
         }
     }
 
-    public string ImageUrl
+    public string ImageURL
     {
-        get => _url;
+        get => _imageUrl;
         set
         {
-            _url = value;
+            _imageUrl = value;
             OnPropertyChanged();
         }
     }
@@ -220,6 +221,7 @@ public class MediaDetailViewModel : BindableObject
             Description = _mediaItem.Description ?? "No description available";
             Review = _mediaItem.Review ?? "No review yet.";
             URL = _mediaItem.URL ?? string.Empty;
+            ImageURL = _mediaItem.ImageURL ?? string.Empty;
             Favourite = _mediaItem.Favourite;
             Status = _mediaItem.Status;
             MediaType = _mediaItem.MediaType;

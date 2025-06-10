@@ -115,7 +115,7 @@
         <Entry
             Grid.Row="3"
             Grid.Column="1"
-            Text="{Binding ImageUrl}"
+            Text="{Binding ImageURL}"
             FontSize="14"
             FontFamily="RajdhaniRegular"
             TextColor="{StaticResource ColorTextPrimary}"
@@ -182,7 +182,7 @@
         <Entry
             Grid.Row="5"
             Grid.Column="1"
-            Text="{Binding MediaUrl}"
+            Text="{Binding URL}"
             FontSize="14"
             FontFamily="RajdhaniRegular"
             TextColor="{StaticResource ColorTextPrimary}"

@@ -17,7 +17,7 @@
             Padding="0"
             HasShadow="True"
             HeightRequest="180">
-            <ffimageloading:CachedImage Source="{Binding ImageUrl}"
+            <ffimageloading:CachedImage Source="{Binding ImageURL}"
                                         LoadingPlaceholder="placeholder.png"
                                         ErrorPlaceholder="error.png"
                                         CacheType="All"

@@ -20,6 +20,7 @@ public abstract class MediaFile : IEntity
     public int ReleaseDate { get; set; }
     public string Rating { get; set; } = string.Empty;
     public string URL { get; set; } = string.Empty;
+    public string ImageURL { get; set; } = string.Empty;
     public bool Favourite { get; set; } = false;
     public string Review { get; set; } = string.Empty;
     public ICollection<Watchlist> Watchlists { get; set; } = new List<Watchlist>();

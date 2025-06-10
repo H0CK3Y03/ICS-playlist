@@ -14,7 +14,6 @@ namespace Vued.App.ViewModels;
 public record MediaItem : MediaFileModel
 {
     /* Primitive Adapter for MediaFileModel */
-    public string? ImageUrl { get; set;}
 }
 public record WatchlistItem : WatchlistModel
 {
@@ -120,7 +119,7 @@ public class MainPageViewModel : BindableObject
                     GenreNames = media.GenreNames,
                     URL = media.URL,
                     Review = media.Review,
-                    ImageUrl = media.URL
+                    ImageURL = media.ImageURL,
                 });
             }
 
@@ -177,7 +176,7 @@ public class MainPageViewModel : BindableObject
             MediaType = m.MediaType,
             GenreNames = m.GenreNames,
             URL = m.URL,
-            ImageUrl = m.URL
+            ImageURL = m.ImageURL
         }))
         {
             MediaItems.Add(item);

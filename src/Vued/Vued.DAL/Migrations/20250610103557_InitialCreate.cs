@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -39,7 +39,9 @@ namespace Vued.DAL.Migrations
                     ReleaseDate = table.Column<int>(type: "INTEGER", nullable: false),
                     Rating = table.Column<string>(type: "TEXT", nullable: true),
                     URL = table.Column<string>(type: "TEXT", nullable: true),
+                    ImageURL = table.Column<string>(type: "TEXT", nullable: true),
                     Favourite = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Review = table.Column<string>(type: "TEXT", nullable: true),
                     Discriminator = table.Column<string>(type: "TEXT", maxLength: 13, nullable: false),
                     Length = table.Column<int>(type: "INTEGER", nullable: true),
                     NumberOfEpisodes = table.Column<int>(type: "INTEGER", nullable: true)
@@ -170,30 +172,33 @@ namespace Vued.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "MediaFile",
-                columns: new[] { "Id", "Description", "Director", "Discriminator", "Duration", "Favourite", "Length", "Name", "Rating", "ReleaseDate", "Status", "URL" },
+                columns: new[] { "Id", "Description", "Director", "Discriminator", "Duration", "Favourite", "ImageURL", "Length", "Name", "Rating", "ReleaseDate", "Review", "Status", "URL" },
                 values: new object[,]
                 {
-                    { 1, "A computer hacker learns about the true nature of reality and joins a group of rebels to fight a war against powerful controllers.", "Lana Wachowski, Lilly Wachowski", "Movie", 136, true, 0, "The Matrix", "8/10", 1999, 2, "https://www.imdb.com/title/tt0133093/" },
-                    { 2, "The life story of a man with a low IQ who achieves extraordinary feats through his kindness and determination.", "Robert Zemeckis", "Movie", 142, true, 0, "Forrest Gump", "6/10", 1994, 2, "https://www.imdb.com/title/tt0109830/" },
-                    { 3, "A family heads to an isolated hotel for the winter where a sinister presence influences the father into violence.", "Stanley Kubrick", "Movie", 144, false, 0, "The Shining", "7/10", 1980, 2, "https://www.imdb.com/title/tt0081505/" },
-                    { 4, "A skilled thief with the ability to enter dreams must pull off an impossible heist: planting an idea in someone's mind.", "Christopher Nolan", "Movie", 148, true, 0, "Inception", "9/10", 2010, 2, "https://www.imdb.com/title/tt1375666/" },
-                    { 5, "The aging patriarch of an organized crime dynasty transfers control to his reluctant son.", "Francis Ford Coppola", "Movie", 175, true, 0, "The Godfather", "8/10", 1972, 2, "https://www.imdb.com/title/tt0068646/" },
-                    { 6, "A young girl becomes trapped in a strange spirit world and must find a way to free herself and her parents.", "Hayao Miyazaki", "Movie", 125, false, 0, "Spirited Away", "8/10", 2001, 2, "https://www.imdb.com/title/tt0245429/" },
-                    { 7, "In a post-apocalyptic wasteland, a drifter and a rebel leader fight to survive against a tyrannical ruler.", "George Miller", "Movie", 120, true, 0, "Mad Max: Fury Road", "7/10", 2015, 2, "https://www.imdb.com/title/tt1392190/" }
+                    { 1, "A computer hacker learns about the true nature of reality and joins a group of rebels to fight a war against powerful controllers.", "Lana Wachowski, Lilly Wachowski", "Movie", 136, true, "https://m.media-amazon.com/images/M/MV5BN2NmN2VhMTQtMDNiOS00NDlhLTliMjgtODE2ZTY0ODQyNDRhXkEyXkFqcGc@._V1_.jpg", 0, "The Matrix", "8/10", 1999, "Nice", 2, "https://www.imdb.com/title/tt0133093/" },
+                    { 2, "The life story of a man with a low IQ who achieves extraordinary feats through his kindness and determination.", "Robert Zemeckis", "Movie", 142, true, "https://storage.googleapis.com/pod_public/1300/266241.jpg", 0, "Forrest Gump", "6/10", 1994, "Cool", 2, "https://www.imdb.com/title/tt0109830/" },
+                    { 3, "A family heads to an isolated hotel for the winter where a sinister presence influences the father into violence.", "Stanley Kubrick", "Movie", 144, false, "https://storage.googleapis.com/pod_public/1300/262806.jpg", 0, "The Shining", "7/10", 1980, "Idk", 2, "https://www.imdb.com/title/tt0081505/" },
+                    { 4, "A skilled thief with the ability to enter dreams must pull off an impossible heist: planting an idea in someone's mind.", "Christopher Nolan", "Movie", 148, true, "https://www.vasefotka.cz/fotky22340/fotos/_vyr_271602026-Inception-Pocatek.jpg", 0, "Inception", "9/10", 2010, "Perfect", 2, "https://www.imdb.com/title/tt1375666/" },
+                    { 5, "The aging patriarch of an organized crime dynasty transfers control to his reluctant son.", "Francis Ford Coppola", "Movie", 175, true, "https://i5.walmartimages.com/seo/The-Godfather-Original-Movie-Poster-poster-Frameless-Gift-12-x-18-inch-30cm-x-46cm_c6df3fd5-1e9c-49ca-8cb6-1af6078df4c2.b21fd8bc877c5645b9340a53580833a2.jpeg", 0, "The Godfather", "8/10", 1972, "Nice", 2, "https://www.imdb.com/title/tt0068646/" },
+                    { 6, "A young girl becomes trapped in a strange spirit world and must find a way to free herself and her parents.", "Hayao Miyazaki", "Movie", 125, false, "https://m.media-amazon.com/images/M/MV5BNTEyNmEwOWUtYzkyOC00ZTQ4LTllZmUtMjk0Y2YwOGUzYjRiXkEyXkFqcGc@._V1_.jpg", 0, "Spirited Away", "8/10", 2001, "Nice", 2, "https://www.imdb.com/title/tt0245429/" },
+                    { 7, "In a post-apocalyptic wasteland, a drifter and a rebel leader fight to survive against a tyrannical ruler.", "George Miller", "Movie", 120, true, "https://m.media-amazon.com/images/M/MV5BZDRkODJhOTgtOTc1OC00NTgzLTk4NjItNDgxZDY4YjlmNDY2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg", 0, "Mad Max: Fury Road", "7/10", 2015, "Nice", 2, "https://www.imdb.com/title/tt1392190/" },
+                    { 8, "Two teenagers share a profound, magical connection upon discovering they are swapping bodies. Things manage to become even more complicated when the boy and girl decide to meet in person.", "Makoto Shinkai", "Movie", 116, true, "https://m.media-amazon.com/images/M/MV5BMTIyNzFjNzItZmQ1MC00NzhjLThmMzYtZjRhN2Y3MmM2OGQyXkEyXkFqcGc@._V1_.jpg", 0, "Your Name", "10/10", 2016, "Peak", 2, "https://www.imdb.com/title/tt5311514/" }
                 });
 
             migrationBuilder.InsertData(
                 table: "MediaFile",
-                columns: new[] { "Id", "Description", "Director", "Discriminator", "Duration", "Favourite", "Name", "NumberOfEpisodes", "Rating", "ReleaseDate", "Status", "URL" },
+                columns: new[] { "Id", "Description", "Director", "Discriminator", "Duration", "Favourite", "ImageURL", "Name", "NumberOfEpisodes", "Rating", "ReleaseDate", "Review", "Status", "URL" },
                 values: new object[,]
                 {
-                    { 8, "A chemistry teacher turned drug-lord teams up with a former student to build a methamphetamine empire.", "Vince Gilligan", "Series", 62, true, "Breaking Bad", 0, "10/10", 2008, 2, "https://www.imdb.com/title/tt0903747/" },
-                    { 9, "A group of friends in the 1980s uncover supernatural mysteries and government conspiracies in their small town.", "The Duffer Brothers", "Series", 34, true, "Stranger Things", 0, "8/10", 2016, 1, "https://www.imdb.com/title/tt4574334/" },
-                    { 10, "A mockumentary about the daily lives of employees at the Dunder Mifflin paper company.", "Greg Daniels", "Series", 201, true, "The Office (US)", 0, "9/10", 2005, 2, "https://www.imdb.com/title/tt0386676/" },
-                    { 11, "Noble families fight for control of the Iron Throne in a fantasy world filled with dragons and political intrigue.", "David Benioff, D.B. Weiss", "Series", 73, true, "Game of Thrones", 0, "9/10", 2011, 2, "https://www.imdb.com/title/tt0944947/" },
-                    { 12, "A lone bounty hunter navigates the outer reaches of the galaxy, protecting a mysterious baby Yoda.", "Jon Favreau", "Series", 24, false, "The Mandalorian", 0, "6/10", 2019, 1, "https://www.imdb.com/title/tt8111088/" },
-                    { 13, "An anthology series exploring the dark side of technology and human nature in dystopian futures.", "Charlie Brooker", "Series", 27, false, "Black Mirror", 0, "8/10", 2011, 1, "https://www.imdb.com/title/tt2085059/" },
-                    { 14, "A biographical drama chronicling the reign of Queen Elizabeth II and major historical events.", "Peter Morgan", "Series", 60, false, "The Crown", 0, "-", 2016, 0, "https://www.imdb.com/title/tt4786824/" }
+                    { 9, "A chemistry teacher turned drug-lord teams up with a former student to build a methamphetamine empire.", "Vince Gilligan", "Series", 62, true, "https://m.media-amazon.com/images/I/91+GrGr5TWL._AC_UF894,1000_QL80_.jpg", "Breaking Bad", 0, "10/10", 2008, "Nice", 2, "https://www.imdb.com/title/tt0903747/" },
+                    { 10, "A group of friends in the 1980s uncover supernatural mysteries and government conspiracies in their small town.", "The Duffer Brothers", "Series", 34, true, "https://static.posters.cz/image/1300/132239.jpg", "Stranger Things", 0, "8/10", 2016, "Nice", 1, "https://www.imdb.com/title/tt4574334/" },
+                    { 11, "A mockumentary about the daily lives of employees at the Dunder Mifflin paper company.", "Greg Daniels", "Series", 201, true, "https://m.media-amazon.com/images/M/MV5BZjQwYzBlYzUtZjhhOS00ZDQ0LWE0NzAtYTk4MjgzZTNkZWEzXkEyXkFqcGc@._V1_.jpg", "The Office (US)", 0, "9/10", 2005, "Nice", 2, "https://www.imdb.com/title/tt0386676/" },
+                    { 12, "Noble families fight for control of the Iron Throne in a fantasy world filled with dragons and political intrigue.", "David Benioff, D.B. Weiss", "Series", 73, true, "https://m.media-amazon.com/images/M/MV5BZjQwYzBlYzUtZjhhOS00ZDQ0LWE0NzAtYTk4MjgzZTNkZWEzXkEyXkFqcGc@._V1_.jpg", "Game of Thrones", 0, "9/10", 2011, "Nice", 2, "https://www.imdb.com/title/tt0944947/" },
+                    { 13, "A lone bounty hunter navigates the outer reaches of the galaxy, protecting a mysterious baby Yoda.", "Jon Favreau", "Series", 24, false, "https://static.posters.cz/image/750/103406.jpg", "The Mandalorian", 0, "6/10", 2019, "Nice", 1, "https://www.imdb.com/title/tt8111088/" },
+                    { 14, "An anthology series exploring the dark side of technology and human nature in dystopian futures.", "Charlie Brooker", "Series", 27, false, "https://m.media-amazon.com/images/M/MV5BODcxMWI2NDMtYTc3NC00OTZjLWFmNmUtM2NmY2I1ODkxYzczXkEyXkFqcGc@._V1_.jpg", "Black Mirror", 0, "8/10", 2011, "Nice", 1, "https://www.imdb.com/title/tt2085059/" },
+                    { 15, "A biographical drama chronicling the reign of Queen Elizabeth II and major historical events.", "Peter Morgan", "Series", 60, false, "https://image.tmdb.org/t/p/original/1M876KPjulVwppEpldhdc8V4o68.jpg", "The Crown", 0, "-", 2016, "Nice", 0, "https://www.imdb.com/title/tt4786824/" },
+                    { 16, "The trials and tribulations of criminal lawyer Jimmy McGill in the years leading up to his fateful run-in with Walter White and Jesse Pinkman.", "Peter Gould", "Series", 63, true, "https://m.media-amazon.com/images/M/MV5BNDdjNTEzMjMtYjM3Mi00NzQ3LWFlNWMtZjdmYWU3ZDkzMjk1XkEyXkFqcGc@._V1_.jpg", "Better Call Saul", 0, "9/10", 2015, "Nice", 2, "https://www.imdb.com/title/tt3032476/" },
+                    { 17, "An internal succession war within House Targaryen at the height of its power, 172 years before the birth of Daenerys Targaryen.", "Ryan J. Condal", "Series", 60, true, "https://m.media-amazon.com/images/M/MV5BYjBhMTU2N2EtYjVkYS00ODBiLTk3MDUtYWFmZTM2M2JkNzcwXkEyXkFqcGc@._V1_.jpg", "The House of the Dragon", 0, "9/10", 2021, "Nice", 2, "https://www.imdb.com/title/tt11198330/" }
                 });
 
             migrationBuilder.InsertData(
@@ -202,7 +207,53 @@ namespace Vued.DAL.Migrations
                 values: new object[,]
                 {
                     { 1, "Top-rated movies and series", "My Favorites" },
-                    { 2, "Movies and series to watch later", "Watch Later" }
+                    { 2, "Movies and series to watch later", "Watch Later" },
+                    { 3, "Series I always want to watch", "Old Series" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "GenreMediaFile",
+                columns: new[] { "GenresId", "MediaFilesId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 1, 7 },
+                    { 1, 12 },
+                    { 3, 2 },
+                    { 3, 5 },
+                    { 3, 8 },
+                    { 3, 10 },
+                    { 4, 3 },
+                    { 5, 1 },
+                    { 5, 4 },
+                    { 5, 8 },
+                    { 5, 13 },
+                    { 6, 6 },
+                    { 6, 13 },
+                    { 8, 2 },
+                    { 8, 9 },
+                    { 9, 3 },
+                    { 9, 4 },
+                    { 9, 11 },
+                    { 11, 5 },
+                    { 13, 12 },
+                    { 14, 14 },
+                    { 16, 14 },
+                    { 18, 6 },
+                    { 23, 11 },
+                    { 25, 10 },
+                    { 26, 7 },
+                    { 47, 9 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "MediaFileWatchlist",
+                columns: new[] { "MediaFilesId", "WatchlistsId" },
+                values: new object[,]
+                {
+                    { 1, 3 },
+                    { 2, 2 },
+                    { 3, 3 }
                 });
 
             migrationBuilder.CreateIndex(

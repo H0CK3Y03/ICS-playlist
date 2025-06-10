@@ -18,6 +18,7 @@ public record MediaFileModel : ModelBase
     public required int ReleaseDate { get; set; }
     public required string Rating { get; set; }
     public string? URL { get; set; }
+    public string? ImageURL { get; set; }
     public bool Favourite { get; set; }
     public string Review { get; set; }
     public MediaType MediaType { get; set; }
@@ -34,6 +35,7 @@ public record MediaFileModel : ModelBase
         Director = string.Empty,
         ReleaseDate = 0,
         Rating = string.Empty,
+        ImageURL = null,
         URL = null,
         Favourite = false,
         Review = string.Empty,

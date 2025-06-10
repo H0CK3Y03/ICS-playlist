@@ -68,7 +68,7 @@ public class WatchlistDetailViewModel : BindableObject
                         MediaType = media.MediaType,
                         GenreNames = media.GenreNames,
                         URL = media.URL,
-                        ImageUrl = media.URL,
+                        ImageURL = media.ImageURL,
                         Review = media.Review
                     });
                 }
@@ -95,7 +95,7 @@ public class WatchlistDetailViewModel : BindableObject
                         MediaType = media.MediaType,
                         GenreNames = media.GenreNames,
                         URL = media.URL,
-                        ImageUrl = media.URL,
+                        ImageURL = media.ImageURL,
                         Review = media.Review
                     });
                 }
