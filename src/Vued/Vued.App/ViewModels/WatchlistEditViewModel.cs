@@ -70,18 +70,15 @@ public class WatchlistEditViewModel : BindableObject
 
             await _watchlistFacade.SaveAsync(currentWatchlistModel);
 
-            // Update media items in the watchlist
             var currentMediaIds = await _watchlistFacade.GetMediaIdsForWatchlistAsync(_watchlistItem.Id);
             foreach (var media in MediaList)
             {
                 if (media.IsChecked && !currentMediaIds.Contains(media.Id))
                 {
-                    // Add media to watchlist if checked and not already in it
                     await _watchlistFacade.AddMediaToWatchlistAsync(_watchlistItem.Id, media.Id);
                 }
                 else if (!media.IsChecked && currentMediaIds.Contains(media.Id))
                 {
-                    // Remove media from watchlist if unchecked and currently in it
                     await _watchlistFacade.RemoveMediaFromWatchlistAsync(_watchlistItem.Id, media.Id);
                 }
             }
