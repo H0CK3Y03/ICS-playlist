@@ -215,7 +215,7 @@
             VerticalOptions="Center"
             HorizontalOptions="Fill"
             HeightRequest="32" />
-
+      
         <!-- Row 7, Columns 0-2: Description and Review -->
         <VerticalStackLayout
             Grid.Row="7"
