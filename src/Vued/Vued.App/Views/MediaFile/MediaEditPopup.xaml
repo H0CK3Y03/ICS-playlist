@@ -190,7 +190,23 @@
             VerticalOptions="Center"
             HorizontalOptions="Fill"
             HeightRequest="32" />
-
+        <!-- Column 3: Favorite -->
+        <Label
+            Grid.Row="4"
+            Grid.Column="2"
+            Text="Favorite"
+            FontSize="14"
+            FontFamily="RajdhaniBold"
+            TextColor="{StaticResource ColorAccent}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
+        <CheckBox
+            Grid.Row="5"
+            Grid.Column="2"
+            IsChecked="{Binding Favourite}"
+            Color="{StaticResource ColorAccent}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
         <!-- Description and Review (spanning all columns) -->
         <VerticalStackLayout
             Grid.Row="6"
