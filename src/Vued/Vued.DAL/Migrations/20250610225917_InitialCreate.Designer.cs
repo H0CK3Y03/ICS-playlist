@@ -10,7 +10,7 @@ using Vued.DAL;
 namespace Vued.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250610190854_InitialCreate")]
+    [Migration("20250610225917_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -575,6 +575,9 @@ namespace Vued.DAL.Migrations
                     b.Property<string>("ImageURL")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("MediaType")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
@@ -606,6 +609,7 @@ namespace Vued.DAL.Migrations
                             Duration = 136,
                             Favourite = true,
                             ImageURL = "https://m.media-amazon.com/images/M/MV5BN2NmN2VhMTQtMDNiOS00NDlhLTliMjgtODE2ZTY0ODQyNDRhXkEyXkFqcGc@._V1_.jpg",
+                            MediaType = 0,
                             Name = "The Matrix",
                             Rating = "8/10",
                             ReleaseDate = 1999,
@@ -621,6 +625,7 @@ namespace Vued.DAL.Migrations
                             Duration = 142,
                             Favourite = true,
                             ImageURL = "https://storage.googleapis.com/pod_public/1300/266241.jpg",
+                            MediaType = 0,
                             Name = "Forrest Gump",
                             Rating = "6/10",
                             ReleaseDate = 1994,
@@ -636,6 +641,7 @@ namespace Vued.DAL.Migrations
                             Duration = 144,
                             Favourite = false,
                             ImageURL = "https://storage.googleapis.com/pod_public/1300/262806.jpg",
+                            MediaType = 0,
                             Name = "The Shining",
                             Rating = "7/10",
                             ReleaseDate = 1980,
@@ -651,6 +657,7 @@ namespace Vued.DAL.Migrations
                             Duration = 148,
                             Favourite = true,
                             ImageURL = "https://www.vasefotka.cz/fotky22340/fotos/_vyr_271602026-Inception-Pocatek.jpg",
+                            MediaType = 0,
                             Name = "Inception",
                             Rating = "9/10",
                             ReleaseDate = 2010,
@@ -666,6 +673,7 @@ namespace Vued.DAL.Migrations
                             Duration = 175,
                             Favourite = true,
                             ImageURL = "https://i5.walmartimages.com/seo/The-Godfather-Original-Movie-Poster-poster-Frameless-Gift-12-x-18-inch-30cm-x-46cm_c6df3fd5-1e9c-49ca-8cb6-1af6078df4c2.b21fd8bc877c5645b9340a53580833a2.jpeg",
+                            MediaType = 0,
                             Name = "The Godfather",
                             Rating = "8/10",
                             ReleaseDate = 1972,
@@ -681,6 +689,7 @@ namespace Vued.DAL.Migrations
                             Duration = 125,
                             Favourite = false,
                             ImageURL = "https://m.media-amazon.com/images/M/MV5BNTEyNmEwOWUtYzkyOC00ZTQ4LTllZmUtMjk0Y2YwOGUzYjRiXkEyXkFqcGc@._V1_.jpg",
+                            MediaType = 0,
                             Name = "Spirited Away",
                             Rating = "8/10",
                             ReleaseDate = 2001,
@@ -696,6 +705,7 @@ namespace Vued.DAL.Migrations
                             Duration = 120,
                             Favourite = true,
                             ImageURL = "https://m.media-amazon.com/images/M/MV5BZDRkODJhOTgtOTc1OC00NTgzLTk4NjItNDgxZDY4YjlmNDY2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+                            MediaType = 0,
                             Name = "Mad Max: Fury Road",
                             Rating = "7/10",
                             ReleaseDate = 2015,
@@ -711,6 +721,7 @@ namespace Vued.DAL.Migrations
                             Duration = 116,
                             Favourite = true,
                             ImageURL = "https://m.media-amazon.com/images/M/MV5BMTIyNzFjNzItZmQ1MC00NzhjLThmMzYtZjRhN2Y3MmM2OGQyXkEyXkFqcGc@._V1_.jpg",
+                            MediaType = 0,
                             Name = "Your Name",
                             Rating = "10/10",
                             ReleaseDate = 2016,
@@ -726,6 +737,7 @@ namespace Vued.DAL.Migrations
                             Duration = 62,
                             Favourite = true,
                             ImageURL = "https://m.media-amazon.com/images/I/91+GrGr5TWL._AC_UF894,1000_QL80_.jpg",
+                            MediaType = 1,
                             Name = "Breaking Bad",
                             Rating = "10/10",
                             ReleaseDate = 2008,
@@ -741,6 +753,7 @@ namespace Vued.DAL.Migrations
                             Duration = 34,
                             Favourite = true,
                             ImageURL = "https://static.posters.cz/image/1300/132239.jpg",
+                            MediaType = 1,
                             Name = "Stranger Things",
                             Rating = "8/10",
                             ReleaseDate = 2016,
@@ -756,6 +769,7 @@ namespace Vued.DAL.Migrations
                             Duration = 201,
                             Favourite = true,
                             ImageURL = "https://m.media-amazon.com/images/M/MV5BZjQwYzBlYzUtZjhhOS00ZDQ0LWE0NzAtYTk4MjgzZTNkZWEzXkEyXkFqcGc@._V1_.jpg",
+                            MediaType = 1,
                             Name = "The Office (US)",
                             Rating = "9/10",
                             ReleaseDate = 2005,
@@ -771,6 +785,7 @@ namespace Vued.DAL.Migrations
                             Duration = 73,
                             Favourite = true,
                             ImageURL = "https://static.posters.cz/image/1300/135455.jpg",
+                            MediaType = 1,
                             Name = "Game of Thrones",
                             Rating = "9/10",
                             ReleaseDate = 2011,
@@ -786,6 +801,7 @@ namespace Vued.DAL.Migrations
                             Duration = 24,
                             Favourite = false,
                             ImageURL = "https://static.posters.cz/image/750/103406.jpg",
+                            MediaType = 1,
                             Name = "The Mandalorian",
                             Rating = "6/10",
                             ReleaseDate = 2019,
@@ -801,6 +817,7 @@ namespace Vued.DAL.Migrations
                             Duration = 27,
                             Favourite = false,
                             ImageURL = "https://m.media-amazon.com/images/M/MV5BODcxMWI2NDMtYTc3NC00OTZjLWFmNmUtM2NmY2I1ODkxYzczXkEyXkFqcGc@._V1_.jpg",
+                            MediaType = 1,
                             Name = "Black Mirror",
                             Rating = "8/10",
                             ReleaseDate = 2011,
@@ -816,6 +833,7 @@ namespace Vued.DAL.Migrations
                             Duration = 60,
                             Favourite = false,
                             ImageURL = "https://image.tmdb.org/t/p/original/1M876KPjulVwppEpldhdc8V4o68.jpg",
+                            MediaType = 1,
                             Name = "The Crown",
                             Rating = "-",
                             ReleaseDate = 2016,
@@ -831,6 +849,7 @@ namespace Vued.DAL.Migrations
                             Duration = 63,
                             Favourite = true,
                             ImageURL = "https://m.media-amazon.com/images/M/MV5BNDdjNTEzMjMtYjM3Mi00NzQ3LWFlNWMtZjdmYWU3ZDkzMjk1XkEyXkFqcGc@._V1_.jpg",
+                            MediaType = 1,
                             Name = "Better Call Saul",
                             Rating = "9/10",
                             ReleaseDate = 2015,
@@ -846,6 +865,7 @@ namespace Vued.DAL.Migrations
                             Duration = 60,
                             Favourite = true,
                             ImageURL = "https://m.media-amazon.com/images/M/MV5BYjBhMTU2N2EtYjVkYS00ODBiLTk3MDUtYWFmZTM2M2JkNzcwXkEyXkFqcGc@._V1_.jpg",
+                            MediaType = 1,
                             Name = "The House of the Dragon",
                             Rating = "9/10",
                             ReleaseDate = 2021,

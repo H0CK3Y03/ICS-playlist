@@ -1,9 +1,10 @@
-using Vued.BL.Models;
-using Vued.BL.Mappers;
-using Vued.DAL.Entities;
-using Vued.DAL;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Vued.BL.Mappers;
+using Vued.BL.Models;
+using Vued.DAL;
+using Vued.DAL.Entities;
 
 namespace Vued.BL.Facades;
 
@@ -48,7 +49,7 @@ public class MediaFileFacade
         if (entity == null && model.Id != 0)
             throw new InvalidOperationException($"Media file with ID {model.Id} not found for update.");
 
-        if (entity == null)
+        if (entity == null || entity.Id == 0)
         {
             entity = _mapper.MapToEntity(model);
             _dbContext.MediaFiles.Add(entity);
@@ -71,9 +72,9 @@ public class MediaFileFacade
         await _dbContext.SaveChangesAsync();
 
         var savedEntity = await _dbContext.MediaFiles
-            .FirstAsync(m => m.Id == entity.Id);
+            .FirstOrDefaultAsync(m => m.Id == entity.Id);
 
-        if (savedEntity.Id == 0)
+        if (savedEntity == null || savedEntity.Id == 0)
             throw new InvalidOperationException("Failed to save media file: Entity ID is 0 after save.");
 
         return _mapper.MapToModel(savedEntity);
