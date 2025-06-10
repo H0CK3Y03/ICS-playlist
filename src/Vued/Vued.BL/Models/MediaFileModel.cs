@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Vued.DAL.Entities;
 
 namespace Vued.BL.Models;

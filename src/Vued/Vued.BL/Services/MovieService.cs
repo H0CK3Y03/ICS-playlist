@@ -3,7 +3,7 @@ using Vued.DAL.Entities;
 
 namespace Vued.BL.Services
 {
-    public record MovieFilter
+    public record MediaFilter
     {
         public string? TitleContains { get; set; }
         public string? DirectorContains { get; set; }
@@ -17,9 +17,9 @@ namespace Vued.BL.Services
         public string? SortOrder { get; set; } = "asc";
     }
 
-    public class MovieService
+    public class MediaService
     {
-        public IQueryable<MediaFile> ApplyFilter(IQueryable<MediaFile> query, MovieFilter filter)
+        public IQueryable<MediaFile> ApplyFilter(IQueryable<MediaFile> query, MediaFilter filter)
         {
             if (!string.IsNullOrWhiteSpace(filter.TitleContains))
             {

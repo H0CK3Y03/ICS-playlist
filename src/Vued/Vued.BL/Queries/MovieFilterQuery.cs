@@ -7,7 +7,7 @@ using Vued.DAL.Entities;
 
 namespace Vued.BL.Queries
 {
-    public record MovieFilterQuery
+    public record MediaFilterQuery
     {
         public string? TitleContains { get; set; }
         public string? DirectorContains { get; set; }

@@ -69,7 +69,6 @@ public class WatchlistFacade
         }
     }
 
-    //  Methods for connecting media to watchlists
     public async Task AddMediaToWatchlistAsync(int watchlistId, int mediaFileId)
     {
         var watchlist = await _dbContext.Watchlists
@@ -99,6 +98,7 @@ public class WatchlistFacade
             await _dbContext.SaveChangesAsync();
         }
     }
+
     public async Task<List<int>> GetMediaIdsForWatchlistAsync(int watchlistId)
     {
         var mediaIds = await _dbContext.Watchlists
@@ -108,5 +108,4 @@ public class WatchlistFacade
 
         return mediaIds;
     }
-
 }
