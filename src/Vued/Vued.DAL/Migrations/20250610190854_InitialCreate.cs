@@ -241,9 +241,25 @@ namespace Vued.DAL.Migrations
                 columns: new[] { "MediaFilesId", "WatchlistsId" },
                 values: new object[,]
                 {
+                    { 1, 1 },
                     { 1, 3 },
                     { 2, 2 },
-                    { 3, 3 }
+                    { 3, 3 },
+                    { 4, 1 },
+                    { 4, 2 },
+                    { 5, 1 },
+                    { 5, 2 },
+                    { 6, 1 },
+                    { 6, 2 },
+                    { 6, 3 },
+                    { 8, 1 },
+                    { 9, 1 },
+                    { 9, 3 },
+                    { 10, 1 },
+                    { 11, 3 },
+                    { 12, 1 },
+                    { 14, 1 },
+                    { 16, 1 }
                 });
 
             migrationBuilder.CreateIndex(
