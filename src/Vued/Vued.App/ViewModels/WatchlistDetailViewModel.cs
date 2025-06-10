@@ -50,55 +50,29 @@ public class WatchlistDetailViewModel : BindableObject
 
             MediaItems.Clear();
 
-            if (_watchlistItem.Id == 1) 
-            {
-                foreach (var media in mediaList.Where(m => m.Favourite))
-                {
-                    MediaItems.Add(new MediaItem
-                    {
-                        Id = media.Id,
-                        Name = media.Name,
-                        Status = media.Status,
-                        Description = media.Description,
-                        Duration = media.Duration,
-                        Director = media.Director,
-                        ReleaseDate = media.ReleaseDate,
-                        Rating = media.Rating,
-                        Favourite = media.Favourite,
-                        MediaType = media.MediaType,
-                        GenreNames = media.GenreNames,
-                        URL = media.URL,
-                        ImageURL = media.ImageURL,
-                        Review = media.Review
-                    });
-                }
-            }
-            else
-            {
-                var selectedIds = await _serviceProvider
-                    .GetRequiredService<WatchlistFacade>()
-                    .GetMediaIdsForWatchlistAsync(_watchlistItem.Id);
+            var selectedIds = await _serviceProvider
+                .GetRequiredService<WatchlistFacade>()
+                .GetMediaIdsForWatchlistAsync(_watchlistItem.Id);
 
-                foreach (var media in mediaList.Where(m => selectedIds.Contains(m.Id)))
+            foreach (var media in mediaList.Where(m => selectedIds.Contains(m.Id)))
+            {
+                MediaItems.Add(new MediaItem
                 {
-                    MediaItems.Add(new MediaItem
-                    {
-                        Id = media.Id,
-                        Name = media.Name,
-                        Status = media.Status,
-                        Description = media.Description,
-                        Duration = media.Duration,
-                        Director = media.Director,
-                        ReleaseDate = media.ReleaseDate,
-                        Rating = media.Rating,
-                        Favourite = media.Favourite,
-                        MediaType = media.MediaType,
-                        GenreNames = media.GenreNames,
-                        URL = media.URL,
-                        ImageURL = media.ImageURL,
-                        Review = media.Review
-                    });
-                }
+                    Id = media.Id,
+                    Name = media.Name,
+                    Status = media.Status,
+                    Description = media.Description,
+                    Duration = media.Duration,
+                    Director = media.Director,
+                    ReleaseDate = media.ReleaseDate,
+                    Rating = media.Rating,
+                    Favourite = media.Favourite,
+                    MediaType = media.MediaType,
+                    GenreNames = media.GenreNames,
+                    URL = media.URL,
+                    ImageURL = media.ImageURL,
+                    Review = media.Review
+                });
             }
         }
         catch (Exception ex)

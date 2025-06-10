@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Vued.BL.Queries;
 using Vued.DAL.Entities;
 
 
@@ -25,7 +19,7 @@ namespace Vued.BL.Services
 
     public class MovieService
     {
-        public IQueryable<Movie> ApplyFilter(IQueryable<Movie> query, MovieFilter filter)
+        public IQueryable<MediaFile> ApplyFilter(IQueryable<MediaFile> query, MovieFilter filter)
         {
             if (!string.IsNullOrWhiteSpace(filter.TitleContains))
             {
@@ -54,7 +48,7 @@ namespace Vued.BL.Services
 
             if (filter.LengthMax is not null)
             {
-                query = query.Where(m => m.Length <= filter.LengthMax);
+                query = query.Where(m => m.Duration <= filter.LengthMax);
             }
 
             if (filter.Favourite is not null)
