@@ -11,11 +11,8 @@ public static class WatchlistMediaSeed
             .HasMany(w => w.MediaFiles)
             .WithMany(m => m.Watchlists)
             .UsingEntity(j => j.HasData(
-                // The Matrix -> OLD SERIES
                 new { MediaFilesId = 1, WatchlistsId = 3 },
-                //Forrest Gump -> WATCH LATER
                 new { MediaFilesId = 2, WatchlistsId = 2 },
-                // Breaking Bad -> OLD SERIES
                 new { MediaFilesId = 3, WatchlistsId = 3 }
             ));
     }

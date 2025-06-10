@@ -4,104 +4,124 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:ct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
     x:Class="Vued.App.Views.Watchlist.WatchlistEditPopup"
-    Size="500,400"
+    Size="800,450"
     Color="{StaticResource ColorBackgroundSecondary}">
 
-    <VerticalStackLayout
-        Padding="20"
-        Spacing="15">
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="20"
+            Spacing="15">
 
-        <!-- Title -->
-        <Label
-            Text="Title"
-            FontSize="14"
-            FontFamily="RajdhaniBold"
-            TextColor="{StaticResource ColorAccent}" />
+            <!-- Title -->
+            <Label
+                Text="Title"
+                FontSize="14"
+                FontFamily="RajdhaniBold"
+                TextColor="{StaticResource ColorAccent}" />
 
-        <Entry
-            Text="{Binding Name}"
-            FontSize="14"
-            FontFamily="RajdhaniRegular"
-            TextColor="{StaticResource ColorTextPrimary}"
-            BackgroundColor="{StaticResource ColorInputBackground}"
-            HeightRequest="32"
-            HorizontalOptions="Fill" />
+            <Entry
+                Text="{Binding Name}"
+                FontSize="14"
+                FontFamily="RajdhaniRegular"
+                TextColor="{StaticResource ColorTextPrimary}"
+                BackgroundColor="{StaticResource ColorInputBackground}"
+                HeightRequest="32"
+                HorizontalOptions="Fill" />
 
-        <!-- Description -->
-        <Label
-            Text="Description"
-            FontSize="14"
-            FontFamily="RajdhaniBold"
-            TextColor="{StaticResource ColorAccent}" />
+            <!-- Description -->
+            <Label
+                Text="Description"
+                FontSize="14"
+                FontFamily="RajdhaniBold"
+                TextColor="{StaticResource ColorAccent}" />
 
-        <Editor
-            Text="{Binding Description}"
-            FontSize="14"
-            FontFamily="RajdhaniRegular"
-            TextColor="{StaticResource ColorTextPrimary}"
-            BackgroundColor="{StaticResource ColorInputBackground}"
-            HeightRequest="100"
-            HorizontalOptions="Fill" />
+            <Editor
+                Text="{Binding Description}"
+                FontSize="14"
+                FontFamily="RajdhaniRegular"
+                TextColor="{StaticResource ColorTextPrimary}"
+                BackgroundColor="{StaticResource ColorInputBackground}"
+                HeightRequest="100"
+                HorizontalOptions="Fill" />
 
-        <!-- Media Picker -->
-        <Label
-            Text="Media"
-            FontSize="14"
-            FontFamily="RajdhaniBold"
-            TextColor="{StaticResource ColorAccent}" />
+            <!-- Media Picker -->
+            <Label
+                Text="Media"
+                FontSize="14"
+                FontFamily="RajdhaniBold"
+                TextColor="{StaticResource ColorAccent}" />
 
-        <!-- Replace with your custom multi-select control if needed -->
-        <CollectionView
-            ItemsSource="{Binding MediaList}"
-            SelectionMode="Multiple"
-            SelectedItems="{Binding SelectedMedia}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Padding="5">
-                        <Label
-                            Text="{Binding Title}"
-                            FontSize="13"
-                            FontFamily="RajdhaniRegular"
-                            TextColor="{StaticResource ColorTextPrimary}" />
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            <FlexLayout
+                Direction="Row"
+                Wrap="Wrap"
+                JustifyContent="Start"
+                AlignItems="Center"
+                BindableLayout.ItemsSource="{Binding MediaList}"
+                Margin="0,5"
+                AlignContent="Start">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Frame 
+                            Padding="5" 
+                            Margin="5" 
+                            BackgroundColor="{StaticResource ColorInputBackground}" 
+                            CornerRadius="6" 
+                            HasShadow="False"
+                            HeightRequest="32">
+                            <HorizontalStackLayout 
+                                Spacing="5"
+                                VerticalOptions="Center">
+                                <CheckBox 
+                                    Color="{StaticResource ColorAccent}"
+                                    IsChecked="{Binding IsChecked}"
+                                    VerticalOptions="Center" />
+                                <Label 
+                                    Text="{Binding Name}"
+                                    FontSize="12"
+                                    FontFamily="RajdhaniRegular"
+                                    TextColor="{StaticResource ColorTextPrimary}"
+                                    VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
 
-        <!-- Action Buttons -->
-        <HorizontalStackLayout
-            Spacing="10"
-            HorizontalOptions="End"
-            Margin="0,20,0,0">
-            <Button
-                Text="Cancel"
-                Clicked="OnCancelClicked"
-                BackgroundColor="{StaticResource ColorButtonSecondary}"
-                TextColor="{StaticResource ColorButtonSecondaryText}"
-                HeightRequest="36"
-                WidthRequest="90"
-                CornerRadius="4"
-                FontSize="14" />
-            <Button
-                Text="Delete"
-                Command="{Binding DeleteCommand}"
-                Clicked="OnCancelClicked"
-                BackgroundColor="{StaticResource ColorError}"
-                TextColor="{StaticResource ColorButtonSecondaryText}"
-                HeightRequest="36"
-                WidthRequest="90"
-                CornerRadius="4"
-                FontSize="14" />
-            <Button
-                Text="Apply"
-                Command="{Binding EditCommand}"
-                Clicked="OnCancelClicked"
-                BackgroundColor="{StaticResource ColorButtonPrimary}"
-                TextColor="{StaticResource ColorButtonPrimaryText}"
-                HeightRequest="36"
-                WidthRequest="90"
-                CornerRadius="4"
-                FontSize="14" />
-        </HorizontalStackLayout>
-    </VerticalStackLayout>
+            <!-- Action Buttons -->
+            <HorizontalStackLayout
+                Spacing="10"
+                HorizontalOptions="End"
+                Margin="0,20,0,0">
+                <Button
+                    Text="Cancel"
+                    Clicked="OnCancelClicked"
+                    BackgroundColor="{StaticResource ColorButtonSecondary}"
+                    TextColor="{StaticResource ColorButtonSecondaryText}"
+                    HeightRequest="36"
+                    WidthRequest="90"
+                    CornerRadius="4"
+                    FontSize="14" />
+                <Button
+                    Text="Delete"
+                    Command="{Binding DeleteCommand}"
+                    Clicked="OnCancelClicked"
+                    BackgroundColor="{StaticResource ColorError}"
+                    TextColor="{StaticResource ColorButtonSecondaryText}"
+                    HeightRequest="36"
+                    WidthRequest="90"
+                    CornerRadius="4"
+                    FontSize="14" />
+                <Button
+                    Text="Apply"
+                    Command="{Binding EditCommand}"
+                    Clicked="OnCancelClicked"
+                    BackgroundColor="{StaticResource ColorButtonPrimary}"
+                    TextColor="{StaticResource ColorButtonPrimaryText}"
+                    HeightRequest="36"
+                    WidthRequest="90"
+                    CornerRadius="4"
+                    FontSize="14" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ct:Popup>

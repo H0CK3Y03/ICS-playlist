@@ -1,7 +1,6 @@
 using Vued.BL.Models;
 using Vued.BL.Mappers;
 using Vued.DAL;
-using Vued.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Vued.BL.Facades;

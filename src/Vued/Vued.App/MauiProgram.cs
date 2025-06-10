@@ -47,8 +47,6 @@ public static class MauiProgram
         // Business layer registrations (Facades and Mappers)
         builder.Services.AddScoped<MediaFileFacade>();
         builder.Services.AddScoped<GenreFacade>();
-        builder.Services.AddScoped<MovieFacade>(); // Remove after simplicifaciton
-        builder.Services.AddScoped<SeriesFacade>(); // Remove after simplification
         builder.Services.AddScoped<WatchlistFacade>();
 
         builder.Services.AddScoped<GenreModelMapper>();

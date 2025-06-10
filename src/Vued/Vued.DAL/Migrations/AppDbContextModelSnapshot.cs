@@ -483,11 +483,6 @@ namespace Vued.DAL.Migrations
                     b.Property<string>("Director")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("Duration")
                         .HasColumnType("INTEGER");
 
@@ -517,11 +512,264 @@ namespace Vued.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MediaFile");
+                    b.ToTable("MediaFiles");
 
-                    b.HasDiscriminator().HasValue("MediaFile");
-
-                    b.UseTphMappingStrategy();
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "A computer hacker learns about the true nature of reality and joins a group of rebels to fight a war against powerful controllers.",
+                            Director = "Lana Wachowski, Lilly Wachowski",
+                            Duration = 136,
+                            Favourite = true,
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BN2NmN2VhMTQtMDNiOS00NDlhLTliMjgtODE2ZTY0ODQyNDRhXkEyXkFqcGc@._V1_.jpg",
+                            Name = "The Matrix",
+                            Rating = "8/10",
+                            ReleaseDate = 1999,
+                            Review = "Nice",
+                            Status = 2,
+                            URL = "https://www.imdb.com/title/tt0133093/"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "The life story of a man with a low IQ who achieves extraordinary feats through his kindness and determination.",
+                            Director = "Robert Zemeckis",
+                            Duration = 142,
+                            Favourite = true,
+                            ImageURL = "https://storage.googleapis.com/pod_public/1300/266241.jpg",
+                            Name = "Forrest Gump",
+                            Rating = "6/10",
+                            ReleaseDate = 1994,
+                            Review = "Cool",
+                            Status = 2,
+                            URL = "https://www.imdb.com/title/tt0109830/"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "A family heads to an isolated hotel for the winter where a sinister presence influences the father into violence.",
+                            Director = "Stanley Kubrick",
+                            Duration = 144,
+                            Favourite = false,
+                            ImageURL = "https://storage.googleapis.com/pod_public/1300/262806.jpg",
+                            Name = "The Shining",
+                            Rating = "7/10",
+                            ReleaseDate = 1980,
+                            Review = "Idk",
+                            Status = 2,
+                            URL = "https://www.imdb.com/title/tt0081505/"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "A skilled thief with the ability to enter dreams must pull off an impossible heist: planting an idea in someone's mind.",
+                            Director = "Christopher Nolan",
+                            Duration = 148,
+                            Favourite = true,
+                            ImageURL = "https://www.vasefotka.cz/fotky22340/fotos/_vyr_271602026-Inception-Pocatek.jpg",
+                            Name = "Inception",
+                            Rating = "9/10",
+                            ReleaseDate = 2010,
+                            Review = "Perfect",
+                            Status = 2,
+                            URL = "https://www.imdb.com/title/tt1375666/"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "The aging patriarch of an organized crime dynasty transfers control to his reluctant son.",
+                            Director = "Francis Ford Coppola",
+                            Duration = 175,
+                            Favourite = true,
+                            ImageURL = "https://i5.walmartimages.com/seo/The-Godfather-Original-Movie-Poster-poster-Frameless-Gift-12-x-18-inch-30cm-x-46cm_c6df3fd5-1e9c-49ca-8cb6-1af6078df4c2.b21fd8bc877c5645b9340a53580833a2.jpeg",
+                            Name = "The Godfather",
+                            Rating = "8/10",
+                            ReleaseDate = 1972,
+                            Review = "Nice",
+                            Status = 2,
+                            URL = "https://www.imdb.com/title/tt0068646/"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "A young girl becomes trapped in a strange spirit world and must find a way to free herself and her parents.",
+                            Director = "Hayao Miyazaki",
+                            Duration = 125,
+                            Favourite = false,
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BNTEyNmEwOWUtYzkyOC00ZTQ4LTllZmUtMjk0Y2YwOGUzYjRiXkEyXkFqcGc@._V1_.jpg",
+                            Name = "Spirited Away",
+                            Rating = "8/10",
+                            ReleaseDate = 2001,
+                            Review = "Nice",
+                            Status = 2,
+                            URL = "https://www.imdb.com/title/tt0245429/"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Description = "In a post-apocalyptic wasteland, a drifter and a rebel leader fight to survive against a tyrannical ruler.",
+                            Director = "George Miller",
+                            Duration = 120,
+                            Favourite = true,
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BZDRkODJhOTgtOTc1OC00NTgzLTk4NjItNDgxZDY4YjlmNDY2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+                            Name = "Mad Max: Fury Road",
+                            Rating = "7/10",
+                            ReleaseDate = 2015,
+                            Review = "Nice",
+                            Status = 2,
+                            URL = "https://www.imdb.com/title/tt1392190/"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Description = "Two teenagers share a profound, magical connection upon discovering they are swapping bodies. Things manage to become even more complicated when the boy and girl decide to meet in person.",
+                            Director = "Makoto Shinkai",
+                            Duration = 116,
+                            Favourite = true,
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BMTIyNzFjNzItZmQ1MC00NzhjLThmMzYtZjRhN2Y3MmM2OGQyXkEyXkFqcGc@._V1_.jpg",
+                            Name = "Your Name",
+                            Rating = "10/10",
+                            ReleaseDate = 2016,
+                            Review = "Peak",
+                            Status = 2,
+                            URL = "https://www.imdb.com/title/tt5311514/"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Description = "A chemistry teacher turned drug-lord teams up with a former student to build a methamphetamine empire.",
+                            Director = "Vince Gilligan",
+                            Duration = 62,
+                            Favourite = true,
+                            ImageURL = "https://m.media-amazon.com/images/I/91+GrGr5TWL._AC_UF894,1000_QL80_.jpg",
+                            Name = "Breaking Bad",
+                            Rating = "10/10",
+                            ReleaseDate = 2008,
+                            Review = "Nice",
+                            Status = 2,
+                            URL = "https://www.imdb.com/title/tt0903747/"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Description = "A group of friends in the 1980s uncover supernatural mysteries and government conspiracies in their small town.",
+                            Director = "The Duffer Brothers",
+                            Duration = 34,
+                            Favourite = true,
+                            ImageURL = "https://static.posters.cz/image/1300/132239.jpg",
+                            Name = "Stranger Things",
+                            Rating = "8/10",
+                            ReleaseDate = 2016,
+                            Review = "Nice",
+                            Status = 1,
+                            URL = "https://www.imdb.com/title/tt4574334/"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Description = "A mockumentary about the daily lives of employees at the Dunder Mifflin paper company.",
+                            Director = "Greg Daniels",
+                            Duration = 201,
+                            Favourite = true,
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BZjQwYzBlYzUtZjhhOS00ZDQ0LWE0NzAtYTk4MjgzZTNkZWEzXkEyXkFqcGc@._V1_.jpg",
+                            Name = "The Office (US)",
+                            Rating = "9/10",
+                            ReleaseDate = 2005,
+                            Review = "Nice",
+                            Status = 2,
+                            URL = "https://www.imdb.com/title/tt0386676/"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Description = "Noble families fight for control of the Iron Throne in a fantasy world filled with dragons and political intrigue.",
+                            Director = "David Benioff, D.B. Weiss",
+                            Duration = 73,
+                            Favourite = true,
+                            ImageURL = "https://static.posters.cz/image/1300/135455.jpg",
+                            Name = "Game of Thrones",
+                            Rating = "9/10",
+                            ReleaseDate = 2011,
+                            Review = "Nice",
+                            Status = 2,
+                            URL = "https://www.imdb.com/title/tt0944947/"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Description = "A lone bounty hunter navigates the outer reaches of the galaxy, protecting a mysterious baby Yoda.",
+                            Director = "Jon Favreau",
+                            Duration = 24,
+                            Favourite = false,
+                            ImageURL = "https://static.posters.cz/image/750/103406.jpg",
+                            Name = "The Mandalorian",
+                            Rating = "6/10",
+                            ReleaseDate = 2019,
+                            Review = "Nice",
+                            Status = 1,
+                            URL = "https://www.imdb.com/title/tt8111088/"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Description = "An anthology series exploring the dark side of technology and human nature in dystopian futures.",
+                            Director = "Charlie Brooker",
+                            Duration = 27,
+                            Favourite = false,
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BODcxMWI2NDMtYTc3NC00OTZjLWFmNmUtM2NmY2I1ODkxYzczXkEyXkFqcGc@._V1_.jpg",
+                            Name = "Black Mirror",
+                            Rating = "8/10",
+                            ReleaseDate = 2011,
+                            Review = "Nice",
+                            Status = 1,
+                            URL = "https://www.imdb.com/title/tt2085059/"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Description = "A biographical drama chronicling the reign of Queen Elizabeth II and major historical events.",
+                            Director = "Peter Morgan",
+                            Duration = 60,
+                            Favourite = false,
+                            ImageURL = "https://image.tmdb.org/t/p/original/1M876KPjulVwppEpldhdc8V4o68.jpg",
+                            Name = "The Crown",
+                            Rating = "-",
+                            ReleaseDate = 2016,
+                            Review = "Nice",
+                            Status = 0,
+                            URL = "https://www.imdb.com/title/tt4786824/"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Description = "The trials and tribulations of criminal lawyer Jimmy McGill in the years leading up to his fateful run-in with Walter White and Jesse Pinkman.",
+                            Director = "Peter Gould",
+                            Duration = 63,
+                            Favourite = true,
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BNDdjNTEzMjMtYjM3Mi00NzQ3LWFlNWMtZjdmYWU3ZDkzMjk1XkEyXkFqcGc@._V1_.jpg",
+                            Name = "Better Call Saul",
+                            Rating = "9/10",
+                            ReleaseDate = 2015,
+                            Review = "Nice",
+                            Status = 2,
+                            URL = "https://www.imdb.com/title/tt3032476/"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Description = "An internal succession war within House Targaryen at the height of its power, 172 years before the birth of Daenerys Targaryen.",
+                            Director = "Ryan J. Condal",
+                            Duration = 60,
+                            Favourite = true,
+                            ImageURL = "https://m.media-amazon.com/images/M/MV5BYjBhMTU2N2EtYjVkYS00ODBiLTk3MDUtYWFmZTM2M2JkNzcwXkEyXkFqcGc@._V1_.jpg",
+                            Name = "The House of the Dragon",
+                            Rating = "9/10",
+                            ReleaseDate = 2021,
+                            Review = "Nice",
+                            Status = 2,
+                            URL = "https://www.imdb.com/title/tt11198330/"
+                        });
                 });
 
             modelBuilder.Entity("Vued.DAL.Entities.Watchlist", b =>
@@ -558,302 +806,6 @@ namespace Vued.DAL.Migrations
                             Id = 3,
                             Description = "Series I always want to watch",
                             Name = "Old Series"
-                        });
-                });
-
-            modelBuilder.Entity("Vued.DAL.Entities.Movie", b =>
-                {
-                    b.HasBaseType("Vued.DAL.Entities.MediaFile");
-
-                    b.Property<int>("Length")
-                        .HasColumnType("INTEGER");
-
-                    b.HasDiscriminator().HasValue("Movie");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "A computer hacker learns about the true nature of reality and joins a group of rebels to fight a war against powerful controllers.",
-                            Director = "Lana Wachowski, Lilly Wachowski",
-                            Duration = 136,
-                            Favourite = true,
-                            ImageURL = "https://m.media-amazon.com/images/M/MV5BN2NmN2VhMTQtMDNiOS00NDlhLTliMjgtODE2ZTY0ODQyNDRhXkEyXkFqcGc@._V1_.jpg",
-                            Name = "The Matrix",
-                            Rating = "8/10",
-                            ReleaseDate = 1999,
-                            Review = "Nice",
-                            Status = 2,
-                            URL = "https://www.imdb.com/title/tt0133093/",
-                            Length = 0
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "The life story of a man with a low IQ who achieves extraordinary feats through his kindness and determination.",
-                            Director = "Robert Zemeckis",
-                            Duration = 142,
-                            Favourite = true,
-                            ImageURL = "https://storage.googleapis.com/pod_public/1300/266241.jpg",
-                            Name = "Forrest Gump",
-                            Rating = "6/10",
-                            ReleaseDate = 1994,
-                            Review = "Cool",
-                            Status = 2,
-                            URL = "https://www.imdb.com/title/tt0109830/",
-                            Length = 0
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "A family heads to an isolated hotel for the winter where a sinister presence influences the father into violence.",
-                            Director = "Stanley Kubrick",
-                            Duration = 144,
-                            Favourite = false,
-                            ImageURL = "https://storage.googleapis.com/pod_public/1300/262806.jpg",
-                            Name = "The Shining",
-                            Rating = "7/10",
-                            ReleaseDate = 1980,
-                            Review = "Idk",
-                            Status = 2,
-                            URL = "https://www.imdb.com/title/tt0081505/",
-                            Length = 0
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Description = "A skilled thief with the ability to enter dreams must pull off an impossible heist: planting an idea in someone's mind.",
-                            Director = "Christopher Nolan",
-                            Duration = 148,
-                            Favourite = true,
-                            ImageURL = "https://www.vasefotka.cz/fotky22340/fotos/_vyr_271602026-Inception-Pocatek.jpg",
-                            Name = "Inception",
-                            Rating = "9/10",
-                            ReleaseDate = 2010,
-                            Review = "Perfect",
-                            Status = 2,
-                            URL = "https://www.imdb.com/title/tt1375666/",
-                            Length = 0
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Description = "The aging patriarch of an organized crime dynasty transfers control to his reluctant son.",
-                            Director = "Francis Ford Coppola",
-                            Duration = 175,
-                            Favourite = true,
-                            ImageURL = "https://i5.walmartimages.com/seo/The-Godfather-Original-Movie-Poster-poster-Frameless-Gift-12-x-18-inch-30cm-x-46cm_c6df3fd5-1e9c-49ca-8cb6-1af6078df4c2.b21fd8bc877c5645b9340a53580833a2.jpeg",
-                            Name = "The Godfather",
-                            Rating = "8/10",
-                            ReleaseDate = 1972,
-                            Review = "Nice",
-                            Status = 2,
-                            URL = "https://www.imdb.com/title/tt0068646/",
-                            Length = 0
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Description = "A young girl becomes trapped in a strange spirit world and must find a way to free herself and her parents.",
-                            Director = "Hayao Miyazaki",
-                            Duration = 125,
-                            Favourite = false,
-                            ImageURL = "https://m.media-amazon.com/images/M/MV5BNTEyNmEwOWUtYzkyOC00ZTQ4LTllZmUtMjk0Y2YwOGUzYjRiXkEyXkFqcGc@._V1_.jpg",
-                            Name = "Spirited Away",
-                            Rating = "8/10",
-                            ReleaseDate = 2001,
-                            Review = "Nice",
-                            Status = 2,
-                            URL = "https://www.imdb.com/title/tt0245429/",
-                            Length = 0
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Description = "In a post-apocalyptic wasteland, a drifter and a rebel leader fight to survive against a tyrannical ruler.",
-                            Director = "George Miller",
-                            Duration = 120,
-                            Favourite = true,
-                            ImageURL = "https://m.media-amazon.com/images/M/MV5BZDRkODJhOTgtOTc1OC00NTgzLTk4NjItNDgxZDY4YjlmNDY2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-                            Name = "Mad Max: Fury Road",
-                            Rating = "7/10",
-                            ReleaseDate = 2015,
-                            Review = "Nice",
-                            Status = 2,
-                            URL = "https://www.imdb.com/title/tt1392190/",
-                            Length = 0
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Description = "Two teenagers share a profound, magical connection upon discovering they are swapping bodies. Things manage to become even more complicated when the boy and girl decide to meet in person.",
-                            Director = "Makoto Shinkai",
-                            Duration = 116,
-                            Favourite = true,
-                            ImageURL = "https://m.media-amazon.com/images/M/MV5BMTIyNzFjNzItZmQ1MC00NzhjLThmMzYtZjRhN2Y3MmM2OGQyXkEyXkFqcGc@._V1_.jpg",
-                            Name = "Your Name",
-                            Rating = "10/10",
-                            ReleaseDate = 2016,
-                            Review = "Peak",
-                            Status = 2,
-                            URL = "https://www.imdb.com/title/tt5311514/",
-                            Length = 0
-                        });
-                });
-
-            modelBuilder.Entity("Vued.DAL.Entities.Series", b =>
-                {
-                    b.HasBaseType("Vued.DAL.Entities.MediaFile");
-
-                    b.Property<int>("NumberOfEpisodes")
-                        .HasColumnType("INTEGER");
-
-                    b.HasDiscriminator().HasValue("Series");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 9,
-                            Description = "A chemistry teacher turned drug-lord teams up with a former student to build a methamphetamine empire.",
-                            Director = "Vince Gilligan",
-                            Duration = 62,
-                            Favourite = true,
-                            ImageURL = "https://m.media-amazon.com/images/I/91+GrGr5TWL._AC_UF894,1000_QL80_.jpg",
-                            Name = "Breaking Bad",
-                            Rating = "10/10",
-                            ReleaseDate = 2008,
-                            Review = "Nice",
-                            Status = 2,
-                            URL = "https://www.imdb.com/title/tt0903747/",
-                            NumberOfEpisodes = 0
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Description = "A group of friends in the 1980s uncover supernatural mysteries and government conspiracies in their small town.",
-                            Director = "The Duffer Brothers",
-                            Duration = 34,
-                            Favourite = true,
-                            ImageURL = "https://static.posters.cz/image/1300/132239.jpg",
-                            Name = "Stranger Things",
-                            Rating = "8/10",
-                            ReleaseDate = 2016,
-                            Review = "Nice",
-                            Status = 1,
-                            URL = "https://www.imdb.com/title/tt4574334/",
-                            NumberOfEpisodes = 0
-                        },
-                        new
-                        {
-                            Id = 11,
-                            Description = "A mockumentary about the daily lives of employees at the Dunder Mifflin paper company.",
-                            Director = "Greg Daniels",
-                            Duration = 201,
-                            Favourite = true,
-                            ImageURL = "https://m.media-amazon.com/images/M/MV5BZjQwYzBlYzUtZjhhOS00ZDQ0LWE0NzAtYTk4MjgzZTNkZWEzXkEyXkFqcGc@._V1_.jpg",
-                            Name = "The Office (US)",
-                            Rating = "9/10",
-                            ReleaseDate = 2005,
-                            Review = "Nice",
-                            Status = 2,
-                            URL = "https://www.imdb.com/title/tt0386676/",
-                            NumberOfEpisodes = 0
-                        },
-                        new
-                        {
-                            Id = 12,
-                            Description = "Noble families fight for control of the Iron Throne in a fantasy world filled with dragons and political intrigue.",
-                            Director = "David Benioff, D.B. Weiss",
-                            Duration = 73,
-                            Favourite = true,
-                            ImageURL = "https://static.posters.cz/image/1300/135455.jpg",
-                            Name = "Game of Thrones",
-                            Rating = "9/10",
-                            ReleaseDate = 2011,
-                            Review = "Nice",
-                            Status = 2,
-                            URL = "https://www.imdb.com/title/tt0944947/",
-                            NumberOfEpisodes = 0
-                        },
-                        new
-                        {
-                            Id = 13,
-                            Description = "A lone bounty hunter navigates the outer reaches of the galaxy, protecting a mysterious baby Yoda.",
-                            Director = "Jon Favreau",
-                            Duration = 24,
-                            Favourite = false,
-                            ImageURL = "https://static.posters.cz/image/750/103406.jpg",
-                            Name = "The Mandalorian",
-                            Rating = "6/10",
-                            ReleaseDate = 2019,
-                            Review = "Nice",
-                            Status = 1,
-                            URL = "https://www.imdb.com/title/tt8111088/",
-                            NumberOfEpisodes = 0
-                        },
-                        new
-                        {
-                            Id = 14,
-                            Description = "An anthology series exploring the dark side of technology and human nature in dystopian futures.",
-                            Director = "Charlie Brooker",
-                            Duration = 27,
-                            Favourite = false,
-                            ImageURL = "https://m.media-amazon.com/images/M/MV5BODcxMWI2NDMtYTc3NC00OTZjLWFmNmUtM2NmY2I1ODkxYzczXkEyXkFqcGc@._V1_.jpg",
-                            Name = "Black Mirror",
-                            Rating = "8/10",
-                            ReleaseDate = 2011,
-                            Review = "Nice",
-                            Status = 1,
-                            URL = "https://www.imdb.com/title/tt2085059/",
-                            NumberOfEpisodes = 0
-                        },
-                        new
-                        {
-                            Id = 15,
-                            Description = "A biographical drama chronicling the reign of Queen Elizabeth II and major historical events.",
-                            Director = "Peter Morgan",
-                            Duration = 60,
-                            Favourite = false,
-                            ImageURL = "https://image.tmdb.org/t/p/original/1M876KPjulVwppEpldhdc8V4o68.jpg",
-                            Name = "The Crown",
-                            Rating = "-",
-                            ReleaseDate = 2016,
-                            Review = "Nice",
-                            Status = 0,
-                            URL = "https://www.imdb.com/title/tt4786824/",
-                            NumberOfEpisodes = 0
-                        },
-                        new
-                        {
-                            Id = 16,
-                            Description = "The trials and tribulations of criminal lawyer Jimmy McGill in the years leading up to his fateful run-in with Walter White and Jesse Pinkman.",
-                            Director = "Peter Gould",
-                            Duration = 63,
-                            Favourite = true,
-                            ImageURL = "https://m.media-amazon.com/images/M/MV5BNDdjNTEzMjMtYjM3Mi00NzQ3LWFlNWMtZjdmYWU3ZDkzMjk1XkEyXkFqcGc@._V1_.jpg",
-                            Name = "Better Call Saul",
-                            Rating = "9/10",
-                            ReleaseDate = 2015,
-                            Review = "Nice",
-                            Status = 2,
-                            URL = "https://www.imdb.com/title/tt3032476/",
-                            NumberOfEpisodes = 0
-                        },
-                        new
-                        {
-                            Id = 17,
-                            Description = "An internal succession war within House Targaryen at the height of its power, 172 years before the birth of Daenerys Targaryen.",
-                            Director = "Ryan J. Condal",
-                            Duration = 60,
-                            Favourite = true,
-                            ImageURL = "https://m.media-amazon.com/images/M/MV5BYjBhMTU2N2EtYjVkYS00ODBiLTk3MDUtYWFmZTM2M2JkNzcwXkEyXkFqcGc@._V1_.jpg",
-                            Name = "The House of the Dragon",
-                            Rating = "9/10",
-                            ReleaseDate = 2021,
-                            Review = "Nice",
-                            Status = 2,
-                            URL = "https://www.imdb.com/title/tt11198330/",
-                            NumberOfEpisodes = 0
                         });
                 });
 

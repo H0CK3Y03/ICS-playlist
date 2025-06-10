@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Vued.DAL.Entities;
 
 namespace Vued.BL.Models;
-public enum MediaType
-{
-    Movie,
-    Series
-}
+
 public record MediaFileModel : ModelBase
 {
     public required string Name { get; set; }

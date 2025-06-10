@@ -3,7 +3,7 @@ using Vued.BL.Mappers;
 using Vued.DAL.Entities;
 using Vued.DAL;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.CodeAnalysis;
+using System.Linq;
 
 namespace Vued.BL.Facades;
 
@@ -20,62 +20,38 @@ public class MediaFileFacade
 
     public async Task<List<MediaFileModel>> GetAllAsync()
     {
-        var movieEntities = await _dbContext.Movies.Include(m => m.Genres).ToListAsync();
-        var seriesEntities = await _dbContext.Series.Include(s => s.Genres).ToListAsync();
-
-        var entities = new List<MediaFile>();
-        entities.AddRange(movieEntities);
-        entities.AddRange(seriesEntities);
+        var entities = await _dbContext.MediaFiles
+            .Include(m => m.Genres)
+            .ToListAsync();
 
         return entities.Select(_mapper.MapToModel).ToList();
     }
 
     public async Task<MediaFileModel?> GetByIdAsync(int id)
     {
-        var movie = await _dbContext.Movies
+        var entity = await _dbContext.MediaFiles
             .Include(m => m.Genres)
             .FirstOrDefaultAsync(m => m.Id == id);
 
-        if (movie is not null)
-            return _mapper.MapToModel(movie);
-
-        var series = await _dbContext.Series
-            .Include(s => s.Genres)
-            .FirstOrDefaultAsync(s => s.Id == id);
-
-        if (series is not null)
-            return _mapper.MapToModel(series);
-
-        return null;
+        return entity != null ? _mapper.MapToModel(entity) : null;
     }
 
     public async Task<MediaFileModel> SaveAsync(MediaFileModel? model)
     {
         if (model == null)
             throw new ArgumentNullException(nameof(model), "Model cannot be null.");
-        MediaFile? entity = await _dbContext.Movies
-            .Include(m => m.Genres)
-            .FirstOrDefaultAsync(m => m.Id == model.Id);
+
+        var entity = model.Id == 0
+            ? _mapper.MapToEntity(model)
+            : await _dbContext.MediaFiles.FirstOrDefaultAsync(m => m.Id == model.Id);
+
+        if (entity == null && model.Id != 0)
+            throw new InvalidOperationException($"Media file with ID {model.Id} not found for update.");
 
         if (entity == null)
         {
-            entity = await _dbContext.Series
-                .Include(s => s.Genres)
-                .FirstOrDefaultAsync(s => s.Id == model.Id);
-        }
-
-        if (entity == null)
-        {
-            var newEntity = _mapper.MapToEntity(model);
-
-            if (newEntity is Movie movie)
-            {
-                _dbContext.Movies.Add(movie);
-            }
-            else if (newEntity is Series series)
-            {
-                _dbContext.Series.Add(series);
-            }
+            entity = _mapper.MapToEntity(model);
+            _dbContext.MediaFiles.Add(entity);
         }
         else
         {
@@ -89,57 +65,100 @@ public class MediaFileFacade
             entity.URL = model.URL;
             entity.Favourite = model.Favourite;
             entity.Review = model.Review;
+            entity.MediaType = model.MediaType;
         }
 
         await _dbContext.SaveChangesAsync();
 
-        return model;
+        var savedEntity = await _dbContext.MediaFiles
+            .FirstAsync(m => m.Id == entity.Id);
+
+        if (savedEntity.Id == 0)
+            throw new InvalidOperationException("Failed to save media file: Entity ID is 0 after save.");
+
+        return _mapper.MapToModel(savedEntity);
     }
 
     public async Task DeleteAsync(int id)
     {
-        var movie = await _dbContext.Movies.FirstOrDefaultAsync(m => m.Id == id);
-        if (movie != null)
-        {
-            _dbContext.Movies.Remove(movie);
-        }
-        else
-        {
-            var series = await _dbContext.Series.FirstOrDefaultAsync(s => s.Id == id);
-            if (series != null)
-            {
-                _dbContext.Series.Remove(series);
-            }
-            else
-            {
-                return;
-            }
-        }
+        var entity = await _dbContext.MediaFiles
+            .FirstOrDefaultAsync(m => m.Id == id);
 
-        await _dbContext.SaveChangesAsync();
+        if (entity != null)
+        {
+            _dbContext.MediaFiles.Remove(entity);
+            await _dbContext.SaveChangesAsync();
+        }
+    }
+
+    public async Task AddGenreToMediaAsync(int mediaFileId, int genreId)
+    {
+        var mediaFile = await _dbContext.MediaFiles
+            .Include(m => m.Genres)
+            .FirstOrDefaultAsync(m => m.Id == mediaFileId);
+
+        if (mediaFile == null)
+            throw new InvalidOperationException($"Media file with ID {mediaFileId} not found.");
+
+        var genre = await _dbContext.Genres.FindAsync(genreId);
+
+        if (genre == null)
+            throw new InvalidOperationException($"Genre with ID {genreId} not found.");
+
+        if (!mediaFile.Genres.Contains(genre))
+        {
+            mediaFile.Genres.Add(genre);
+            await _dbContext.SaveChangesAsync();
+        }
+    }
+
+    public async Task RemoveGenreFromMediaAsync(int mediaFileId, int genreId)
+    {
+        var mediaFile = await _dbContext.MediaFiles
+            .Include(m => m.Genres)
+            .FirstOrDefaultAsync(m => m.Id == mediaFileId);
+
+        if (mediaFile == null)
+            throw new InvalidOperationException($"Media file with ID {mediaFileId} not found.");
+
+        var genre = mediaFile.Genres.FirstOrDefault(g => g.Id == genreId);
+        if (genre != null)
+        {
+            mediaFile.Genres.Remove(genre);
+            await _dbContext.SaveChangesAsync();
+        }
+    }
+
+    public async Task<List<int>> GetGenreIdsForMediaAsync(int mediaFileId)
+    {
+        var genreIds = await _dbContext.MediaFiles
+            .Where(m => m.Id == mediaFileId)
+            .SelectMany(m => m.Genres)
+            .Select(g => g.Id)
+            .ToListAsync();
+
+        return genreIds;
     }
 
     public async Task<List<MediaFileModel>> FilterAsync(MovieFilterModel filter)
     {
-        var movieQuery = _dbContext.Movies.Include(m => m.Genres).AsQueryable();
-        var seriesQuery = _dbContext.Series.Include(s => s.Genres).AsQueryable();
+        var query = _dbContext.MediaFiles
+            .Include(m => m.Genres)
+            .AsQueryable();
 
         if (!string.IsNullOrEmpty(filter.Genre) && filter.Genre != "All")
         {
-            movieQuery = movieQuery.Where(m => m.Genres.Any(g => g.Name == filter.Genre));
-            seriesQuery = seriesQuery.Where(s => s.Genres.Any(g => g.Name == filter.Genre));
+            query = query.Where(m => m.Genres.Any(g => g.Name == filter.Genre));
         }
 
         if (filter.Favourite == true)
         {
-            movieQuery = movieQuery.Where(m => m.Favourite);
-            seriesQuery = seriesQuery.Where(s => s.Favourite);
+            query = query.Where(m => m.Favourite);
         }
 
         if (filter.ReleaseYear.HasValue)
         {
-            movieQuery = movieQuery.Where(m => m.ReleaseDate >= filter.ReleaseYear.Value);
-            seriesQuery = seriesQuery.Where(s => s.ReleaseDate >= filter.ReleaseYear.Value);
+            query = query.Where(m => m.ReleaseDate >= filter.ReleaseYear.Value);
         }
 
         if (!string.IsNullOrWhiteSpace(filter.TitleContains) || !string.IsNullOrWhiteSpace(filter.DirectorContains))
@@ -147,21 +166,12 @@ public class MediaFileFacade
             var title = filter.TitleContains?.ToLower() ?? string.Empty;
             var director = filter.DirectorContains?.ToLower() ?? string.Empty;
 
-            movieQuery = movieQuery.Where(m =>
+            query = query.Where(m =>
                 (!string.IsNullOrEmpty(title) && m.Name.ToLower().Contains(title)) ||
                 (!string.IsNullOrEmpty(director) && m.Director.ToLower().Contains(director)));
-
-            seriesQuery = seriesQuery.Where(s =>
-                (!string.IsNullOrEmpty(title) && s.Name.ToLower().Contains(title)) ||
-                (!string.IsNullOrEmpty(director) && s.Director.ToLower().Contains(director)));
         }
 
-        var movies = await movieQuery.ToListAsync();
-        var series = await seriesQuery.ToListAsync();
-
-        var entities = new List<MediaFile>();
-        entities.AddRange(movies);
-        entities.AddRange(series);
+        var entities = await query.ToListAsync();
 
         entities = filter.SortBy switch
         {

@@ -9,11 +9,11 @@
 
     <Grid
         Padding="15"
-        RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+        RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
         ColumnDefinitions="*,*,*"
         ColumnSpacing="10"
-        RowSpacing="5">
-        <!-- Column 1: Title -->
+        RowSpacing="3">
+        <!-- Row 0, Column 0: Name -->
         <Label
             Grid.Row="0"
             Grid.Column="0"
@@ -35,7 +35,7 @@
             HorizontalOptions="Fill"
             HeightRequest="32" />
 
-        <!-- Column 2: Director -->
+        <!-- Row 0, Column 1: Director -->
         <Label
             Grid.Row="0"
             Grid.Column="1"
@@ -57,29 +57,54 @@
             HorizontalOptions="Fill"
             HeightRequest="32" />
 
-        <!-- Column 3: Length/Episodes -->
+        <!-- Row 0, Column 2: Genres -->
         <Label
             Grid.Row="0"
             Grid.Column="2"
-            Text="Length/Episodes"
+            Text="Genres"
             FontSize="14"
             FontFamily="RajdhaniBold"
             TextColor="{StaticResource ColorAccent}"
             VerticalOptions="Center"
             HorizontalOptions="Start" />
-        <Entry
+        <ScrollView
             Grid.Row="1"
             Grid.Column="2"
-            Text="{Binding LengthOrEpisodes}"
-            FontSize="14"
-            FontFamily="RajdhaniRegular"
-            TextColor="{StaticResource ColorTextPrimary}"
-            BackgroundColor="{StaticResource ColorInputBackground}"
-            VerticalOptions="Center"
-            HorizontalOptions="Fill"
-            HeightRequest="32" />
+            Grid.RowSpan="5"
+            HeightRequest="200">
+            <CollectionView
+                ItemsSource="{Binding AvailableGenres}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Padding="10"
+                            Margin="6"
+                            BackgroundColor="{StaticResource ColorInputBackground}"
+                            CornerRadius="4"
+                            HasShadow="False"
+                            HeightRequest="45">
+                            <HorizontalStackLayout
+                                Spacing="5"
+                                VerticalOptions="Center">
+                                <CheckBox
+                                    IsChecked="{Binding IsSelected}"
+                                    Color="{StaticResource ColorAccent}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Text="{Binding Name}"
+                                    FontSize="12"
+                                    FontFamily="RajdhaniRegular"
+                                    TextColor="{StaticResource ColorTextPrimary}"
+                                    VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
 
-        <!-- Column 1: Rating -->
+        <!-- Row 2, Column 0: Rating -->
         <Label
             Grid.Row="2"
             Grid.Column="0"
@@ -102,11 +127,11 @@
             HorizontalOptions="Fill"
             HeightRequest="32" />
 
-        <!-- Column 2: Change Picture URL -->
+        <!-- Row 2, Column 1: Length/Episodes -->
         <Label
             Grid.Row="2"
             Grid.Column="1"
-            Text="Picture URL"
+            Text="Length/Episodes"
             FontSize="14"
             FontFamily="RajdhaniBold"
             TextColor="{StaticResource ColorAccent}"
@@ -115,7 +140,7 @@
         <Entry
             Grid.Row="3"
             Grid.Column="1"
-            Text="{Binding ImageUrl}"
+            Text="{Binding LengthOrEpisodes}"
             FontSize="14"
             FontFamily="RajdhaniRegular"
             TextColor="{StaticResource ColorTextPrimary}"
@@ -124,30 +149,7 @@
             HorizontalOptions="Fill"
             HeightRequest="32" />
 
-        <!-- Column 3: Genres -->
-        <Label
-            Grid.Row="2"
-            Grid.Column="2"
-            Text="Genres"
-            FontSize="14"
-            FontFamily="RajdhaniBold"
-            TextColor="{StaticResource ColorAccent}"
-            VerticalOptions="Center"
-            HorizontalOptions="Start" />
-        <Picker
-            Grid.Row="3"
-            Grid.Column="2"
-            ItemsSource="{Binding AvailableGenres}"
-            SelectedItem="{Binding SelectedGenre}"
-            FontSize="14"
-            FontFamily="RajdhaniRegular"
-            TextColor="{StaticResource ColorTextPrimary}"
-            BackgroundColor="{StaticResource ColorInputBackground}"
-            VerticalOptions="Center"
-            HorizontalOptions="Fill"
-            HeightRequest="32" />
-
-        <!-- Column 1: Release Year -->
+        <!-- Row 4, Column 0: Release Year -->
         <Label
             Grid.Row="4"
             Grid.Column="0"
@@ -170,11 +172,11 @@
             HorizontalOptions="Fill"
             HeightRequest="32" />
 
-        <!-- Column 2: Change Media URL -->
+        <!-- Row 4, Column 1: Picture URL -->
         <Label
             Grid.Row="4"
             Grid.Column="1"
-            Text="Media URL"
+            Text="Picture URL"
             FontSize="14"
             FontFamily="RajdhaniBold"
             TextColor="{StaticResource ColorAccent}"
@@ -183,7 +185,7 @@
         <Entry
             Grid.Row="5"
             Grid.Column="1"
-            Text="{Binding MediaUrl}"
+            Text="{Binding ImageUrl}"
             FontSize="14"
             FontFamily="RajdhaniRegular"
             TextColor="{StaticResource ColorTextPrimary}"
@@ -192,10 +194,10 @@
             HorizontalOptions="Fill"
             HeightRequest="32" />
 
-        <!-- Column 3: Media Type -->
+        <!-- Row 6, Column 0: Media Type -->
         <Label
-            Grid.Row="4"
-            Grid.Column="2"
+            Grid.Row="6"
+            Grid.Column="0"
             Text="Media Type"
             FontSize="14"
             FontFamily="RajdhaniBold"
@@ -203,8 +205,8 @@
             VerticalOptions="Center"
             HorizontalOptions="Start" />
         <Picker
-            Grid.Row="5"
-            Grid.Column="2"
+            Grid.Row="7"
+            Grid.Column="0"
             ItemsSource="{Binding MediaTypes}"
             SelectedItem="{Binding SelectedMediaType}"
             FontSize="14"
@@ -215,10 +217,32 @@
             HorizontalOptions="Fill"
             HeightRequest="32" />
 
-        <!-- Column 1: Favourite -->
+        <!-- Row 6, Column 1: Media URL -->
         <Label
             Grid.Row="6"
-            Grid.Column="0"
+            Grid.Column="1"
+            Text="Media URL"
+            FontSize="14"
+            FontFamily="RajdhaniBold"
+            TextColor="{StaticResource ColorAccent}"
+            VerticalOptions="Center"
+            HorizontalOptions="Start" />
+        <Entry
+            Grid.Row="7"
+            Grid.Column="1"
+            Text="{Binding MediaUrl}"
+            FontSize="14"
+            FontFamily="RajdhaniRegular"
+            TextColor="{StaticResource ColorTextPrimary}"
+            BackgroundColor="{StaticResource ColorInputBackground}"
+            VerticalOptions="Center"
+            HorizontalOptions="Fill"
+            HeightRequest="32" />
+
+        <!-- Row 6, Column 2: Favourite -->
+        <Label
+            Grid.Row="6"
+            Grid.Column="2"
             Text="Favourite"
             FontSize="14"
             FontFamily="RajdhaniBold"
@@ -226,16 +250,16 @@
             VerticalOptions="Center"
             HorizontalOptions="Start" />
         <CheckBox
-            Grid.Row="6"
-            Grid.Column="0"
+            Grid.Row="7"
+            Grid.Column="2"
             IsChecked="{Binding Favourite}"
             Color="{StaticResource ColorAccent}"
             VerticalOptions="Center"
-            HorizontalOptions="End" />
+            HorizontalOptions="Start" />
 
-        <!-- Description and Review (spanning all columns) -->
+        <!-- Row 8, Columns 0-2: Description and Review -->
         <VerticalStackLayout
-            Grid.Row="7"
+            Grid.Row="8"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Spacing="8"
@@ -273,9 +297,9 @@
                 HorizontalOptions="Fill" />
         </VerticalStackLayout>
 
-        <!-- Buttons (spanning all columns) -->
+        <!-- Row 9, Columns 0-2: Buttons -->
         <HorizontalStackLayout
-            Grid.Row="8"
+            Grid.Row="9"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Spacing="10"

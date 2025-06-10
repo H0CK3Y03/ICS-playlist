@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Vued.BL.Queries;
 using Vued.DAL.Entities;
 
 
 namespace Vued.BL.Services
 {
-    public record MovieFilter
+    public record MediaFilter
     {
         public string? TitleContains { get; set; }
         public string? DirectorContains { get; set; }
@@ -23,9 +17,9 @@ namespace Vued.BL.Services
         public string? SortOrder { get; set; } = "asc";
     }
 
-    public class MovieService
+    public class MediaService
     {
-        public IQueryable<Movie> ApplyFilter(IQueryable<Movie> query, MovieFilter filter)
+        public IQueryable<MediaFile> ApplyFilter(IQueryable<MediaFile> query, MediaFilter filter)
         {
             if (!string.IsNullOrWhiteSpace(filter.TitleContains))
             {
@@ -54,7 +48,7 @@ namespace Vued.BL.Services
 
             if (filter.LengthMax is not null)
             {
-                query = query.Where(m => m.Length <= filter.LengthMax);
+                query = query.Where(m => m.Duration <= filter.LengthMax);
             }
 
             if (filter.Favourite is not null)
