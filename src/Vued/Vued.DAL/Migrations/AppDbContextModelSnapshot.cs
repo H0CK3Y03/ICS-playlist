@@ -766,7 +766,7 @@ namespace Vued.DAL.Migrations
                             Director = "David Benioff, D.B. Weiss",
                             Duration = 73,
                             Favourite = true,
-                            ImageURL = "https://m.media-amazon.com/images/M/MV5BZjQwYzBlYzUtZjhhOS00ZDQ0LWE0NzAtYTk4MjgzZTNkZWEzXkEyXkFqcGc@._V1_.jpg",
+                            ImageURL = "https://static.posters.cz/image/1300/135455.jpg",
                             Name = "Game of Thrones",
                             Rating = "9/10",
                             ReleaseDate = 2011,

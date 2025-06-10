@@ -64,7 +64,7 @@ public static class SeriesSeed
                 ReleaseDate = 2011,
                 Rating = "9/10",
                 URL = "https://www.imdb.com/title/tt0944947/",
-                ImageURL = "https://m.media-amazon.com/images/M/MV5BZjQwYzBlYzUtZjhhOS00ZDQ0LWE0NzAtYTk4MjgzZTNkZWEzXkEyXkFqcGc@._V1_.jpg",
+                ImageURL = "https://static.posters.cz/image/1300/135455.jpg",
                 Favourite = true,
                 Duration = 73,
                 Review = "Nice"
