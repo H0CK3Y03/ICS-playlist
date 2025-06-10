@@ -3,7 +3,7 @@ using Vued.BL.Mappers;
 using Vued.DAL.Entities;
 using Vued.DAL;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.CodeAnalysis;
+using System.Linq;
 
 namespace Vued.BL.Facades;
 
@@ -41,9 +41,12 @@ public class MediaFileFacade
         if (model == null)
             throw new ArgumentNullException(nameof(model), "Model cannot be null.");
 
-        var entity = await _dbContext.MediaFiles
-            .Include(m => m.Genres)
-            .FirstOrDefaultAsync(m => m.Id == model.Id);
+        var entity = model.Id == 0
+            ? _mapper.MapToEntity(model)
+            : await _dbContext.MediaFiles.FirstOrDefaultAsync(m => m.Id == model.Id);
+
+        if (entity == null && model.Id != 0)
+            throw new InvalidOperationException($"Media file with ID {model.Id} not found for update.");
 
         if (entity == null)
         {
@@ -86,6 +89,55 @@ public class MediaFileFacade
             _dbContext.MediaFiles.Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
+    }
+
+    public async Task AddGenreToMediaAsync(int mediaFileId, int genreId)
+    {
+        var mediaFile = await _dbContext.MediaFiles
+            .Include(m => m.Genres)
+            .FirstOrDefaultAsync(m => m.Id == mediaFileId);
+
+        if (mediaFile == null)
+            throw new InvalidOperationException($"Media file with ID {mediaFileId} not found.");
+
+        var genre = await _dbContext.Genres.FindAsync(genreId);
+
+        if (genre == null)
+            throw new InvalidOperationException($"Genre with ID {genreId} not found.");
+
+        if (!mediaFile.Genres.Contains(genre))
+        {
+            mediaFile.Genres.Add(genre);
+            await _dbContext.SaveChangesAsync();
+        }
+    }
+
+    public async Task RemoveGenreFromMediaAsync(int mediaFileId, int genreId)
+    {
+        var mediaFile = await _dbContext.MediaFiles
+            .Include(m => m.Genres)
+            .FirstOrDefaultAsync(m => m.Id == mediaFileId);
+
+        if (mediaFile == null)
+            throw new InvalidOperationException($"Media file with ID {mediaFileId} not found.");
+
+        var genre = mediaFile.Genres.FirstOrDefault(g => g.Id == genreId);
+        if (genre != null)
+        {
+            mediaFile.Genres.Remove(genre);
+            await _dbContext.SaveChangesAsync();
+        }
+    }
+
+    public async Task<List<int>> GetGenreIdsForMediaAsync(int mediaFileId)
+    {
+        var genreIds = await _dbContext.MediaFiles
+            .Where(m => m.Id == mediaFileId)
+            .SelectMany(m => m.Genres)
+            .Select(g => g.Id)
+            .ToListAsync();
+
+        return genreIds;
     }
 
     public async Task<List<MediaFileModel>> FilterAsync(MovieFilterModel filter)
@@ -139,30 +191,5 @@ public class MediaFileFacade
         };
 
         return entities.Select(_mapper.MapToModel).ToList();
-    }
-
-    public async Task AddGenreToMediaAsync(int mediaFileId, int genreId)
-    {
-        var mediaFile = await _dbContext.MediaFiles
-            .Include(m => m.Genres)
-            .FirstOrDefaultAsync(m => m.Id == mediaFileId);
-
-        if (mediaFile == null)
-        {
-            throw new InvalidOperationException($"Media file with ID {mediaFileId} not found.");
-        }
-
-        var genre = await _dbContext.Genres.FindAsync(genreId);
-
-        if (genre == null)
-        {
-            throw new InvalidOperationException($"Genre with ID {genreId} not found.");
-        }
-
-        if (!mediaFile.Genres.Contains(genre))
-        {
-            mediaFile.Genres.Add(genre);
-            await _dbContext.SaveChangesAsync();
-        }
     }
 }

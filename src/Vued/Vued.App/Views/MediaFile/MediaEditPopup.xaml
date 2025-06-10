@@ -9,11 +9,11 @@
 
     <Grid
         Padding="15"
-        RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+        RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
         ColumnDefinitions="*,*,*"
         ColumnSpacing="10"
-        RowSpacing="5">
-        <!-- Column 1: Title -->
+        RowSpacing="4">
+        <!-- Row 0, Column 0: Name -->
         <Label
             Grid.Row="0"
             Grid.Column="0"
@@ -35,7 +35,7 @@
             HorizontalOptions="Fill"
             HeightRequest="32" />
 
-        <!-- Column 2: Director -->
+        <!-- Row 0, Column 1: Director -->
         <Label
             Grid.Row="0"
             Grid.Column="1"
@@ -57,7 +57,7 @@
             HorizontalOptions="Fill"
             HeightRequest="32" />
 
-        <!-- Column 3: Length/Episodes -->
+        <!-- Row 0, Column 2: Length/Episodes -->
         <Label
             Grid.Row="0"
             Grid.Column="2"
@@ -79,7 +79,7 @@
             HorizontalOptions="Fill"
             HeightRequest="32" />
 
-        <!-- Column 1: Rating -->
+        <!-- Row 2, Column 0: Rating -->
         <Label
             Grid.Row="2"
             Grid.Column="0"
@@ -102,7 +102,7 @@
             HorizontalOptions="Fill"
             HeightRequest="32" />
 
-        <!-- Column 2: Change Picture URL -->
+        <!-- Row 2, Column 1: Change Picture URL -->
         <Label
             Grid.Row="2"
             Grid.Column="1"
@@ -124,7 +124,7 @@
             HorizontalOptions="Fill"
             HeightRequest="32" />
 
-        <!-- Column 3: Genres -->
+        <!-- Row 2, Column 2: Genres (spanning rows 2-4) -->
         <Label
             Grid.Row="2"
             Grid.Column="2"
@@ -134,21 +134,46 @@
             TextColor="{StaticResource ColorAccent}"
             VerticalOptions="Center"
             HorizontalOptions="Start" />
-        <Entry
+        <ScrollView
             Grid.Row="3"
             Grid.Column="2"
-            Text="{Binding Genres}"
-            FontSize="14"
-            FontFamily="RajdhaniRegular"
-            TextColor="{StaticResource ColorTextPrimary}"
-            BackgroundColor="{StaticResource ColorInputBackground}"
-            VerticalOptions="Center"
-            HorizontalOptions="Fill"
-            HeightRequest="32" />
+            Grid.RowSpan="4"
+            HeightRequest="120">
+            <CollectionView
+                ItemsSource="{Binding AvailableGenres}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Padding="10"
+                            Margin="6"
+                            BackgroundColor="{StaticResource ColorInputBackground}"
+                            CornerRadius="4"
+                            HasShadow="False"
+                            HeightRequest="45">
+                            <HorizontalStackLayout
+                                Spacing="5"
+                                VerticalOptions="Center">
+                                <CheckBox
+                                    IsChecked="{Binding IsSelected}"
+                                    Color="{StaticResource ColorAccent}"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    Text="{Binding Name}"
+                                    FontSize="12"
+                                    FontFamily="RajdhaniRegular"
+                                    TextColor="{StaticResource ColorTextPrimary}"
+                                    VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
 
-        <!-- Column 1: Release Year -->
+        <!-- Row 5, Column 0: Release Year -->
         <Label
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="0"
             Text="Release Year"
             FontSize="14"
@@ -157,7 +182,7 @@
             VerticalOptions="Center"
             HorizontalOptions="Start" />
         <Entry
-            Grid.Row="5"
+            Grid.Row="6"
             Grid.Column="0"
             Text="{Binding ReleaseYear}"
             Keyboard="Numeric"
@@ -169,9 +194,9 @@
             HorizontalOptions="Fill"
             HeightRequest="32" />
 
-        <!-- Column 2: Change Media URL -->
+        <!-- Row 5, Column 1: Change Media URL -->
         <Label
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="1"
             Text="Change Media URL"
             FontSize="14"
@@ -180,7 +205,7 @@
             VerticalOptions="Center"
             HorizontalOptions="Start" />
         <Entry
-            Grid.Row="5"
+            Grid.Row="6"
             Grid.Column="1"
             Text="{Binding URL}"
             FontSize="14"
@@ -191,9 +216,9 @@
             HorizontalOptions="Fill"
             HeightRequest="32" />
 
-        <!-- Description and Review (spanning all columns) -->
+        <!-- Row 7, Columns 0-2: Description and Review -->
         <VerticalStackLayout
-            Grid.Row="6"
+            Grid.Row="7"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Spacing="8"
@@ -231,9 +256,9 @@
                 HorizontalOptions="Fill" />
         </VerticalStackLayout>
 
-        <!-- Buttons (spanning all columns) -->
+        <!-- Row 8, Columns 0-2: Buttons -->
         <HorizontalStackLayout
-            Grid.Row="7"
+            Grid.Row="8"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Spacing="10"
@@ -250,8 +275,8 @@
                 FontSize="14" />
             <Button
                 Text="Delete"
-                Command="{Binding DeleteCommand}"
                 Clicked="OnCancelClicked"
+                Command="{Binding DeleteCommand}"
                 BackgroundColor="{StaticResource ColorError}"
                 TextColor="{StaticResource ColorButtonSecondaryText}"
                 HeightRequest="36"
