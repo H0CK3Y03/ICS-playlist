@@ -62,12 +62,18 @@ public class MediaFileFacade
             entity.URL = model.URL;
             entity.Favourite = model.Favourite;
             entity.Review = model.Review;
-            entity.MediaType = model.MediaType; // Update MediaType
+            entity.MediaType = model.MediaType;
         }
 
         await _dbContext.SaveChangesAsync();
 
-        return model;
+        var savedEntity = await _dbContext.MediaFiles
+            .FirstAsync(m => m.Id == entity.Id);
+
+        if (savedEntity.Id == 0)
+            throw new InvalidOperationException("Failed to save media file: Entity ID is 0 after save.");
+
+        return _mapper.MapToModel(savedEntity);
     }
 
     public async Task DeleteAsync(int id)
@@ -113,8 +119,6 @@ public class MediaFileFacade
                 (!string.IsNullOrEmpty(director) && m.Director.ToLower().Contains(director)));
         }
 
-        // add query for media type
-
         var entities = await query.ToListAsync();
 
         entities = filter.SortBy switch
@@ -135,5 +139,30 @@ public class MediaFileFacade
         };
 
         return entities.Select(_mapper.MapToModel).ToList();
-    } 
+    }
+
+    public async Task AddGenreToMediaAsync(int mediaFileId, int genreId)
+    {
+        var mediaFile = await _dbContext.MediaFiles
+            .Include(m => m.Genres)
+            .FirstOrDefaultAsync(m => m.Id == mediaFileId);
+
+        if (mediaFile == null)
+        {
+            throw new InvalidOperationException($"Media file with ID {mediaFileId} not found.");
+        }
+
+        var genre = await _dbContext.Genres.FindAsync(genreId);
+
+        if (genre == null)
+        {
+            throw new InvalidOperationException($"Genre with ID {genreId} not found.");
+        }
+
+        if (!mediaFile.Genres.Contains(genre))
+        {
+            mediaFile.Genres.Add(genre);
+            await _dbContext.SaveChangesAsync();
+        }
+    }
 }

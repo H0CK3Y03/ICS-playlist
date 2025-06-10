@@ -42,7 +42,7 @@ public class WatchlistEditViewModel : BindableObject
 
         EditCommand = new Command(async () => await OnEdit());
         DeleteCommand = new Command(async () => await OnDelete());
-        LoadMediaAsync();
+        LoadMediaAsync().GetAwaiter().GetResult();
     }
 
     public ICommand EditCommand { get; }

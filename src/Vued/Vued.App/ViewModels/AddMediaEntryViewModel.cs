@@ -3,10 +3,27 @@ using Vued.App.Utilities;
 using Vued.BL.Facades;
 using Vued.BL.Models;
 using Vued.DAL.Entities;
-
-// TODO: Link Genre id with Media id to create connection in db
+using System.Collections.ObjectModel;
 
 namespace Vued.App.ViewModels;
+
+public class GenreCheckbox : BindableObject
+{
+    private bool _isSelected;
+
+    public int Id { get; set; }
+    public string Name { get; set; }
+
+    public bool IsSelected
+    {
+        get => _isSelected;
+        set
+        {
+            _isSelected = value;
+            OnPropertyChanged();
+        }
+    }
+}
 
 public class AddMediaEntryViewModel
 {
@@ -19,7 +36,6 @@ public class AddMediaEntryViewModel
     public string LengthOrEpisodes { get; set; } = string.Empty;
     public string Rating { get; set; } = "0/10";
     public string ImageUrl { get; set; } = string.Empty;
-    public GenreModel SelectedGenre { get; set; }
     public string ReleaseYear { get; set; } = string.Empty;
     public string MediaUrl { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
@@ -33,7 +49,7 @@ public class AddMediaEntryViewModel
         "6/10", "7/10", "8/10", "9/10", "10/10"
     };
     public List<string> MediaTypes { get; } = new() { "Movie", "Series" };
-    public List<GenreModel> AvailableGenres { get; private set; } = new();
+    public ObservableCollection<GenreCheckbox> AvailableGenres { get; private set; } = new();
 
     public ICommand AddCommand { get; }
 
@@ -51,15 +67,19 @@ public class AddMediaEntryViewModel
     {
         try
         {
-            AvailableGenres = (await _genreFacade.GetAllAsync()).ToList();
-            if (AvailableGenres.Any() && SelectedGenre == null)
-            {
-                SelectedGenre = AvailableGenres[0];
-            }
+            var genres = await _genreFacade.GetAllAsync();
+            AvailableGenres = new ObservableCollection<GenreCheckbox>(
+                genres.Select(g => new GenreCheckbox
+                {
+                    Id = g.Id,
+                    Name = g.Name,
+                    IsSelected = false
+                }));
         }
         catch (Exception ex)
         {
             Logger.Error(GetType(), "Error loading genres", ex);
+            await AlertDisplay.ShowAlertAsync("Error", $"Failed to load genres: {ex.Message}", "OK");
         }
     }
 
@@ -89,11 +109,18 @@ public class AddMediaEntryViewModel
                 MediaType = SelectedMediaType == "Movie" ? MediaType.Movie : MediaType.Series
             };
 
-            await _mediaFileFacade.SaveAsync(mediaFileModel);
+            var savedMedia = await _mediaFileFacade.SaveAsync(mediaFileModel);
+
+            foreach (var genre in AvailableGenres)
+            {
+                if (genre.IsSelected)
+                {
+                    await _mediaFileFacade.AddGenreToMediaAsync(savedMedia.Id, genre.Id);
+                }
+            }
 
             Logger.Debug(GetType(),
-                $"New media added with ID {mediaFileModel.Id}: {mediaFileModel.Name}, {mediaFileModel.Rating}, {mediaFileModel.ReleaseDate}"
-            );
+                $"New media added with ID {savedMedia.Id}: {savedMedia.Name}, {savedMedia.Rating}, {savedMedia.ReleaseDate}");
             await AlertDisplay.ShowAlertAsync("Success", "Media item added successfully", "OK");
             _onSaveComplete?.Invoke();
         }
