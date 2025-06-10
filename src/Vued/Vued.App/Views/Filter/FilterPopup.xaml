@@ -8,10 +8,6 @@
     Size="600,350"
     Color="{StaticResource ColorBackgroundSecondary}">
 
-    <ct:Popup.BindingContext>
-        <vm:FilterPopupViewModel />
-    </ct:Popup.BindingContext>
-
     <Grid Padding="20" RowDefinitions="*,Auto">
         <!-- Filter Controls Grid -->
         <Grid ColumnDefinitions="*,*,*" RowSpacing="20" ColumnSpacing="20">

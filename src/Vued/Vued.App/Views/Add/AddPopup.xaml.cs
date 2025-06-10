@@ -5,7 +5,6 @@ namespace Vued.App.Views.Add;
 
 public partial class AddPopup : Popup
 {
-
     public AddPopup(IServiceProvider serviceProvider, MainPageViewModel mainPageViewModel)
     {
         InitializeComponent();

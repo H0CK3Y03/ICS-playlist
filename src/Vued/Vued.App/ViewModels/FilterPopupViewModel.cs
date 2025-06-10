@@ -1,10 +1,13 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Vued.BL.Facades;
+using Vued.App.Utilities;
 
 namespace Vued.App.ViewModels;
 
 public class FilterPopupViewModel : BindableObject
 {
+    private readonly GenreFacade _genreFacade;
     private ObservableCollection<string> _categories;
     private ObservableCollection<string> _sortOptions;
     private string _selectedCategory;
@@ -13,12 +16,13 @@ public class FilterPopupViewModel : BindableObject
     private bool _onlyFavourites;
     private bool _isDescending;
 
-    public FilterPopupViewModel()
+    public FilterPopupViewModel(IServiceProvider serviceProvider)
     {
+        _genreFacade = serviceProvider.GetRequiredService<GenreFacade>();
         Categories = new ObservableCollection<string>();
         SortOptions = new ObservableCollection<string>();
-        LoadFilterOptions();
         ApplyCommand = new Command(OnApply);
+        LoadFilterOptions();
     }
 
     public ObservableCollection<string> Categories
@@ -95,24 +99,21 @@ public class FilterPopupViewModel : BindableObject
 
     private void LoadFilterOptions()
     {
-        var hardcodedCategories = new List<string>
+        try
         {
-            "All",
-            "Drama",
-            "Fantasy",
-            "Sci-fi",
-            "Comedy",
-            "Romance",
-            "Horror"
-        };
-        Categories.Clear();
-        foreach (var category in hardcodedCategories)
-        {
-            Categories.Add(category);
+            var genres = _genreFacade.GetAllAsync().GetAwaiter().GetResult();
+            Categories.Clear();
+            Categories.Add("All");
+            foreach (var genre in genres.OrderBy(g => g.Name))
+            {
+                Categories.Add(genre.Name);
+            }
+            SelectedCategory = Categories.Any() ? Categories[0] : null;
         }
-        if (Categories.Count > 0)
+        catch (Exception ex)
         {
-            SelectedCategory = Categories[0];
+            Logger.Error(GetType(), "Error loading genres", ex);
+            AlertDisplay.ShowAlertAsync("Error", $"Failed to load genres: {ex.Message}", "OK").GetAwaiter().GetResult();
         }
 
         var sortOptions = new List<string>
@@ -126,10 +127,7 @@ public class FilterPopupViewModel : BindableObject
         {
             SortOptions.Add(sortOption);
         }
-        if (SortOptions.Count > 0)
-        {
-            SelectedSortOption = SortOptions[0];
-        }
+        SelectedSortOption = SortOptions.Any() ? SortOptions[0] : null;
 
         MinReleaseYear = 1000;
         OnlyFavourites = false;

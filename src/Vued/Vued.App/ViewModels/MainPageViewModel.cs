@@ -267,8 +267,8 @@ public class MainPageViewModel : BindableObject
 
     private async void OnFilterClicked()
     {
-        var popup = _serviceProvider.GetService<FilterPopup>();
-        if (Application.Current != null && Application.Current.MainPage != null && popup != null)
+        var popup = new FilterPopup(_serviceProvider);
+        if (Application.Current?.MainPage != null)
         {
             var result = await Application.Current.MainPage.ShowPopupAsync(popup);
             if (result != null)

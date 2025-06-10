@@ -1,15 +1,14 @@
 using CommunityToolkit.Maui.Views;
-using Microsoft.Extensions.DependencyInjection;
 using Vued.App.ViewModels;
 
 namespace Vued.App.Views.Filter;
 
 public partial class FilterPopup : Popup
 {
-    public FilterPopup(FilterPopupViewModel viewModel)
+    public FilterPopup(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        BindingContext = viewModel;
+        BindingContext = new FilterPopupViewModel(serviceProvider);
     }
 
     private void OnCancelClicked(object sender, EventArgs e)
