@@ -16,8 +16,7 @@
         <Grid>
             <!-- Media thumbnail with caching -->
             <ffimageloading:CachedImage
-                Source="{Binding ImageUrl}"
-                LoadingPlaceholder="placeholder.png"
+                Source="placeholder.png"
                 ErrorPlaceholder="error.png"
                 CacheType="All"
                 CacheDuration="30"

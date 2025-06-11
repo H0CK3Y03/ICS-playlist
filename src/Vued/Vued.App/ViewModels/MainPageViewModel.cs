@@ -18,6 +18,7 @@ public record MediaItem : MediaFileModel
 public record WatchlistItem : WatchlistModel
 {
     /* Primitive Adapter for WatchlistModel */
+    public string? ImageURL { get; set; }
 } 
 
 public class MainPageViewModel : BindableObject
@@ -73,11 +74,12 @@ public class MainPageViewModel : BindableObject
             WatchlistItems.Clear();
             foreach (var media in watchList)
             {
-                newItems.Add(new WatchlistItem 
+                newItems.Add(new WatchlistItem
                 {
                     Id = media.Id,
                     Name = media.Name,
-                    Description = media.Description
+                    Description = media.Description,
+                    ImageURL = "placeholder.png"
                 });
             }
 
