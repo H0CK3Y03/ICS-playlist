@@ -19,7 +19,7 @@
             HeightRequest="180">
             <ffimageloading:CachedImage Source="{Binding ImageURL}"
                                         LoadingPlaceholder="placeholder.png"
-                                        ErrorPlaceholder="error.png"
+                                        ErrorPlaceholder="placeholder.png"
                                         CacheType="All"
                                         CacheDuration="30"
                                         DownsampleToViewSize="True"

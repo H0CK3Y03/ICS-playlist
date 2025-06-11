@@ -27,14 +27,15 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <BoxView
+            <Image
                 x:Name="PlaceholderBoxView"
                 Grid.Column="0"
                 Margin="0,0,20,0"
                 VerticalOptions="Start"
                 WidthRequest="200"
                 HeightRequest="200"
-                BackgroundColor="{StaticResource ColorBackgroundPrimary}" />
+                Source="placeholder.png" 
+                Aspect="AspectFill"/>
 
             <VerticalStackLayout Grid.Column="1" Spacing="10">
                 <Label

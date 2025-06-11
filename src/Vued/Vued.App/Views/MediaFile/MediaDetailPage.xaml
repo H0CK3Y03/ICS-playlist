@@ -47,7 +47,11 @@
                 Grid.RowSpan="11"
                 WidthRequest="300"
                 HeightRequest="400"
-                Source="{Binding ImageURL, FallbackValue='placeholder.png'}" />
+                Source="{Binding ImageURL, FallbackValue='placeholder.png'}" >
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnImageTapped" />
+                </Image.GestureRecognizers>
+            </Image>
 
             <!-- Title and Rating -->
             <Grid Grid.Row="2" Grid.Column="2">
